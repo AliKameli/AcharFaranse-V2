@@ -1,0 +1,37 @@
+﻿@model App.Endpoint.MVC.Areas.Admin.Models.WorkerVM
+
+@{
+	ViewData["Title"] = "جزئیات شهر";
+}
+<div class="row ">
+	<div class="col-auto">
+		<div class="card ">
+			<div class="card-body">
+				<label class="card-text" asp-for="Id"></label> : @Model.Id <br/>
+				<label class="card-text" asp-for="Email"></label> : @Model.Email <br/>
+				<label class="card-text" asp-for="FirstName"></label> : @Model.FirstName <br/>
+				<label class="card-text" asp-for="LastName"></label> : @Model.LastName <br/>
+				<label class="card-text" asp-for="NationalSecurityId"></label> : @Model.NationalSecurityId <br/>
+				<label class="card-text" asp-for="PhoneNumber"></label> : @Model.PhoneNumber <br/>
+				<label class="card-text" asp-for="UserCityName"></label> : @Model.UserCityName <br/>
+				<label class="card-text" asp-for="IsConfirmed"></label> : @(Model.IsConfirmed? "بله":"خیر") <br/>
+				<label class="card-text" asp-for="HomeAddress"></label> :
+				<p class="card-text">@Model.HomeAddress</p>
+				<label class="card-text" asp-for="Description"></label> :
+				<p class="card-text">@Model.Description</p>
+				<label class="card-text" asp-for="ConfirmDateTime"></label> :
+				<p class="card-text">@Model.ConfirmDateTime</p>
+				<label class="card-text" asp-for="LastUpdateDateTime"></label> :
+				<p class="card-text">@Model.LastUpdateDateTime</p>
+				<label class="card-text" asp-for="CreationDateTime"></label> :
+				<p class="card-text">@Model.CreationDateTime</p>
+			</div>
+			@if (!Model.IsConfirmed)
+			{
+				<a class="btn btn-success" asp-action="ConfirmWorker" asp-route-id="@Model.Id">تایید کارمند</a>
+			}
+			<a class="btn btn-info"
+			   asp-action="Index">بازگشت</a>
+		</div>
+	</div>
+</div>

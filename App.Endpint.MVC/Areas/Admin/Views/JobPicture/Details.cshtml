@@ -1,0 +1,52 @@
+﻿@model App.Domain.Dtos.JobPictureDto
+
+@{
+	ViewData["Title"] = "جزئیات عکس";
+
+}
+<div class="row ">
+	<div class="col-auto">
+		<div class="card ">
+			<div class="card-header">
+				مشخصات عکس
+			</div>
+			<ul class="list-group list-group-flush" style="padding: 0;">
+				<li class="list-group-item">
+					<label class="card-text" asp-for="Id"></label> : &nbsp;@Model.Id
+				</li>
+				<li class="list-group-item">
+					<label class="card-text" asp-for="UserType"></label> : &nbsp;@Model.UserType
+				</li>
+				<li class="list-group-item">
+					<label class="card-text" asp-for="UserFullName"></label> : &nbsp;@Model.UserFullName
+				</li>
+				<li class="list-group-item">
+					<label class="card-text" asp-for="IsConfirmed"></label> : &nbsp;@(Model.IsConfirmed ? "بله" : "خیر") <br />
+				</li>
+				<li class="list-group-item">
+					<label class="card-text" asp-for="Description"></label> :
+					<p class="card-text">@Model.Description</p>
+				</li>
+				<li class="list-group-item">
+					<label class="card-text" asp-for="LastUpdateDateTime"></label> :
+					<p class="card-text">@Model.LastUpdateDateTime</p>
+				</li>
+				<li class="list-group-item">
+					<label class="card-text" asp-for="CreationDateTime"></label> :
+					<p class="card-text">@Model.CreationDateTime</p>
+				</li>
+			</ul>
+			@if (!Model.IsConfirmed)
+			{
+				<a class="btn btn-success" asp-action="ConfirmPicture" asp-route-id="@Model.Id">تایید عکس</a>
+			}
+			<a class="btn btn-warning"
+			   asp-action="Index">
+				لیست عکس‌ها
+			</a>
+		</div>
+	</div>
+	<div class="col">
+		<img src="@Model.FileSavePath" class="img-fluid" alt="">
+	</div>
+</div>

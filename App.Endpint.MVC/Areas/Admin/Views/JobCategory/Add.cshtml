@@ -1,0 +1,47 @@
+﻿@model App.Domain.Dtos.JobCategoryDto
+@{
+	ViewData["Title"] = "دسته‌بندی جدید";
+}
+<h3>اضافه کردن دسته‌بندی جدید</h3>
+<br>
+<h3> مسیر گروه‌بندی : @ViewBag.ParentTree</h3>
+<br>
+<form>
+
+	<div class="form-group">
+		<label asp-for="Name"></label>
+		<input class="form-control" asp-for="Name">
+		<br/>
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>   
+	
+	<div class="form-group">
+		<label asp-for="Description"></label>
+		<input class="form-control" asp-for="Description">
+		<br/>
+		<span asp-validation-for="Description" class="text-danger"></span>
+	</div> 
+	
+	<div class="form-group">
+		<label asp-for="PictureFilePath"></label>
+		<input class="form-control" asp-for="PictureFilePath">
+		<br/>
+		<span asp-validation-for="PictureFilePath" class="text-danger"></span>
+	</div>  
+
+	<div class="form-group">
+		<label asp-for="EstimatedWageCost"></label>
+		<input class="form-control" asp-for="EstimatedWageCost">
+		<br/>
+		<span asp-validation-for="EstimatedWageCost" class="text-danger"></span>
+	</div>
+
+	<div style="float:left; margin-top:5px;">
+		<button type="submit" class="btn btn-primary" asp-action="Add" asp-route-parentId=@ViewBag.ParentId formmethod="post">ایجاد</button>
+		<a class="btn btn-danger" asp-action="Index" asp-route-name=@null>انصراف</a>
+	</div>
+
+</form>
+@section Scripts{
+	<partial name="_ValidationScriptsPartial"/>
+}

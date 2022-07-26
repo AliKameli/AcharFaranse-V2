@@ -1,0 +1,24 @@
+﻿@model App.Domain.Dtos.CityDto
+@{
+	ViewData["Title"] = "ویرایش شهر";
+}
+<h3>ویرایش شهر</h3>
+<br>
+
+<form>
+	<div class="form-group">
+		<label asp-for="Name"></label>
+		<input class="form-control" asp-for="Name">
+		<br/>
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+	<div style="float: left; margin-top: 5px;">
+		<button type="submit" class="btn btn-primary" asp-action="Edit" formmethod="post">ویرایش</button>
+		<a class="btn btn-danger" asp-action="Index">انصراف</a>
+	</div>
+
+</form>
+
+@section Scripts{
+	<partial name="_ValidationScriptsPartial"/>
+}

@@ -1,0 +1,27 @@
+﻿@using App.Domain.Dtos
+@model List<CommentDto>
+
+<p>لیست کامنت مشتری</p>
+<table class="table table-striped ">
+	<thead>
+	<tr>
+		<th scope="col">متن کامنت</th>
+		<th scope="col">وضعیت تایید</th>
+		<th scope="col"></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var comment in Model)
+	{
+		<tr>
+			<td>@comment.Description</td>
+			<td>@(comment.IsConfirmed? "تایید شده" : "تایید نشده")</td>
+			<td class="d-flex justify-content-end">
+				<a class="btn btn-info" asp-controller="Comment" asp-action="Details" asp-route-Id=@comment.Id>
+					جزئیات @(comment.IsConfirmed? null : "و تایید")
+				</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>

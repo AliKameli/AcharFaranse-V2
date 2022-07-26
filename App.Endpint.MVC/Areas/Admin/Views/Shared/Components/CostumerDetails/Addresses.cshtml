@@ -1,0 +1,28 @@
+﻿@using App.Domain.Dtos
+@model List<CostumerAddressDto>
+
+
+<p>لیست آدرس‌های مشتری</p>
+<table class="table table-striped ">
+	<thead>
+	<tr>
+		<th scope="col">نام</th>
+		<th scope="col">شهر</th>
+		<th scope="col">آدرس کامل</th>
+		<th scope="col">نام گیرنده</th>
+		<th scope="col">وضعیت</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var address in Model)
+	{
+		<tr>
+			<td>@address.Name</td>
+			<td>@address.CityName</td>
+			<td>@address.FullAddress</td>
+			<td>@address.ReceivingPersonFullName</td>
+			<td>@(address.IsDeleted ? "غیر فعال" : "فعال")</td>
+		</tr>
+	}
+	</tbody>
+</table>

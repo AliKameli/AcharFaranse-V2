@@ -1,0 +1,30 @@
+﻿@model List<App.Domain.Dtos.JobCategoryDto>
+@{
+	ViewData["Title"] = "دسته‌بندی جدید";
+}
+<br>
+<h3>اضافه کردن دسته‌بندی جدید</h3>
+<br>
+<h3>سرگروه را انتخاب کنید</h3>
+<br>
+<h3> مسیر گروه‌بندی : @ViewBag.ParentTree</h3>
+<br>
+<form asp-action="Add" method="get">
+	<select class="form-select" name="parentId">
+		@foreach (var cat in Model)
+		{
+			<option value=@cat.Id>@cat.Name</option>
+		}
+	</select>
+	<br>
+	<a class="btn btn-success" asp-action="Add" asp-route-parentId="@ViewBag.ParentId" asp-route-ended="true">اضافه کردن به این گروه</a>
+	@if (Model.Any())
+	{
+		<button type="submit" class="btn btn-primary">مرحل بعد</button>
+	}
+	@if (@ViewBag.ParentTree != null)
+	{
+		<a class="btn btn-danger" asp-action="Add" asp-route-parentId="@ViewBag.ParentParentId">مرحله قبل</a>
+	}
+	<a class="btn btn-danger" asp-action="Index">خروج از عملیات</a>
+</form>

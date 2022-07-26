@@ -1,0 +1,39 @@
+﻿@model System.Collections.Generic.List<App.Domain.Dtos.CommentDto>
+@{
+	 ViewData["Title"] = "لیست کامنت‌ها";
+ }
+<br/>
+<h3>لیست کامنت‌ها</h3>
+<br/>
+
+<table class="table table-striped ">
+	<thead>
+	<tr>
+		<th scope="col">نام کاربر</th>
+		<th scope="col">متن</th>
+		<th scope="col">وضعیت تایید</th>
+		<th scope="col">عملیات</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var comment in Model)
+	{
+		<tr>
+			<th scope="row">
+				@comment.UserFullName
+			</th>
+			<td>@comment.Description</td>
+			<td>@(comment.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
+			<td class="d-flex justify-content-end">
+				<a class="btn btn-success" asp-action="Details" asp-route-Id="@comment.Id">
+					جزئیات @(comment.IsConfirmed? null : "و تایید")
+				</a>
+				&nbsp;|&nbsp;
+				<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@comment.Id">
+					حذف
+				</a>
+			</td>
+		</tr>
+	}
+	</tbody>
+</table>

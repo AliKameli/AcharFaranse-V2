@@ -1,0 +1,78 @@
+﻿@model List<App.Domain.Dtos.JobCategoryDto>
+@{
+	ViewData["Title"] = "لیست دسته‌بندی کارها";
+}
+<br />
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-auto">
+			<h3>لیست دسته‌بندی کارها</h3>
+		</div>
+		<div class="col-md-auto">
+			<div>
+				<form asp-action="Index" formmethod="post">
+					<div class="row">
+
+						<div class="col-auto">
+							<input class="form-control" name="name" placeholder="نام مورد نظر را وارد کنید">
+						</div>
+
+						<div class="col-auto">
+							<button type="submit" class="btn btn-primary">جستجو</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+		<div class="col-md-auto me-auto">
+			<a class="btn btn-info" asp-action="Add">
+				دسته‌بندی جدید
+			</a>
+
+		</div>
+	</div>
+</div>
+
+<br />
+
+<table class="table table-striped ">
+	<thead>
+		<tr>
+			<th scope="col">شناسه</th>
+			<th scope="col">نام</th>
+			<th scope="col">توضیحات</th>
+			<th scope="col">هزینه احتمالی</th>
+			<th scope="col">گروه بندی</th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var jobCat in Model)
+		{
+			<tr>
+				<th scope="row">
+					@jobCat.Id
+				</th>
+				<td>@jobCat.Name</td>
+				<td>@jobCat.Description</td>
+				<td>@jobCat.EstimatedWageCost</td>
+				<td>@jobCat.GroupPath</td>
+				<td class="d-flex justify-content-end">
+					<a class="btn btn-success" asp-action="Details" asp-route-Id="@jobCat.Id">
+						جزئیات
+					</a>
+					&nbsp;|&nbsp;
+					<a class="btn btn-warning" asp-action="Edit" asp-route-Id=@jobCat.Id>
+						ویرایش
+					</a>
+					&nbsp;|&nbsp;
+					<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@jobCat.Id">
+						حذف
+					</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
