@@ -1,4 +1,4 @@
-﻿@model App.Endpoint.MVC.Areas.Admin.Models.JobCategoryVM
+﻿@model App.Domain.Dtos.JobCategoryDto
 
 @{
 	ViewData["Title"] = "جزئیات دسته‌بندی";
@@ -24,5 +24,7 @@
 		<p class="card-text">@Model.CreationDateTime</p>
 	</div>
 	<a class="btn btn-info"
-	   asp-action="Index">بازگشت</a>
+	   asp-action="Index">
+		بازگشت
+	</a>
 </div>

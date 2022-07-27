@@ -37,6 +37,6 @@ public abstract class BaseUser : BaseEntity<int>
 
     public override string ToString()
     {
-        return (FirstName+" "+LastName);
+        return FirstName + " " + LastName;
     }
 }

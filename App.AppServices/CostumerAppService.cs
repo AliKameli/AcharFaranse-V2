@@ -51,6 +51,7 @@ public class CostumerAppService : ICostumerAppService
             catch (Exception)
             {
                 await _userManager.DeleteAsync(user);
+
                 throw;
             }
         }
@@ -90,6 +91,7 @@ public class CostumerAppService : ICostumerAppService
                 user.PhoneNumber = oldPhone;
 
                 await _userManager.UpdateAsync(user);
+
                 throw;
             }
         }

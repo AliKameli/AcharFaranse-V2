@@ -13,49 +13,49 @@
 <h1>View</h1>
 
 <h4>JobDto</h4>
-<hr />
+<hr/>
 <div class="row">
 	<div class="col-md-4">
 		<form asp-action="Edit" asp-route-id="@Model.Id">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-group">
 				<label asp-for="Description" class="control-label"></label>
-				<input asp-for="Description" class="form-control" />
+				<input asp-for="Description" class="form-control"/>
 				<span asp-validation-for="Description" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="OnlinePaymentReceiptInfo" class="control-label"></label>
-				<input asp-for="OnlinePaymentReceiptInfo" class="form-control" />
+				<input asp-for="OnlinePaymentReceiptInfo" class="form-control"/>
 				<span asp-validation-for="OnlinePaymentReceiptInfo" class="text-danger"></span>
 			</div>
 			<div class="form-group form-check">
 				<label class="form-check-label">
-					<input class="form-check-input" asp-for="IsClosed" /> @Html.DisplayNameFor(model => model.IsClosed)
+					<input class="form-check-input" asp-for="IsClosed"/> @Html.DisplayNameFor(model => model.IsClosed)
 				</label>
 			</div>
 			<div class="form-group form-check">
 				<label class="form-check-label">
-					<input class="form-check-input" asp-for="IsOnlinePayment" /> @Html.DisplayNameFor(model => model.IsOnlinePayment)
+					<input class="form-check-input" asp-for="IsOnlinePayment"/> @Html.DisplayNameFor(model => model.IsOnlinePayment)
 				</label>
 			</div>
 			<div class="form-group">
 				<label asp-for="JobStartTimeRequestedByUserDateTime" class="control-label"></label>
-				<input asp-for="JobStartTimeRequestedByUserDateTime" type="datetime-local" class="form-control" />
+				<input asp-for="JobStartTimeRequestedByUserDateTime" type="datetime-local" class="form-control"/>
 				<span asp-validation-for="JobStartTimeRequestedByUserDateTime" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="JobAcceptedByWorkerDateTime" class="control-label"></label>
-				<input asp-for="JobAcceptedByWorkerDateTime" type="datetime-local" class="form-control" />
+				<input asp-for="JobAcceptedByWorkerDateTime" type="datetime-local" class="form-control"/>
 				<span asp-validation-for="JobAcceptedByWorkerDateTime" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="JobStartedByWorkerDateTime" class="control-label"></label>
-				<input asp-for="JobStartedByWorkerDateTime" type="datetime-local" class="form-control" />
+				<input asp-for="JobStartedByWorkerDateTime" type="datetime-local" class="form-control"/>
 				<span asp-validation-for="JobStartedByWorkerDateTime" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="JobClosedDateTime" class="control-label"></label>
-				<input asp-for="JobClosedDateTime" type="datetime-local" class="form-control" />
+				<input asp-for="JobClosedDateTime" type="datetime-local" class="form-control"/>
 				<span asp-validation-for="JobClosedDateTime" class="text-danger"></span>
 			</div>
 			<div class="form-group">
@@ -66,59 +66,59 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="CostumerRatingForWorker" class="control-label"></label>
-				<input asp-for="CostumerRatingForWorker" class="form-control" />
+				<input asp-for="CostumerRatingForWorker" class="form-control"/>
 				<span asp-validation-for="CostumerRatingForWorker" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="WorkerRatingForCostumer" class="control-label"></label>
-				<input asp-for="WorkerRatingForCostumer" class="form-control" />
+				<input asp-for="WorkerRatingForCostumer" class="form-control"/>
 				<span asp-validation-for="WorkerRatingForCostumer" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="CostumerEstimatedFinalCost" class="control-label"></label>
-				<input asp-for="CostumerEstimatedFinalCost" class="form-control" />
+				<input asp-for="CostumerEstimatedFinalCost" class="form-control"/>
 				<span asp-validation-for="CostumerEstimatedFinalCost" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="WageCost" class="control-label"></label>
-				<input asp-for="WageCost" class="form-control" />
+				<input asp-for="WageCost" class="form-control"/>
 				<span asp-validation-for="WageCost" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="MaterialCost" class="control-label"></label>
-				<input asp-for="MaterialCost" class="form-control" />
+				<input asp-for="MaterialCost" class="form-control"/>
 				<span asp-validation-for="MaterialCost" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="CompanyProfit" class="control-label"></label>
-				<input asp-for="CompanyProfit" class="form-control" />
+				<input asp-for="CompanyProfit" class="form-control"/>
 				<span asp-validation-for="CompanyProfit" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="FinalCost" class="control-label"></label>
-				<input asp-for="FinalCost" class="form-control" />
+				<input asp-for="FinalCost" class="form-control"/>
 				<span asp-validation-for="FinalCost" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="CostumerName" class="control-label"></label>
-				<input asp-for="CostumerName" class="form-control" />
+				<input asp-for="CostumerName" class="form-control"/>
 				<span asp-validation-for="CostumerName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="CostumerAddressName" class="control-label"></label>
-				<input asp-for="CostumerAddressName" class="form-control" />
+				<input asp-for="CostumerAddressName" class="form-control"/>
 				<span asp-validation-for="CostumerAddressName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="JobCityName" class="control-label"></label>
-				<input asp-for="JobCityName" class="form-control" />
+				<input asp-for="JobCityName" class="form-control"/>
 				<span asp-validation-for="JobCityName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<input asp-for="CostumerId" class="form-control" hidden="true" />
+				<input asp-for="CostumerId" class="form-control" hidden="true"/>
 			</div>
 			<div class="form-group">
-				<input asp-for="JobCityId" class="form-control" hidden="true" />
+				<input asp-for="JobCityId" class="form-control" hidden="true"/>
 			</div>
 			<div class="form-group">
 				<label asp-for="JobCategoryName" class="control-label"></label>
@@ -135,18 +135,18 @@
 			<div class="form-group">
 				<label asp-for="WorkerName" class="control-label"></label>
 				<select class="form-select" asp-for="WorkerId" asp-items="@(new SelectList(workers, nameof(WorkerDto.Id), nameof(WorkerDto.LastName)))">
-					<option selected value=@null>بدون کارمند</option>
+					<option selected value="@null">بدون کارمند</option>
 				</select>
 				<span asp-validation-for="WorkerId" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<input asp-for="CostumerCommentId" class="form-control" hidden="true" />
+				<input asp-for="CostumerCommentId" class="form-control" hidden="true"/>
 			</div>
 			<div class="form-group">
-				<input asp-for="WorkerCommentId" class="form-control" hidden="true" />
+				<input asp-for="WorkerCommentId" class="form-control" hidden="true"/>
 			</div>
 			<div class="form-group">
-				<input asp-for="Id" class="form-control" hidden="true" />
+				<input asp-for="Id" class="form-control" hidden="true"/>
 			</div>
 			<div style="float: left; margin-top: 5px;">
 				<button type="submit" class="btn btn-primary">ذخیره</button>
@@ -158,8 +158,8 @@
 
 
 @section Scripts
-	{
+{
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
-	}
+}

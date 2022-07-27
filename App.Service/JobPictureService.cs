@@ -19,6 +19,7 @@ public class JobPictureService : IJobPictureService
     public async Task EnsureExistsByIdAsync(int jobPictureId)
     {
         var result = await _dbContext.JobPictures.AnyAsync(x => x.Id == jobPictureId);
+
         if (!result) throw new Exception($"عکس با شناسه {jobPictureId} وجود ندارد !");
     }
 
@@ -86,7 +87,7 @@ public class JobPictureService : IJobPictureService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser) x.Worker :x.Costumer!).ToString() ,
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 IsConfirmed = x.IsConfirmed
             })
             .ToListAsync();
@@ -99,7 +100,7 @@ public class JobPictureService : IJobPictureService
         await EnsureExistsByIdAsync(jobPictureId);
 
         var record = await _dbContext.JobPictures
-            .Select(x=> new JobPictureDto()
+            .Select(x => new JobPictureDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,
@@ -110,7 +111,7 @@ public class JobPictureService : IJobPictureService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 IsConfirmed = x.IsConfirmed
             })
             .FirstAsync(x => x.Id == jobPictureId);
@@ -133,7 +134,7 @@ public class JobPictureService : IJobPictureService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 IsConfirmed = x.IsConfirmed
             })
             .ToListAsync();
@@ -156,7 +157,7 @@ public class JobPictureService : IJobPictureService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 IsConfirmed = x.IsConfirmed
             })
             .ToListAsync();
@@ -179,12 +180,11 @@ public class JobPictureService : IJobPictureService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 IsConfirmed = x.IsConfirmed
             })
             .ToListAsync();
 
         return records;
     }
-
 }

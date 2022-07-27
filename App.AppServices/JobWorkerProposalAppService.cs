@@ -4,7 +4,7 @@ using App.Domain.Dtos;
 
 namespace App.AppServices;
 
-public class JobWorkerProposalAppService:IJobWorkerProposalAppService
+public class JobWorkerProposalAppService : IJobWorkerProposalAppService
 {
     private readonly IJobWorkerProposalService _jobWorkerProposalService;
 

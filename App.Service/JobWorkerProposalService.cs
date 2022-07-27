@@ -18,6 +18,7 @@ public class JobWorkerProposalService : IJobWorkerProposalService
     public async Task EnsureExistsByIdAsync(int jobWorkerProposalId)
     {
         var result = await _dbContext.JobWorkerProposals.AnyAsync(x => x.Id == jobWorkerProposalId);
+
         if (!result) throw new Exception($"پیشنهاد قیمت با شناسه {jobWorkerProposalId} وجود ندارد !");
     }
 
@@ -26,6 +27,7 @@ public class JobWorkerProposalService : IJobWorkerProposalService
         var result = await _dbContext.JobWorkerProposals.AnyAsync(x =>
             x.JobId == jobWorkerProposalDto.JobId &&
             x.WorkerId == jobWorkerProposalDto.WorkerId);
+
         if (result) throw new Exception("کارمند قبلا به این کار پیشنهاد قیمت داده است");
     }
 
@@ -85,7 +87,7 @@ public class JobWorkerProposalService : IJobWorkerProposalService
         await EnsureExistsByIdAsync(jobWorkerProposalId);
 
         var result = await _dbContext.JobWorkerProposals
-            .Select(x=> new JobWorkerProposalDto()
+            .Select(x => new JobWorkerProposalDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,

@@ -1,7 +1,6 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
-using App.Domain.Entities;
 
 namespace App.AppServices;
 
@@ -32,6 +31,7 @@ public class JobAppService : IJobAppService
         await _costumerService.EnsureExistsByIdAsync(jobDto.CostumerId);
         await _costumerAddressService.EnsureExistsByIdAsync(jobDto.CostumerAddressId);
         await _cityService.EnsureExistsByIdAsync(jobDto.JobCityId);
+
         return await _jobService.AddAsync(jobDto);
     }
 
@@ -71,7 +71,7 @@ public class JobAppService : IJobAppService
     }
 
     public async Task<List<JobDto>> GetByCityIdAsync(int cityId)
-{
-    return await _jobService.GetByCityIdAsync(cityId);
+    {
+        return await _jobService.GetByCityIdAsync(cityId);
     }
 }

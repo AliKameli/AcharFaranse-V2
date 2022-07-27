@@ -18,18 +18,21 @@ public class CostumerService : ICostumerService
     public async Task EnsureExistsByIdAsync(int costumerId)
     {
         var result = await _dbContext.Costumers.AnyAsync(x => x.Id == costumerId);
+
         if (!result) throw new Exception($"مشتری با شناسه {costumerId} وجود ندارد !");
     }
 
     public async Task EnsureExistsByNationalIdAsync(string nationalId)
     {
         var result = await _dbContext.Costumers.AnyAsync(x => x.NationalId == nationalId);
+
         if (!result) throw new Exception($"مشتری با شماره ملی {nationalId} وجود ندارد !");
     }
 
     public async Task EnsureDoesNotExistAsync(string nationalId)
     {
         var result = await _dbContext.Costumers.AnyAsync(x => x.NationalId == nationalId);
+
         if (result) throw new Exception($"مشتری با شماره ملی {nationalId} وجود دارد !");
     }
 
@@ -104,26 +107,26 @@ public class CostumerService : ICostumerService
     public async Task<List<CostumerDto>> GetAllAsync()
     {
         var records = await _dbContext.Costumers.Select(x => new CostumerDto
-        {
-            Id = x.Id,
-            CreationDateTime = x.CreationDateTime,
-            LastUpdateDateTime = x.LastUpdateDateTime,
-            Email = x.IdentityUser!.UserName,
-            FirstName = x.FirstName,
-            LastName = x.LastName,
-            PhoneNumber = x.IdentityUser.PhoneNumber,
-            NationalId = x.NationalId,
-            HomeAddress = x.HomeAddress,
-            PictureFilePath = x.PictureFilePath,
-            IsConfirmed = x.IsConfirmed,
-            ConfirmDateTime = x.ConfirmDateTime,
-            CityId = x.UserCityId,
-            CityName = x.UserCity!.Name,
-            TotalMoneyPaid = x.TotalMoneyPaid,
-            TotalCompanyProfitEarnedFromCostumer = x.TotalCompanyProfitEarnedFromCostumer,
-            RatingByWorkers = x.RatingByWorkers,
-            RatingCount = x.RatingCount
-        })
+            {
+                Id = x.Id,
+                CreationDateTime = x.CreationDateTime,
+                LastUpdateDateTime = x.LastUpdateDateTime,
+                Email = x.IdentityUser!.UserName,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                PhoneNumber = x.IdentityUser.PhoneNumber,
+                NationalId = x.NationalId,
+                HomeAddress = x.HomeAddress,
+                PictureFilePath = x.PictureFilePath,
+                IsConfirmed = x.IsConfirmed,
+                ConfirmDateTime = x.ConfirmDateTime,
+                CityId = x.UserCityId,
+                CityName = x.UserCity!.Name,
+                TotalMoneyPaid = x.TotalMoneyPaid,
+                TotalCompanyProfitEarnedFromCostumer = x.TotalCompanyProfitEarnedFromCostumer,
+                RatingByWorkers = x.RatingByWorkers,
+                RatingCount = x.RatingCount
+            })
             .ToListAsync();
 
         return records;

@@ -19,6 +19,7 @@ public class CommentService : ICommentService
     public async Task EnsureExistsByIdAsync(int commentId)
     {
         var result = await _dbContext.Comments.AnyAsync(x => x.Id == commentId);
+
         if (!result) throw new Exception($"گزارش با شناسه {commentId} وجود ندارد !");
     }
 
@@ -84,18 +85,18 @@ public class CommentService : ICommentService
     public async Task<List<CommentDto>> GetAllAsync()
     {
         var records = await _dbContext.Comments.Select(x => new CommentDto
-        {
-            Id = x.Id,
-            CreationDateTime = x.CreationDateTime,
-            LastUpdateDateTime = x.LastUpdateDateTime,
-            UserType = x.UserType,
-            CostumerId = x.CostumerId,
-            WorkerId = x.WorkerId,
-            UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
-            JobId = x.JobId,
-            Description = x.Description,
-            IsConfirmed = x.IsConfirmed
-        })
+            {
+                Id = x.Id,
+                CreationDateTime = x.CreationDateTime,
+                LastUpdateDateTime = x.LastUpdateDateTime,
+                UserType = x.UserType,
+                CostumerId = x.CostumerId,
+                WorkerId = x.WorkerId,
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
+                JobId = x.JobId,
+                Description = x.Description,
+                IsConfirmed = x.IsConfirmed
+            })
             .ToListAsync();
 
         return records;
@@ -106,7 +107,7 @@ public class CommentService : ICommentService
         await EnsureExistsByIdAsync(commentId);
 
         var record = await _dbContext.Comments
-            .Select(x => new CommentDto()
+            .Select(x => new CommentDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,
@@ -114,7 +115,7 @@ public class CommentService : ICommentService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 JobId = x.JobId,
                 Description = x.Description,
                 IsConfirmed = x.IsConfirmed
@@ -137,7 +138,7 @@ public class CommentService : ICommentService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 JobId = x.JobId,
                 Description = x.Description,
                 IsConfirmed = x.IsConfirmed
@@ -159,7 +160,7 @@ public class CommentService : ICommentService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 JobId = x.JobId,
                 Description = x.Description,
                 IsConfirmed = x.IsConfirmed
@@ -181,7 +182,7 @@ public class CommentService : ICommentService
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
-                UserFullName = (x.Worker != null ? (BaseUser)x.Worker : x.Costumer!).ToString(),
+                UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
                 JobId = x.JobId,
                 Description = x.Description,
                 IsConfirmed = x.IsConfirmed
@@ -190,6 +191,4 @@ public class CommentService : ICommentService
 
         return records;
     }
-
-
 }

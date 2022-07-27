@@ -1,7 +1,7 @@
-﻿@model System.Collections.Generic.List<App.Domain.Dtos.CommentDto>
+﻿@model List<App.Domain.Dtos.CommentDto>
 @{
-	 ViewData["Title"] = "لیست کامنت‌ها";
- }
+	ViewData["Title"] = "لیست کامنت‌ها";
+}
 <br/>
 <h3>لیست کامنت‌ها</h3>
 <br/>
@@ -26,7 +26,7 @@
 			<td>@(comment.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
 			<td class="d-flex justify-content-end">
 				<a class="btn btn-success" asp-action="Details" asp-route-Id="@comment.Id">
-					جزئیات @(comment.IsConfirmed? null : "و تایید")
+					جزئیات @(comment.IsConfirmed ? null : "و تایید")
 				</a>
 				&nbsp;|&nbsp;
 				<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@comment.Id">

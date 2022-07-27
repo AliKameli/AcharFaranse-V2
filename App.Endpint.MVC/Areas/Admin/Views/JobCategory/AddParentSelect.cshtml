@@ -22,7 +22,7 @@
 	{
 		<button type="submit" class="btn btn-primary">مرحل بعد</button>
 	}
-	@if (@ViewBag.ParentTree != null)
+	@if (ViewBag.ParentTree != null)
 	{
 		<a class="btn btn-danger" asp-action="Add" asp-route-parentId="@ViewBag.ParentParentId">مرحله قبل</a>
 	}

@@ -8,8 +8,8 @@ namespace App.AppServices;
 public class WorkerAppService : IWorkerAppService
 {
     private readonly ICityService _cityService;
-    private readonly IWorkerService _workerService;
     private readonly UserManager<IdentityUser<int>> _userManager;
+    private readonly IWorkerService _workerService;
 
     public WorkerAppService(IWorkerService workerService,
         UserManager<IdentityUser<int>> userManager,
@@ -52,6 +52,7 @@ public class WorkerAppService : IWorkerAppService
             catch (Exception)
             {
                 await _userManager.DeleteAsync(user);
+
                 throw;
             }
         }
@@ -91,6 +92,7 @@ public class WorkerAppService : IWorkerAppService
                 user.PhoneNumber = oldPhone;
 
                 await _userManager.UpdateAsync(user);
+
                 throw;
             }
         }

@@ -4,7 +4,7 @@ using App.Domain.Dtos;
 
 namespace App.AppServices;
 
-public class JobCategoryAppService:IJobCategoryAppService
+public class JobCategoryAppService : IJobCategoryAppService
 {
     private readonly IJobCategoryService _jobCategoryService;
 

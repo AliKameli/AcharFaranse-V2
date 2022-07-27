@@ -11,7 +11,11 @@ public class CommentAppService : ICommentAppService
     private readonly ICostumerService _costumerService;
     private readonly IJobService _jobService;
     private readonly IWorkerService _workerService;
-    public CommentAppService(ICommentService commentService, ICostumerService costumerService, IJobService jobService, IWorkerService workerService)
+
+    public CommentAppService(ICommentService commentService,
+        ICostumerService costumerService,
+        IJobService jobService,
+        IWorkerService workerService)
     {
         _commentService = commentService;
         _costumerService = costumerService;
@@ -22,9 +26,10 @@ public class CommentAppService : ICommentAppService
     public async Task<int> AddAsync(CommentDto commentDto)
     {
         await (commentDto.UserType == UserTypeEnum.Customer
-            ? _costumerService.EnsureExistsByIdAsync((int)commentDto.CostumerId!)
-            : _workerService.EnsureExistsByIdAsync((int)commentDto.WorkerId!));
+            ? _costumerService.EnsureExistsByIdAsync((int) commentDto.CostumerId!)
+            : _workerService.EnsureExistsByIdAsync((int) commentDto.WorkerId!));
         await _jobService.EnsureExistsByIdAsync(commentDto.JobId);
+
         return await _commentService.AddAsync(commentDto);
     }
 
@@ -32,10 +37,8 @@ public class CommentAppService : ICommentAppService
     {
         var record = await _commentService.GetByIdAsync(commentDto.Id);
         var recordJob = await _jobService.GetByIdAsync(record.JobId);
-        if (recordJob.IsClosed)
-        {
-            throw new Exception("کار مربوطه بسته شده و قابل تغییر نیست");
-        }
+
+        if (recordJob.IsClosed) throw new Exception("کار مربوطه بسته شده و قابل تغییر نیست");
 
         await _commentService.UpdateAsync(commentDto);
     }
@@ -44,10 +47,8 @@ public class CommentAppService : ICommentAppService
     {
         var record = await _commentService.GetByIdAsync(commentId);
         var recordJob = await _jobService.GetByIdAsync(record.JobId);
-        if (recordJob.IsClosed && record.IsConfirmed)
-        {
-            throw new Exception("کار مربوطه بسته شده و قابل تغییر نیست");
-        }
+
+        if (recordJob.IsClosed && record.IsConfirmed) throw new Exception("کار مربوطه بسته شده و قابل تغییر نیست");
 
         await _commentService.DeleteAsync(commentId);
     }

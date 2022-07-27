@@ -3,7 +3,6 @@ using App.Domain.Dtos;
 using App.Endpoint.MVC.Areas.Admin.Models.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace App.Endpoint.MVC.Areas.Admin.Controllers;
 
@@ -50,13 +49,15 @@ public class CostumerController : Controller
         return View(model);
     }
 
-    public async Task<ActionResult> Details(int id, DetailPageTypeEnum pageType = 0,
+    public async Task<ActionResult> Details(int id,
+        DetailPageTypeEnum pageType = 0,
         string? internalMessage = null)
     {
         if (internalMessage != null) ModelState.AddModelError("internalMessage", internalMessage);
         var model = await _costumerAppService.GetByIdAsync(id);
 
         ViewData["PageType"] = pageType;
+
         return View(model);
     }
 
@@ -65,11 +66,18 @@ public class CostumerController : Controller
         try
         {
             await _costumerAppService.ConfirmAsync(id);
-            return RedirectToAction(nameof(Details), new { id = id, internalMessage="با موفقیت تایید شد" });
+
+            return RedirectToAction(nameof(Details), new
+            {
+                id, internalMessage = "با موفقیت تایید شد"
+            });
         }
         catch (Exception)
         {
-            return RedirectToAction(nameof(Details), new { id = id, internalMessage = "خطا ! در فرآیند تایید مشکلی به وجود آمد" });
+            return RedirectToAction(nameof(Details), new
+            {
+                id, internalMessage = "خطا ! در فرآیند تایید مشکلی به وجود آمد"
+            });
         }
     }
 
@@ -90,8 +98,9 @@ public class CostumerController : Controller
             try
             {
                 await _costumerAppService.AddAsync(model);
+
                 return RedirectToAction(nameof(Index)
-                    , new { internalMessage = $"مشتری {model.FirstName + " " + model.LastName} با موفقیت ایجاد شد" });
+                    , new {internalMessage = $"مشتری {model.FirstName + " " + model.LastName} با موفقیت ایجاد شد"});
             }
             catch (Exception e)
             {
@@ -109,6 +118,7 @@ public class CostumerController : Controller
     {
         var model = await _costumerAppService.GetByIdAsync(id);
         ViewData["Cities"] = new List<CityDto>(await _cityAppService.GetAllAsync());
+
         return View(model);
     }
 
@@ -124,8 +134,9 @@ public class CostumerController : Controller
             {
                 model.Id = id;
                 await _costumerAppService.UpdateAsync(model);
+
                 return RedirectToAction(nameof(Index)
-                    , new { internalMessage = "مشتری با موفقیت ویرایش شد" });
+                    , new {internalMessage = "مشتری با موفقیت ویرایش شد"});
             }
             catch (Exception e)
             {
@@ -144,13 +155,14 @@ public class CostumerController : Controller
         try
         {
             await _costumerAppService.DeleteAsync(id);
+
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "با موفقیت حذف شد" });
+                , new {internalMessage = "با موفقیت حذف شد"});
         }
         catch (Exception e)
         {
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
+                , new {internalMessage = "خطا : " + e.Message});
         }
     }
 }

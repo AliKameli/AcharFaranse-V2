@@ -18,18 +18,21 @@ public class WorkerService : IWorkerService
     public async Task EnsureExistsByIdAsync(int workerId)
     {
         var result = await _dbContext.Workers.AnyAsync(x => x.Id == workerId);
+
         if (!result) throw new Exception($"کارمند با شناسه {workerId} وجود ندارد !");
     }
 
     public async Task EnsureExistsByNationalIdAsync(string nationalId)
     {
         var result = await _dbContext.Workers.AnyAsync(x => x.NationalId == nationalId);
+
         if (!result) throw new Exception($"کارمند با شماره ملی {nationalId} وجود ندارد !");
     }
 
     public async Task EnsureDoesNotExistAsync(string nationalId)
     {
         var result = await _dbContext.Workers.AnyAsync(x => x.NationalId == nationalId);
+
         if (result) throw new Exception($"کارمند با شماره ملی {nationalId} وجود دارد !");
     }
 

@@ -45,19 +45,19 @@
 						<a class="nav-link text-light" asp-area="Admin">Admin</a>
 					</li>
 				</ul>
-				@( await Html.PartialAsync("_LoginPartial"))
+				@(await Html.PartialAsync("_LoginPartial"))
 			</div>
 		</div>
 	</nav>
 </header>
-<div class="container" >
+<div class="container">
 	<main role="main" class="pb-3">
 		@if (!string.IsNullOrWhiteSpace(internalMessage))
-			{
-				<div class="alert d-flex justify-content-center @(internalMessage.Contains("خطا") ? "alert-danger" : "alert-success")" role="alert">
-					<h4 class="alert-heading">@internalMessage</h4>
-				</div>
-			}
+		{
+			<div class="alert d-flex justify-content-center @(internalMessage.Contains("خطا") ? "alert-danger" : "alert-success")" role="alert">
+				<h4 class="alert-heading">@internalMessage</h4>
+			</div>
+		}
 		@RenderBody()
 	</main>
 </div>

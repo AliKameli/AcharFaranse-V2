@@ -18,6 +18,7 @@ public class CostumerAddressService : ICostumerAddressService
     public async Task EnsureExistsByIdAsync(int costumerAddressId)
     {
         var result = await _dbContext.CostumerAddresses.AnyAsync(x => x.Id == costumerAddressId);
+
         if (!result) throw new Exception($"آدرس با شناسه {costumerAddressId} وجود ندارد !");
     }
 
@@ -25,6 +26,7 @@ public class CostumerAddressService : ICostumerAddressService
     {
         await EnsureExistsByIdAsync(costumerAddressId);
         var result = await _dbContext.Jobs.AnyAsync(x => x.CostumerAddressId == costumerAddressId);
+
         return result;
     }
 
@@ -121,7 +123,7 @@ public class CostumerAddressService : ICostumerAddressService
         await EnsureExistsByIdAsync(costumerAddressId);
 
         var record = await _dbContext.CostumerAddresses
-            .Select(x=> new CostumerAddressDto()
+            .Select(x => new CostumerAddressDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,

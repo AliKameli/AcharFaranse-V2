@@ -64,7 +64,7 @@
 			<td>@(worker.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
 			<td class="d-flex justify-content-end">
 				<a class="btn btn-success" asp-action="Details" asp-route-Id="@worker.Id">
-					جزئیات @(worker.IsConfirmed? null : "و تایید")
+					جزئیات @(worker.IsConfirmed ? null : "و تایید")
 				</a>
 				&nbsp;|&nbsp;
 				<a class="btn btn-warning" asp-action="Edit" asp-route-Id=@worker.Id>

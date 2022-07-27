@@ -1,7 +1,7 @@
-﻿@model System.Collections.Generic.List<App.Domain.Dtos.JobWorkerProposalDto>
+﻿@model List<App.Domain.Dtos.JobWorkerProposalDto>
 @{
-	 ViewData["Title"] = "لیست پیشنهادها";
- }
+	ViewData["Title"] = "لیست پیشنهادها";
+}
 <br/>
 <h3>لیست پیشنهادها</h3>
 <br/>
@@ -9,9 +9,9 @@
 <table class="table table-striped ">
 	<thead>
 	<tr>
-		<th scope="col">@Html.DisplayNameFor(x=>x.FirstOrDefault()!.WorkerName)</th>
-		<th scope="col">@Html.DisplayNameFor(x=>x.FirstOrDefault()!.WorkerComment)</th>
-		<th scope="col">@Html.DisplayNameFor(x=>x.FirstOrDefault()!.ProposedPrice)</th>
+		<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.WorkerName)</th>
+		<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.WorkerComment)</th>
+		<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.ProposedPrice)</th>
 		<th scope="col"></th>
 	</tr>
 	</thead>
@@ -20,10 +20,10 @@
 	{
 		<tr>
 			<th scope="row">
-				@Html.DisplayFor(x=>workerProposal.WorkerName)
+				@Html.DisplayFor(x => workerProposal.WorkerName)
 			</th>
-			<td>@Html.DisplayFor(x=>workerProposal.WorkerComment)</td>
-			<td>@Html.DisplayFor(x=>workerProposal.ProposedPrice)</td>
+			<td>@Html.DisplayFor(x => workerProposal.WorkerComment)</td>
+			<td>@Html.DisplayFor(x => workerProposal.ProposedPrice)</td>
 			<td class="d-flex justify-content-end">
 				<a class="btn btn-success" asp-action="Details" asp-route-Id="@workerProposal.Id">
 					جزئیات

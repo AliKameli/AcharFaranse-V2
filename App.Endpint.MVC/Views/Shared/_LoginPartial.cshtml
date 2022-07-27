@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using App.Domain.Contracts.AppService
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using App.Domain.Contracts.AppService
 @inject SignInManager<IdentityUser<int>> SignInManager
 @inject UserManager<IdentityUser<int>> UserManager
 @inject ICostumerAppService CostumerAppService
@@ -10,7 +10,8 @@
 	@if (SignInManager.IsSignedIn(User))
 	{
 		<li class="nav-item">
-			<a class="nav-link text-light" asp-controller="Account" asp-action="Manage" title="Manage">سلام &nbsp; 
+			<a class="nav-link text-light" asp-controller="Account" asp-action="Manage" title="Manage">
+				سلام &nbsp;
 				@{
 					var user = await UserManager.FindByNameAsync(User.Identity?.Name);
 
