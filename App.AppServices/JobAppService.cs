@@ -35,6 +35,11 @@ public class JobAppService : IJobAppService
         return await _jobService.AddAsync(jobDto);
     }
 
+    public async Task UpdateAsync(JobDto jobDto)
+    {
+        await _jobService.UpdateAsync(jobDto);
+    }
+
     public async Task DeleteAsync(int jobId)
     {
         await _jobService.DeleteAsync(jobId);

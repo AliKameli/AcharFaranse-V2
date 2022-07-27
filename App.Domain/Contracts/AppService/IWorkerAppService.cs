@@ -13,4 +13,5 @@ public interface IWorkerAppService
     Task<List<WorkerDto>> GetByJobCategoryIdAsync(int jobCategoryId);
     Task<List<WorkerDto>> GetByCityIdAsync(int cityId);
     Task<List<WorkerDto>> SearchAsync(string? name = null, string? nationalId = null);
+    Task ConfirmAsync(int costumerId);
 }

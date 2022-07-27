@@ -69,6 +69,8 @@ public class JobService : IJobService
         record.CompanyProfit = jobDto.CompanyProfit;
         record.FinalCost = jobDto.FinalCost;
         record.WorkerId = jobDto.WorkerId;
+        record.CostumerAddressId= jobDto.CostumerAddressId;
+        record.JobCategoryId= jobDto.JobCategoryId;
 
         await _dbContext.SaveChangesAsync();
     }

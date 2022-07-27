@@ -1,77 +1,72 @@
-﻿@using App.Endpoint.MVC.Areas.Admin.Models
-@model App.Endpoint.MVC.Areas.Admin.Models.WorkerVM
+﻿@using App.Domain.Dtos
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model App.Domain.Dtos.WorkerDto
 @{
 	ViewData["Title"] = "ویرایش کارمند";
+	var cities = (ViewData["Cities"] as List<CityDto>)!;
 }
 <h3>ویرایش کارمند</h3>
 <br>
 
-<form>
+<form asp-action="Add" formmethod="post">
 	<div asp-validation-summary="All" class="text-danger"></div>
 	<div class="form-group">
 		<label asp-for="Email"></label>
 		<input class="form-control" asp-for="Email">
-		<br/>
+		<br />
 		<span asp-validation-for="Email" class="text-danger"></span>
 	</div>
-
-	<div class="form-group">
-		<label asp-for="Password"></label>
-		<input class="form-control" type="text" asp-for="Password" placeholder="بدون تغییر" value="no change">
-		<br/>
-		<span asp-validation-for="Password" class="text-danger"></span>
-	</div>
-
 	<div class="form-group">
 		<label asp-for="FirstName"></label>
 		<input class="form-control" asp-for="FirstName">
-		<br/>
+		<br />
 		<span asp-validation-for="FirstName" class="text-danger"></span>
 	</div>
 
 	<div class="form-group">
 		<label asp-for="LastName"></label>
 		<input class="form-control" asp-for="LastName">
-		<br/>
+		<br />
 		<span asp-validation-for="LastName" class="text-danger"></span>
 	</div>
 
 	<div class="form-group">
-		<label asp-for="NationalSecurityId"></label>
-		<input class="form-control" asp-for="NationalSecurityId">
-		<br/>
-		<span asp-validation-for="NationalSecurityId" class="text-danger"></span>
+		<label asp-for="NationalId"></label>
+		<input class="form-control" asp-for="NationalId">
+		<br />
+		<span asp-validation-for="NationalId" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="PhoneNumber"></label>
 		<input class="form-control" asp-for="PhoneNumber">
-		<br/>
+		<br />
 		<span asp-validation-for="PhoneNumber" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="HomeAddress"></label>
 		<input class="form-control" asp-for="HomeAddress">
-		<br/>
+		<br />
 		<span asp-validation-for="HomeAddress" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Description"></label>
 		<input class="form-control" asp-for="Description">
-		<br/>
+		<br />
 		<span asp-validation-for="Description" class="text-danger"></span>
 	</div>
 	<div class="form-group">
-		<label asp-for="UserCityId"></label>
-		<select class="form-select" asp-for="UserCityId" asp-items="@(new SelectList((ViewBag.Cities as List<CityVM>), nameof(CityVM.Id), nameof(CityVM.CityName)))">
-			<option value="@null">مشخص نشده</option>
+		<label asp-for="CityName"></label>
+		<select class="form-select" asp-for="CityId" asp-items="@(new SelectList(cities, nameof(CityDto.Id), nameof(CityDto.Name)))">
+			<option disabled selected>یک شهر انتخاب کنید</option>
 		</select>
+		<span asp-validation-for="CityId" class="text-danger"></span>
 	</div>
 	<div style="float: left; margin-top: 5px;">
 		<button type="submit" class="btn btn-primary" asp-action="Edit" formmethod="post">ویرایش</button>
 		<a class="btn btn-danger" asp-action="Index" asp-route-name="@null">انصراف</a>
 	</div>
-
 </form>
+
 @section Scripts{
-	<partial name="_ValidationScriptsPartial"/>
+	<partial name="_ValidationScriptsPartial" />
 }

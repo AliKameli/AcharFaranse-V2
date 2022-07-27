@@ -1,10 +1,12 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.Endpoint.MVC.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize(Roles = "Admin")]
 public class CityController : Controller
 {
     private readonly ICityAppService _cityAppService;

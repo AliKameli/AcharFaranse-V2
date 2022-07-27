@@ -7,32 +7,34 @@
 <div class="m-5 p-5">
 	<form asp-controller="Account" asp-action="Login" method="post">
 		<h4>ورود به حساب کاربری</h4>
-		<hr/>
+		<hr />
 		<div asp-validation-summary="All" class="text-danger"></div>
+		<br/>
 		<div class="form-group">
-			<label asp-for="Email"></label>
-			<input asp-for="Email" class="form-control"/>
-			<span asp-validation-for="Email" class="text-danger"></span>
+			<label asp-for="UserName"></label>
+			<input asp-for="UserName" class="form-control" />
+			<span asp-validation-for="UserName" class="text-danger"></span>
 		</div>
-
+		<br/>
 		<div class="form-group">
 			<label asp-for="Password"></label>
-			<input asp-for="Password" class="form-control"/>
+			<input asp-for="Password" class="form-control" />
 			<span asp-validation-for="Password" class="text-danger"></span>
 		</div>
-
-		<div class="form-group">
-			<div class="checkbox">
-				<label asp-for="RememberMe"></label>
-				<input asp-for="RememberMe" class="form-control"/>
-				<span asp-validation-for="RememberMe" class="text-danger"></span>
+		<br/>
+		<div class="row">
+			<div class="col-auto">
+				<div class="form-check">
+					<label asp-for="RememberMe" class="form-check-label"></label>
+					<input asp-for="RememberMe" class="form-check-input" type="checkbox" value="True" />
+				</div>
 			</div>
 		</div>
-
-		<input type="submit" class="btn btn-primary" value="ورود"/>
+		<br/>
+		<input type="submit" class="btn btn-primary" value="ورود" />
 	</form>
 </div>
 
 @section Scripts{
-	<partial name="_ValidationScriptsPartial"/>
+	<partial name="_ValidationScriptsPartial" />
 }

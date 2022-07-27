@@ -4,31 +4,35 @@
 	ViewData["Title"] = "ثبت نام";
 }
 
-<div class="m-5 p-5">
-	<form asp-controller="Account" asp-action="Register" method="post">
-		<h4>ساخت حساب کاربری جدید</h4>
-		<hr/>
-		<div asp-validation-summary="All" class="text-danger"></div>
-		<div class="form-group">
-			<label asp-for="Email"></label>
-			<input asp-for="Email" class="form-control"/>
-			<span asp-validation-for="Email" class="text-danger"></span>
-		</div>
+<div class="row">
+	<div class="col">
+		<div class="card text-white bg-primary mb-3" style="max-width: 40rem;">
+			<div class="card-header">
 
-		<div class="form-group">
-			<label asp-for="Password"></label>
-			<input asp-for="Password" class="form-control"/>
-			<span asp-validation-for="Password" class="text-danger"></span>
+				<h4 class="card-title">مشتری</h4>
+			</div>
+			<div class="card-body">
+				<p class="card-text">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
+			</div>
+			<a class="btn btn-warning" asp-action="CostumerRegister">
+				ثبت نام
+			</a>
 		</div>
+	</div>
+	<div class="col">
+		<div class="card text-white bg-success mb-3" style="max-width: 40rem;">
+			<div class="card-header">
 
-		<div class="form-group">
-			<label asp-for="ConfirmPassword"></label>
-			<input asp-for="ConfirmPassword" class="form-control"/>
-			<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+				<h4 class="card-title">کارمند</h4>
+			</div>
+			<div class="card-body">
+				<p class="card-text">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
+			</div>
+			<a class="btn btn-warning" asp-action="WorkerRegister">
+				ثبت نام
+			</a>
 		</div>
-
-		<input type="submit" class="btn btn-primary" value="ثبت نام"/>
-	</form>
+	</div>
 </div>
 
 @section Scripts{

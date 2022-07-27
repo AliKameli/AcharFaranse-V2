@@ -1,0 +1,22 @@
+﻿@using App.Domain.Dtos
+@{
+	ViewData["Title"] = "ایجاد کار جدید";
+	var costumerAddresses = (ViewData["CostumerAddresses"] as List<CostumerAddressDto>)!;
+}
+<h3>ایجاد کار جدید</h3>
+<br>
+
+<form asp-action="AddChosenAll" formmethod="post">
+	<div class="form-group">
+		<label> آدرس مورد نظر را انتخاب کنید</label>
+		<select class="form-select" name="costumerAddressId" asp-items="@(new SelectList(costumerAddresses, nameof(CostumerAddressDto.Id), nameof(CostumerAddressDto.FullAddress)))">
+		</select>
+	</div>
+	<div style="float: left; margin-top: 5px;">
+		@if (costumerAddresses.Any())
+		{
+			<button type="submit" class="btn btn-primary">مرحله بعد</button>
+		}
+		<a class="btn btn-danger" asp-action="Index">انصراف</a>
+	</div>
+</form>

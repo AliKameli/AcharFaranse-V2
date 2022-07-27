@@ -104,26 +104,26 @@ public class CostumerService : ICostumerService
     public async Task<List<CostumerDto>> GetAllAsync()
     {
         var records = await _dbContext.Costumers.Select(x => new CostumerDto
-            {
-                Id = x.Id,
-                CreationDateTime = x.CreationDateTime,
-                LastUpdateDateTime = x.LastUpdateDateTime,
-                Email = x.IdentityUser!.UserName,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                PhoneNumber = x.IdentityUser.PhoneNumber,
-                NationalId = x.NationalId,
-                HomeAddress = x.HomeAddress,
-                PictureFilePath = x.PictureFilePath,
-                IsConfirmed = x.IsConfirmed,
-                ConfirmDateTime = x.ConfirmDateTime,
-                CityId = x.UserCityId,
-                CityName = x.UserCity!.Name,
-                TotalMoneyPaid = x.TotalMoneyPaid,
-                TotalCompanyProfitEarnedFromCostumer = x.TotalCompanyProfitEarnedFromCostumer,
-                RatingByWorkers = x.RatingByWorkers,
-                RatingCount = x.RatingCount
-            })
+        {
+            Id = x.Id,
+            CreationDateTime = x.CreationDateTime,
+            LastUpdateDateTime = x.LastUpdateDateTime,
+            Email = x.IdentityUser!.UserName,
+            FirstName = x.FirstName,
+            LastName = x.LastName,
+            PhoneNumber = x.IdentityUser.PhoneNumber,
+            NationalId = x.NationalId,
+            HomeAddress = x.HomeAddress,
+            PictureFilePath = x.PictureFilePath,
+            IsConfirmed = x.IsConfirmed,
+            ConfirmDateTime = x.ConfirmDateTime,
+            CityId = x.UserCityId,
+            CityName = x.UserCity!.Name,
+            TotalMoneyPaid = x.TotalMoneyPaid,
+            TotalCompanyProfitEarnedFromCostumer = x.TotalCompanyProfitEarnedFromCostumer,
+            RatingByWorkers = x.RatingByWorkers,
+            RatingCount = x.RatingCount
+        })
             .ToListAsync();
 
         return records;
@@ -195,6 +195,36 @@ public class CostumerService : ICostumerService
         };
 
         return result;
+    }
+
+    public async Task<List<CostumerDto>> GetByCityIdAsync(int cityId)
+    {
+        var records = await _dbContext.Costumers
+            .Where(x => x.UserCityId == cityId)
+            .Select(x => new CostumerDto
+            {
+                Id = x.Id,
+                CreationDateTime = x.CreationDateTime,
+                LastUpdateDateTime = x.LastUpdateDateTime,
+                Email = x.IdentityUser!.UserName,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                PhoneNumber = x.IdentityUser.PhoneNumber,
+                NationalId = x.NationalId,
+                HomeAddress = x.HomeAddress,
+                PictureFilePath = x.PictureFilePath,
+                IsConfirmed = x.IsConfirmed,
+                ConfirmDateTime = x.ConfirmDateTime,
+                CityId = x.UserCityId,
+                CityName = x.UserCity!.Name,
+                TotalMoneyPaid = x.TotalMoneyPaid,
+                TotalCompanyProfitEarnedFromCostumer = x.TotalCompanyProfitEarnedFromCostumer,
+                RatingByWorkers = x.RatingByWorkers,
+                RatingCount = x.RatingCount
+            })
+            .ToListAsync();
+
+        return records;
     }
 
     public async Task<List<CostumerDto>> SearchAsync(string? name = null, string? nationalId = null)

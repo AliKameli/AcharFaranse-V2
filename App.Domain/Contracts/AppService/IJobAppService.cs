@@ -5,6 +5,7 @@ namespace App.Domain.Contracts.AppService;
 public interface IJobAppService
 {
     Task<int> AddAsync(JobDto jobDto);
+    Task UpdateAsync(JobDto jobDto);
     Task DeleteAsync(int jobId);
     Task<List<JobDto>> GetAllAsync();
     Task<JobDto> GetByIdAsync(int jobId);

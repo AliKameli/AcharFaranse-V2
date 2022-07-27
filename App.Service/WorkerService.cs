@@ -80,6 +80,7 @@ public class WorkerService : IWorkerService
         record.TotalCompanyProfitEarnedFromWorker = workerDto.TotalCompanyProfitEarnedFromWorker;
         record.RatingByCostumers = workerDto.RatingByCostumers;
         record.RatingCount = workerDto.RatingCount;
+        record.Description = workerDto.Description;
         record.LastUpdateDateTime = DateTimeOffset.Now;
 
         await _dbContext.SaveChangesAsync();

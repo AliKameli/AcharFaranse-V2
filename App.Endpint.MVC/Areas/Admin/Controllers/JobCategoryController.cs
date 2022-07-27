@@ -2,11 +2,14 @@
 using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
 using App.Endpoint.MVC.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace App.Endpoint.MVC.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize(Roles = "Admin")]
 public class JobCategoryController : Controller
 {
     private readonly IJobCategoryAppService _jobCategoryAppService;

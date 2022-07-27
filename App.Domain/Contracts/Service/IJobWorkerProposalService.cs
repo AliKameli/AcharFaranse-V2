@@ -11,4 +11,5 @@ public interface IJobWorkerProposalService
     Task<List<JobWorkerProposalDto>> GetAllAsync();
     Task<JobWorkerProposalDto> GetByIdAsync(int jobWorkerProposalId);
     Task<List<JobWorkerProposalDto>> GetByJobIdAsync(int jobId);
+    Task<List<JobWorkerProposalDto>> GetByWorkerIdAsync(int workerId);
 }

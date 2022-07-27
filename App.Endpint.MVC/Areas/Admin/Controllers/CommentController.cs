@@ -1,11 +1,14 @@
 ﻿using App.AppServices;
 using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace App.EndPoint.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CommentController : Controller
     {
         private readonly ICommentAppService _commentAppService;

@@ -84,18 +84,18 @@ public class JobWorkerProposalService : IJobWorkerProposalService
     {
         await EnsureExistsByIdAsync(jobWorkerProposalId);
 
-        var record = await _dbContext.JobWorkerProposals.AsNoTracking().FirstAsync(x => x.Id == jobWorkerProposalId);
-
-        var result = new JobWorkerProposalDto
-        {
-            Id = record.Id,
-            CreationDateTime = record.CreationDateTime,
-            ProposedPrice = record.ProposedPrice,
-            WorkerComment = record.WorkerComment,
-            JobId = record.JobId,
-            WorkerId = record.WorkerId,
-            WorkerName = record.Worker!.FirstName + ' ' + record.Worker.LastName
-        };
+        var result = await _dbContext.JobWorkerProposals
+            .Select(x=> new JobWorkerProposalDto()
+            {
+                Id = x.Id,
+                CreationDateTime = x.CreationDateTime,
+                ProposedPrice = x.ProposedPrice,
+                WorkerComment = x.WorkerComment,
+                JobId = x.JobId,
+                WorkerId = x.WorkerId,
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+            })
+            .FirstAsync(x => x.Id == jobWorkerProposalId);
 
         return result;
     }
@@ -104,6 +104,25 @@ public class JobWorkerProposalService : IJobWorkerProposalService
     {
         var records = await _dbContext.JobWorkerProposals
             .Where(x => x.JobId == jobId)
+            .Select(x => new JobWorkerProposalDto
+            {
+                Id = x.Id,
+                CreationDateTime = x.CreationDateTime,
+                ProposedPrice = x.ProposedPrice,
+                WorkerComment = x.WorkerComment,
+                JobId = x.JobId,
+                WorkerId = x.WorkerId,
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+            })
+            .ToListAsync();
+
+        return records;
+    }
+
+    public async Task<List<JobWorkerProposalDto>> GetByWorkerIdAsync(int workerId)
+    {
+        var records = await _dbContext.JobWorkerProposals
+            .Where(x => x.WorkerId == workerId)
             .Select(x => new JobWorkerProposalDto
             {
                 Id = x.Id,

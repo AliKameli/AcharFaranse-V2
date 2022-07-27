@@ -13,38 +13,33 @@ public class JobWorkerProposalAppService:IJobWorkerProposalAppService
         _jobWorkerProposalService = jobWorkerProposalService;
     }
 
-    public async Task EnsureExistsByIdAsync(int jobWorkerProposalId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task EnsureDoesNotExistAsync(JobWorkerProposalDto jobWorkerProposalDto)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<int> AddAsync(JobWorkerProposalDto jobWorkerProposalDto)
     {
-        throw new NotImplementedException();
+        return await _jobWorkerProposalService.AddAsync(jobWorkerProposalDto);
     }
 
     public async Task DeleteAsync(int jobWorkerProposalId)
     {
-        throw new NotImplementedException();
+        await _jobWorkerProposalService.DeleteAsync(jobWorkerProposalId);
     }
 
     public async Task<List<JobWorkerProposalDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await _jobWorkerProposalService.GetAllAsync();
     }
 
     public async Task<JobWorkerProposalDto> GetByIdAsync(int jobWorkerProposalId)
     {
-        throw new NotImplementedException();
+        return await _jobWorkerProposalService.GetByIdAsync(jobWorkerProposalId);
     }
 
     public async Task<List<JobWorkerProposalDto>> GetByJobIdAsync(int jobId)
     {
-        throw new NotImplementedException();
+        return await _jobWorkerProposalService.GetByJobIdAsync(jobId);
+    }
+
+    public async Task<List<JobWorkerProposalDto>> GetByWorkerIdAsync(int workerId)
+    {
+        return await _jobWorkerProposalService.GetByWorkerIdAsync(workerId);
     }
 }

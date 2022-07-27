@@ -13,5 +13,6 @@ public interface ICostumerService
     Task<List<CostumerDto>> GetAllAsync();
     Task<CostumerDto> GetByIdAsync(int costumerId);
     Task<CostumerDto> GetByNationalIdAsync(string nationalId);
+    Task<List<CostumerDto>> GetByCityIdAsync(int cityId);
     Task<List<CostumerDto>> SearchAsync(string? name = null, string? nationalId = null);
 }

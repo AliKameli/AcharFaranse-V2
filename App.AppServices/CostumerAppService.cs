@@ -31,6 +31,7 @@ public class CostumerAppService : ICostumerAppService
         };
 
         var result = await _userManager.CreateAsync(user, costumerDto.Password);
+        await _userManager.AddToRoleAsync(user, "Costumer");
 
         if (result.Succeeded)
         {
@@ -122,6 +123,11 @@ public class CostumerAppService : ICostumerAppService
     public async Task<CostumerDto> GetByNationalIdAsync(string nationalId)
     {
         return await _costumerService.GetByNationalIdAsync(nationalId);
+    }
+
+    public async Task<List<CostumerDto>> GetByCityIdAsync(int cityId)
+    {
+        return await _costumerService.GetByCityIdAsync(cityId);
     }
 
     public async Task<List<CostumerDto>> SearchAsync(string? name = null, string? nationalId = null)

@@ -7,7 +7,7 @@ public class LoginViewModel
     [Required]
     [EmailAddress]
     [Display(Name = "ایمیل")]
-    public string Email { get; set; } = string.Empty;
+    public string UserName { get; set; } = string.Empty;
 
     [Required]
     [DataType(DataType.Password)]
@@ -15,5 +15,5 @@ public class LoginViewModel
     public string Password { get; set; } = string.Empty;
 
     [Display(Name = "من را به خاطر بسپار")]
-    public bool RememberMe { get; set; }
+    public bool RememberMe { get; set; } = false;
 }

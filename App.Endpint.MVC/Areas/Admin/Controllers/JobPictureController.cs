@@ -2,11 +2,14 @@
 using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
 using App.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace App.EndPoint.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class JobPictureController : Controller
     {
         private readonly IJobPictureAppService _jobPictureAppService;

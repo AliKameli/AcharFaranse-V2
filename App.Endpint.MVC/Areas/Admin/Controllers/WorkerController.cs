@@ -1,278 +1,167 @@
-﻿using App.Endpoint.MVC.Areas.Admin.Models;
+﻿using App.AppServices;
+using App.Domain.Contracts.AppService;
+using App.Domain.Dtos;
+using App.Endpoint.MVC.Areas.Admin.Models;
+using App.Endpoint.MVC.Areas.Admin.Models.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace App.Endpoint.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class WorkerController : Controller
     {
 
         private readonly ICityAppService _cityAppService;
+        private readonly ICommentAppService _commentAppService;
         private readonly IWorkerAppService _workerAppService;
-        private readonly UserManager<IdentityUser<int>> _userManager;
+        private readonly IJobAppService _jobAppService;
+        private readonly IJobPictureAppService _jobPictureAppService;
 
-        public WorkerController(IWorkerAppService workerAppService, ICityAppService cityAppService,
-            UserManager<IdentityUser<int>> userManager)
+        public WorkerController(
+            ICityAppService cityAppService,
+            IJobAppService jobAppService,
+            IJobPictureAppService jobPictureAppService,
+            ICommentAppService commentAppService,
+            IWorkerAppService workerAppService)
         {
-            _workerAppService = workerAppService;
             _cityAppService = cityAppService;
-            _userManager = userManager;
+            _jobAppService = jobAppService;
+            _jobPictureAppService = jobPictureAppService;
+            _commentAppService = commentAppService;
+            _workerAppService = workerAppService;
         }
 
-        public async Task<ActionResult> Index(string? name)
+        public async Task<ActionResult> Index(string? name = null,
+            string? nationalId = null,
+            string? internalMessage = null)
         {
-            var record = await _workerAppService.GetAllAsync();
+            if (internalMessage != null) ModelState.AddModelError("internalMessage", internalMessage);
 
+            List<WorkerDto> model = new();
 
-            if (!string.IsNullOrWhiteSpace(name))
-                record = record.Where(x =>
-                        x.FirstName.Contains(name)
-                        || x.LastName.Contains(name)
-                        || new string(x.FirstName + ' ' + x.LastName).Contains(name))
-                    .ToList();
+            if (name == null && nationalId == null)
+                model = await _workerAppService.GetAllAsync();
 
-            var model = record.Select(x => new WorkerVM
-                {
-                    Id = x.Id,
-                    Email = _userManager.FindByIdAsync(x.Id.ToString()).Result.Email,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    NationalSecurityId = x.NationalSecurityId,
-                    IsConfirmed = x.IsConfirmed,
-                    UserCityName = x.UserCityId is not null
-                        ? _cityAppService.GetByIdAsync((int) x.UserCityId).Result.CityName
-                        : null,
-                    UserCityId = x.UserCityId
-                })
-                .ToList();
+            else
+                model = await _workerAppService.SearchAsync(name, nationalId);
 
             return View(model);
         }
 
-        public async Task<ActionResult> Details(int id)
+        public async Task<ActionResult> Details(int id,
+            DetailPageTypeEnum pageType = 0,
+            string? internalMessage = null)
         {
-            var record = await _workerAppService.GetByIdAsync(id);
-            var user = await _userManager.FindByIdAsync(record!.Id.ToString());
-            var model = new WorkerVM
-            {
-                Id = record!.Id,
-                CreationDateTime = record.CreationDateTime,
-                LastUpdateDateTime = record.LastUpdateDateTime,
-                Email = user.Email,
-                FirstName = record.FirstName,
-                LastName = record.LastName,
-                NationalSecurityId = record.NationalSecurityId,
-                PhoneNumber = user.PhoneNumber,
-                HomeAddress = record.HomeAddress,
-                Description = record.Description,
-                IsConfirmed = record.IsConfirmed,
-                ConfirmDateTime = record.ConfirmDateTime,
-                UserCityName = record.UserCityId is not null
-                    ? _cityAppService.GetByIdAsync((int) record.UserCityId)
-                        .Result.CityName
-                    : null,
-            };
+            if (internalMessage != null) ModelState.AddModelError("internalMessage", internalMessage);
+            var model = await _workerAppService.GetByIdAsync(id);
+
+            ViewData["PageType"] = pageType;
 
             return View(model);
         }
 
         public async Task<ActionResult> ConfirmWorker(int id)
         {
-            await _workerAppService.ConfirmWorker(id);
-            return RedirectToAction(nameof(Details), routeValues: new {id = id});
+            try
+            {
+                await _workerAppService.ConfirmAsync(id);
+
+                return RedirectToAction(nameof(Details), new {id = id, internalMessage = "با موفقیت تایید شد"});
+            }
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Details),
+                    new {id = id, internalMessage = "خطا ! در فرآیند تایید مشکلی به وجود آمد"});
+            }
         }
 
         [HttpGet]
         public async Task<ActionResult> Add()
         {
-            ViewBag.Cities = (await _cityAppService.GetAllAsync())
-                .Select(x => new CityVM
-                {
-                    Id = x.Id,
-                    CityName = new string(x.CityName + " / " + x.StateName)
-                })
-                .ToList();
+            ViewData["Cities"] = new List<CityDto>(await _cityAppService.GetAllAsync());
 
-            var model = new WorkerVM();
+            var model = new WorkerDto();
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(WorkerVM model)
+        public async Task<ActionResult> Add(WorkerDto model)
         {
             if (ModelState.IsValid)
-            {
-                var user = new IdentityUser<int>
+                try
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber
-                };
+                    await _workerAppService.AddAsync(model);
 
-                IdentityResult? result = await _userManager.CreateAsync(user, model.Password);
-                
-                if (result.Succeeded)
-                {
-                    try
-                    {
-                        var record = new WorkerDto
-                        {
-                            Id = int.Parse(await _userManager.GetUserIdAsync(user)),
-                            FirstName = model.FirstName,
-                            LastName = model.LastName,
-                            NationalSecurityId = model.NationalSecurityId,
-                            HomeAddress = model.HomeAddress,
-                            UserCityId = model.UserCityId,
-                            Description = model.Description
-                        };
-                        await _workerAppService.AddAsync(record);
-                        return RedirectToAction(nameof(Index));
-                    }
-                    catch (Exception e)
-                    {
-                        await _userManager.DeleteAsync(user);
-                        ModelState.AddModelError(string.Empty, e.Message);
-                    }
+                    return RedirectToAction(nameof(Index)
+                        , new {internalMessage = $"مشتری {model.FirstName + " " + model.LastName} با موفقیت ایجاد شد"});
                 }
-
-                foreach (var item in result.Errors) ModelState.AddModelError(string.Empty, item.Description);
-            }
-
-            ViewBag.Cities = (await _cityAppService.GetAllAsync())
-                .Select(x => new CityVM
+                catch (Exception e)
                 {
-                    Id = x.Id,
-                    CityName = new string(x.CityName + " / " + x.StateName)
-                })
-                .ToList();
+                    ModelState.AddModelError("internalMessage", $"خطا ! {e.Message}");
+                }
+            else
+                ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
+
+            ViewData["Cities"] = new List<CityDto>(await _cityAppService.GetAllAsync());
+
             return View(model);
         }
 
         public async Task<ActionResult> Edit(int id)
         {
-            var record = await _workerAppService.GetByIdAsync(id);
-            var user = await _userManager.FindByIdAsync(record!.Id.ToString());
-            var model = new WorkerVM
-            {
-                Id = record!.Id,
-                Email = user.Email,
-                FirstName = record.FirstName,
-                LastName = record.LastName,
-                PhoneNumber = user.PhoneNumber,
-                NationalSecurityId = record.NationalSecurityId,
-                HomeAddress = record.HomeAddress,
-                UserCityId = record.UserCityId,
-                Description = record.Description,
-            };
-            ViewBag.Cities = (await _cityAppService.GetAllAsync())
-                .Select(x => new CityVM
-                {
-                    Id = x.Id,
-                    CityName = new string(x.CityName + " / " + x.StateName)
-                })
-                .ToList();
+            var model = await _workerAppService.GetByIdAsync(id);
+            ViewData["Cities"] = new List<CityDto>(await _cityAppService.GetAllAsync());
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(int id, WorkerVM model)
+        public async Task<ActionResult> Edit(int id, WorkerDto model)
         {
-            List<string> errors = new List<string>();
+            ModelState.ClearValidationState(nameof(WorkerDto.Password));
+            ModelState.MarkFieldValid(nameof(WorkerDto.Password));
+            ModelState.ClearValidationState(nameof(WorkerDto.ConfirmPassword));
+            ModelState.MarkFieldSkipped(nameof(WorkerDto.ConfirmPassword));
             if (ModelState.IsValid)
-            {
                 try
                 {
-                    var record = await _workerAppService.GetByIdAsync(id);
+                    model.Id = id;
+                    await _workerAppService.UpdateAsync(model);
 
-                    record!.FirstName = model.FirstName;
-                    record.LastName = model.LastName;
-                    record.NationalSecurityId = model.NationalSecurityId;
-                    record.HomeAddress = model.HomeAddress;
-                    record.UserCityId = model.UserCityId;
-                    record.Description = model.Description;
-
-                    var user = await _userManager.FindByIdAsync(id.ToString());
-                    var oldEmail = user.Email;
-                    if (user.Email != model.Email)
-                    {
-                        user.UserName = model.Email;
-                        user.Email = model.Email;
-                        var emailChangeResult = await _userManager.UpdateAsync(user);
-                        errors.AddRange(emailChangeResult.Errors.Select(x => x.Description).ToList());
-                    }
-
-                    if (errors.Any())
-                    {
-                        throw new Exception();
-                    }
-
-                    try
-                    {
-                        await _workerAppService.UpdateAsync(record);
-                    }
-                    catch (Exception e)
-                    {
-                        if (user.Email != oldEmail)
-                        {
-                            user.UserName = oldEmail;
-                            user.Email = oldEmail;
-                            await _userManager.UpdateAsync(user);
-                            await _userManager.UpdateNormalizedUserNameAsync(user);
-                            await _userManager.UpdateNormalizedEmailAsync(user);
-                        }
-
-                        errors.Add(e.Message);
-                        errors.Add(e.InnerException!.Message);
-                        throw;
-                    }
-
-                    if (user.PhoneNumber != model.PhoneNumber)
-                    {
-                        await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
-                        user.PhoneNumber = model.PhoneNumber;
-                    }
-
-                    if (model.Password == "no change")
-                    {
-                        await _userManager.RemovePasswordAsync(user);
-                        await _userManager.AddPasswordAsync(user, model.Password);
-                    }
-
-                    return RedirectToAction(nameof(Index));
-
+                    return RedirectToAction(nameof(Index)
+                        , new {internalMessage = "مشتری با موفقیت ویرایش شد"});
                 }
-                catch
+                catch (Exception e)
                 {
-
+                    ModelState.AddModelError("internalMessage", $"خطا ! {e.Message}");
                 }
-                finally
-                {
-                    errors.ForEach(x => ModelState.AddModelError(string.Empty, x));
-                }
-            }
+            else
+                ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
 
-            ViewBag.Cities = (await _cityAppService.GetAllAsync())
-                .Select(x => new CityVM
-                {
-                    Id = x.Id,
-                    CityName = new string(x.CityName + " / " + x.StateName)
-                })
-                .ToList();
+            ViewData["Cities"] = new List<CityDto>(await _cityAppService.GetAllAsync());
+
             return View(model);
         }
 
         public async Task<ActionResult> Delete(int id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            if (user == null) return RedirectToAction(nameof(Index));
+            try
+            {
+                await _workerAppService.DeleteAsync(id);
 
-            await _workerAppService.DeleteAsync(id);
-            await _userManager.DeleteAsync(user);
-
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index)
+                    , new {internalMessage = "با موفقیت حذف شد"});
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction(nameof(Index)
+                    , new {internalMessage = "خطا : " + e.Message});
+            }
         }
     }
 }
