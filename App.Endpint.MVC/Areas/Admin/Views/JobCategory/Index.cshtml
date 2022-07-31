@@ -2,7 +2,7 @@
 @{
 	ViewData["Title"] = "لیست دسته‌بندی کارها";
 }
-<br/>
+<br />
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-auto">
@@ -34,44 +34,66 @@
 	</div>
 </div>
 
-<br/>
+<br />
 
 <table class="table table-striped ">
 	<thead>
-	<tr>
-		<th scope="col">شناسه</th>
-		<th scope="col">نام</th>
-		<th scope="col">توضیحات</th>
-		<th scope="col">هزینه احتمالی</th>
-		<th scope="col">گروه بندی</th>
-		<th scope="col"></th>
-	</tr>
+		<tr>
+			<th scope="col">شناسه</th>
+			<th scope="col">نام</th>
+			<th scope="col">توضیحات</th>
+			<th scope="col">هزینه احتمالی</th>
+			<th scope="col">گروه بندی</th>
+			<th scope="col"></th>
+		</tr>
 	</thead>
 	<tbody>
-	@foreach (var jobCat in Model)
-	{
-		<tr>
-			<th scope="row">
-				@jobCat.Id
-			</th>
-			<td>@jobCat.Name</td>
-			<td>@jobCat.Description</td>
-			<td>@jobCat.EstimatedWageCost</td>
-			<td>@jobCat.GroupPath</td>
-			<td class="d-flex justify-content-end">
-				<a class="btn btn-success" asp-action="Details" asp-route-Id="@jobCat.Id">
-					جزئیات
-				</a>
-				&nbsp;|&nbsp;
-				<a class="btn btn-warning" asp-action="Edit" asp-route-Id=@jobCat.Id>
-					ویرایش
-				</a>
-				&nbsp;|&nbsp;
-				<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@jobCat.Id">
-					حذف
-				</a>
-			</td>
-		</tr>
-	}
+		@foreach (var jobCat in Model)
+		{
+			<tr>
+				<th scope="row">
+					@jobCat.Id
+				</th>
+				<td>@jobCat.Name</td>
+				<td>@jobCat.Description</td>
+				<td>@jobCat.EstimatedWageCost</td>
+				<td>@jobCat.GroupPath</td>
+				<td class="d-flex justify-content-end">
+					<a class="btn btn-success" asp-action="Details" asp-route-Id="@jobCat.Id">
+						جزئیات
+					</a>
+					&nbsp;|&nbsp;
+					<a class="btn btn-warning" asp-action="Edit" asp-route-Id=@jobCat.Id>
+						ویرایش
+					</a>
+					&nbsp;|&nbsp;
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal"+jobCat.Id))">
+						حذف
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="@(new string(@"Modal"+jobCat.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+								</div>
+								<div class="modal-body">
+									آیا از حذف @jobCat.Name اطمینان دارید ؟
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+									<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@jobCat.Id">
+										حذف
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</td>
+			</tr>
+		}
 	</tbody>
 </table>

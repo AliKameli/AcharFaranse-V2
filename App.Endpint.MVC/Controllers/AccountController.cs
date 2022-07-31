@@ -154,14 +154,13 @@ public class AccountController : Controller
 
         if (await _userManager.IsInRoleAsync(user, "Worker"))
         {
-        }
-
-        {
             return RedirectToAction(nameof(Index), "Home", new {area = "Worker"});
         }
+
+        return null!;
     }
 
-    public async Task<IActionResult> AccessDenied()
+    public IActionResult AccessDenied()
     {
         return View();
     }

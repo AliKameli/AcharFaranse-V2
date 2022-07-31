@@ -104,6 +104,7 @@
     <Folder Include="Areas\Admin\Models\Enum\" />
     <Folder Include="Areas\Admin\Views\Comment\" />
     <Folder Include="Areas\Costumer\Models\" />
+    <Folder Include="Areas\Worker\" />
     <Folder Include="wwwroot\css\Home\" />
     <Folder Include="wwwroot\css\Worker\" />
   </ItemGroup>
@@ -115,10 +116,15 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Areas\Admin\Views\JobPicture\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Admin\Views\Job\AddChooseCostumerAddress.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Costumer\Views\Job\Add.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Areas\Admin\Views\Job\AddChooseCostumerAddress.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Costumer\Views\Job\Add.cshtml" />
   </ItemGroup>
 
 </Project>

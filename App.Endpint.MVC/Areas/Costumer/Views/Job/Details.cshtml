@@ -148,6 +148,13 @@
 		</div>
 	</div>
 	<div class="col">
-
+		<br />
+		<h3>لیست عکس‌ها</h3>
+		<br />
+		<a class="btn btn-info" asp-action="AddPicture" asp-route-jobId="@Model.Id">
+			عکس جدید
+		</a>
+		<br />
+		@await Component.InvokeAsync("JobPicture",new {jobId=Model.Id})
 	</div>
 </div>

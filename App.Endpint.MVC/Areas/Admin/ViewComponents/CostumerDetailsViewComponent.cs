@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.Endpoint.MVC.Areas.Admin.ViewComponents;
 
 [Area("Admin")]
-public class CostumerDetailsViewComponent : ViewComponent
+public class JobCatChooseViewComponent : ViewComponent
 {
     private readonly ICommentAppService _commentAppService;
     private readonly ICostumerAddressAppService _costumerAddressAppService;
@@ -14,7 +14,7 @@ public class CostumerDetailsViewComponent : ViewComponent
     private readonly IJobPictureAppService _jobPictureAppService;
 
 
-    public CostumerDetailsViewComponent(ICostumerAddressAppService costumerAddressAppService,
+    public JobCatChooseViewComponent(ICostumerAddressAppService costumerAddressAppService,
         ICommentAppService commentAppService,
         IJobAppService jobAppService,
         IJobPictureAppService jobPictureAppService)

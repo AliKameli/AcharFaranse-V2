@@ -1,6 +1,8 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
+using App.Domain.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace App.AppServices;
 
@@ -11,18 +13,21 @@ public class JobAppService : IJobAppService
     private readonly ICostumerService _costumerService;
     private readonly IJobService _jobService;
     private readonly IWorkerService _workerService;
+    private readonly UserManager<IdentityUser<int>> _userManager;
 
     public JobAppService(IJobService jobService,
         ICostumerService costumerService,
         ICostumerAddressService costumerAddressService,
         ICityService cityService,
-        IWorkerService workerService)
+        IWorkerService workerService,
+        UserManager<IdentityUser<int>> userManager)
     {
         _jobService = jobService;
         _costumerService = costumerService;
         _costumerAddressService = costumerAddressService;
         _cityService = cityService;
         _workerService = workerService;
+        _userManager = userManager;
     }
 
 
@@ -40,9 +45,25 @@ public class JobAppService : IJobAppService
         await _jobService.UpdateAsync(jobDto);
     }
 
-    public async Task DeleteAsync(int jobId)
+    public async Task DeleteAsync(int jobId, string userName)
     {
-        await _jobService.DeleteAsync(jobId);
+        var user = await _userManager.FindByNameAsync(userName);
+        var job = await _jobService.GetByIdAsync(jobId);
+        if ((await _userManager.IsInRoleAsync(user, "Admin")))
+        {
+            await _jobService.DeleteAsync(jobId);
+        }
+        else
+        {
+            if (job.JobStatus == JobStatusEnum.RequestedByCostumer)
+            {
+                await _jobService.DeleteAsync(jobId);
+            }
+            else
+            {
+                throw new Exception("این کار در مرحله قابل حذف نیست");
+            }
+        }
     }
 
     public async Task<List<JobDto>> GetAllAsync()
@@ -73,5 +94,9 @@ public class JobAppService : IJobAppService
     public async Task<List<JobDto>> GetByCityIdAsync(int cityId)
     {
         return await _jobService.GetByCityIdAsync(cityId);
+    }
+    public async Task<List<JobDto>> GetByUserNameAsync(string userName)
+    {
+        return await _jobService.GetByUserNameAsync(userName);
     }
 }

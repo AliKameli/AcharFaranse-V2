@@ -11,7 +11,7 @@
 	{
 		<li class="nav-item">
 			<a class="nav-link text-light" asp-controller="Account" asp-action="Manage" title="Manage">
-				سلام &nbsp;
+				سلام 
 				@{
 					var user = await UserManager.FindByNameAsync(User.Identity?.Name);
 
@@ -30,7 +30,7 @@
 						<text>ادمین</text>
 					}
 				}
-				&nbsp;
+				&nbsp; |
 			</a>
 		</li>
 		<li class="nav-item">

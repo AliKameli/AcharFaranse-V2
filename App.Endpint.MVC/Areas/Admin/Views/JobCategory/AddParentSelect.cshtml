@@ -20,11 +20,11 @@
 	<a class="btn btn-success" asp-action="Add" asp-route-parentId="@ViewBag.ParentId" asp-route-ended="true">اضافه کردن به این گروه</a>
 	@if (Model.Any())
 	{
-		<button type="submit" class="btn btn-primary">مرحل بعد</button>
+		<button type="submit" class="btn btn-info">مرحل بعد</button>
 	}
 	@if (ViewBag.ParentTree != null)
 	{
-		<a class="btn btn-danger" asp-action="Add" asp-route-parentId="@ViewBag.ParentParentId">مرحله قبل</a>
+		<a class="btn btn-info" asp-action="Add" asp-route-parentId="@ViewBag.ParentParentId">مرحله قبل</a>
 	}
-	<a class="btn btn-danger" asp-action="Index">خروج از عملیات</a>
+	<a class="btn btn-secondary" asp-action="Index">خروج از عملیات</a>
 </form>

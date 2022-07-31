@@ -29,9 +29,30 @@
 					جزئیات
 				</a>
 				&nbsp;|&nbsp;
-				<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@workerProposal.Id">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal"+workerProposal.Id))">
 					حذف
-				</a>
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="@(new string(@"Modal"+workerProposal.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+							</div>
+							<div class="modal-body">
+								آیا از حذف اطمینان دارید ؟
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+								<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@workerProposal.Id">
+									حذف
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</td>
 		</tr>
 	}

@@ -1,19 +1,8 @@
 ﻿@model List<App.Domain.Dtos.JobPictureDto>
 
-@{
-	ViewData["Title"] = "لیست عکس‌ها";
-}
-<br />
-<h3>لیست عکس‌ها</h3>
-<br />
-<a class="btn btn-info" asp-action="Add">
-	عکس جدید
-</a>
-<br />
 <table class="table table-striped ">
 	<thead>
 		<tr>
-			<th scope="col">نام کاربر</th>
 			<th scope="col">توضیحات</th>
 			<th scope="col">وضعیت تایید</th>
 			<th scope="col"></th>
@@ -23,14 +12,11 @@
 		@foreach (var jobPicture in Model)
 		{
 			<tr>
-				<th scope="row">
-					@jobPicture.UserFullName
-				</th>
 				<td>@jobPicture.Description</td>
 				<td>@(jobPicture.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
-				<td class="d-flex justify-content-end">
-					<a class="btn btn-success" asp-action="Details" asp-route-Id="@jobPicture.Id">
-						جزئیات @(jobPicture.IsConfirmed ? null : "و تایید")
+				<td class="">
+					<a class="btn btn-primary" data-bs-toggle="collapse" href="@(new string(@"#collapse"+jobPicture.Id))" role="button" aria-expanded="True" aria-controls="@(new string(@"collapse"+jobPicture.Id))">
+						مشاهده
 					</a>
 					&nbsp;|&nbsp;
 					<!-- Button trigger modal -->
@@ -50,11 +36,18 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
-									<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@jobPicture.Id">
+									<a class="btn btn-danger" asp-action="DeletePicture" asp-route-pictureId="@jobPicture.Id">
 										حذف
 									</a>
 								</div>
 							</div>
+						</div>
+					</div>
+				</td>
+				<td>
+					<div class="collapse" id="@(new string(@"collapse" + jobPicture.Id))">
+						<div class="card card-body">
+							<img src="@jobPicture.FileSavePath" class="img-fluid" alt="">
 						</div>
 					</div>
 				</td>

@@ -124,7 +124,7 @@ public class JobController : Controller
     {
         try
         {
-            await _jobAppService.DeleteAsync(id);
+            await _jobAppService.DeleteAsync(id,User!.Identity!.Name!);
 
             return RedirectToAction(nameof(Index)
                 , new {internalMessage = "با موفقیت حذف شد"});

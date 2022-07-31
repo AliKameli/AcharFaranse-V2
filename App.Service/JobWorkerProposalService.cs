@@ -1,6 +1,7 @@
 ﻿using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
 using App.Domain.Entities;
+using App.Domain.Enums;
 using App.Infrastructures.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,10 +51,22 @@ public class JobWorkerProposalService : IJobWorkerProposalService
         return result.Entity.Id;
     }
 
-    //public async Task UpdateAsync(JobWorkerProposalDto jobWorkerProposalDto)
-    //{
-    //    throw new Exception("نمیتوان پیشنهاد را تغییر داد")ک
-    //}
+    public async Task AcceptAsync(int jobWorkerProposalId)
+    {
+        await EnsureExistsByIdAsync(jobWorkerProposalId);
+        var record = await _dbContext.JobWorkerProposals
+            .FirstAsync(x => x.Id == jobWorkerProposalId);
+        var job = await _dbContext.Jobs.FirstAsync(x => x.Id == record.JobId);
+        _dbContext.JobWorkerProposals.RemoveRange(
+            _dbContext.JobWorkerProposals.Where(x =>
+                x.JobId == record.JobId &&
+                x.Id != record.Id)
+            );
+        record.ProposalStatus = ProposalStatusEnum.AcceptedByCostumer;
+        job.JobStatus = JobStatusEnum.WorkerChosenByCostumer;
+
+        await _dbContext.SaveChangesAsync();
+    }
 
     public async Task DeleteAsync(int jobWorkerProposalId)
     {
@@ -68,15 +81,15 @@ public class JobWorkerProposalService : IJobWorkerProposalService
     public async Task<List<JobWorkerProposalDto>> GetAllAsync()
     {
         var records = await _dbContext.JobWorkerProposals.Select(x => new JobWorkerProposalDto
-            {
-                Id = x.Id,
-                CreationDateTime = x.CreationDateTime,
-                ProposedPrice = x.ProposedPrice,
-                WorkerComment = x.WorkerComment,
-                JobId = x.JobId,
-                WorkerId = x.WorkerId,
-                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
-            })
+        {
+            Id = x.Id,
+            CreationDateTime = x.CreationDateTime,
+            ProposedPrice = x.ProposedPrice,
+            WorkerComment = x.WorkerComment,
+            JobId = x.JobId,
+            WorkerId = x.WorkerId,
+            WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+        })
             .ToListAsync();
 
         return records;

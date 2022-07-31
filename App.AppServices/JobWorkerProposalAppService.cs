@@ -42,4 +42,9 @@ public class JobWorkerProposalAppService : IJobWorkerProposalAppService
     {
         return await _jobWorkerProposalService.GetByWorkerIdAsync(workerId);
     }
+
+    public async Task AcceptAsync(int jobWorkerProposalId)
+    {
+        await _jobWorkerProposalService.AcceptAsync(jobWorkerProposalId);
+    }
 }

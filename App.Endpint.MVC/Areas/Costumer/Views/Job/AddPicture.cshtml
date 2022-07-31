@@ -6,7 +6,7 @@
 <h3>آپلود عکس جدید</h3>
 <br>
 
-<form enctype="multipart/form-data" asp-action="Add" formmethod="post">
+<form enctype="multipart/form-data" asp-action="AddPicture" formmethod="post" asp-route-jobId="@Model.JobId">
 	<div class="form-group">
 		<label asp-for="Description"></label>
 		<input class="form-control" asp-for="Description">
@@ -30,7 +30,7 @@
 @section Scripts{
 	<partial name="_ValidationScriptsPartial"/>
 	<script type="text/javascript">
-						// Add the following code if you want the name of the file appear on select
+		// Add the following code if you want the name of the file appear on select
 
 	</script>
 }

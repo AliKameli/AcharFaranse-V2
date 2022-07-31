@@ -45,13 +45,35 @@
 					جزئیات
 				</a>
 				&nbsp;|&nbsp;
-				<a class="btn btn-danger" asp-action="Edit" asp-route-Id="@job.Id">
-					تغییر وضعیت؟؟!!
+				<a class="btn btn-warning" asp-action="Edit" asp-route-Id="@job.Id">
+					ویرایش
 				</a>
 				&nbsp;|&nbsp;
-				<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@job.Id">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal"+job.Id))">
 					حذف
-				</a>
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="@(new string(@"Modal"+job.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+							</div>
+							<div class="modal-body">
+								آیا از حذف اطمینان دارید ؟
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+								<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@job.Id">
+									حذف
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 			</td>
 		</tr>
 	}
