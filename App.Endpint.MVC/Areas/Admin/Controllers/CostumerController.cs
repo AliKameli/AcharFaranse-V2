@@ -1,6 +1,6 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
-using App.Endpoint.MVC.Areas.Admin.Models.Enum;
+using App.EndPoint.MVC.Models.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

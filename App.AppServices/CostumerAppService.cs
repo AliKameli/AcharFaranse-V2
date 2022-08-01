@@ -1,6 +1,9 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
+using App.Domain.Entities;
+using App.Domain.Enums;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.AppServices;
@@ -10,14 +13,17 @@ public class CostumerAppService : ICostumerAppService
     private readonly ICityService _cityService;
     private readonly ICostumerService _costumerService;
     private readonly UserManager<IdentityUser<int>> _userManager;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public CostumerAppService(ICostumerService costumerService,
         UserManager<IdentityUser<int>> userManager,
-        ICityService cityService)
+        ICityService cityService,
+        IWebHostEnvironment webHostEnvironment)
     {
         _costumerService = costumerService;
         _userManager = userManager;
         _cityService = cityService;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public async Task<int> AddAsync(CostumerDto costumerDto)
@@ -145,5 +151,41 @@ public class CostumerAppService : ICostumerAppService
         record.ConfirmDateTime = DateTimeOffset.Now;
 
         await _costumerService.UpdateAsync(record);
+    }
+    public async Task EditPictureAsync(CostumerDto costumerDto)
+    {
+        var record = await _costumerService.GetByIdAsync(costumerDto.Id);
+
+        if (costumerDto.PictureFile != null)
+        {
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+            string uniqueFileName = Guid.NewGuid() + "_" + costumerDto.PictureFile.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            await using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await costumerDto.PictureFile.CopyToAsync(fileStream);
+            }
+            if (record.PictureFilePath is not null)
+            {
+                var oldFilePath = Path.Join(_webHostEnvironment.WebRootPath, record.PictureFilePath);
+                File.Delete(oldFilePath);
+            }
+
+            record.PictureFilePath = @"/Images/" + uniqueFileName;
+
+            await _costumerService.UpdateAsync(record);
+
+            return;
+        }
+
+        if (record.PictureFilePath is not null)
+        {
+            var oldFilePath = Path.Join(_webHostEnvironment.WebRootPath, record.PictureFilePath);
+            File.Delete(oldFilePath);
+            record.PictureFilePath = null;
+
+            await _costumerService.UpdateAsync(record);
+        }
+
     }
 }

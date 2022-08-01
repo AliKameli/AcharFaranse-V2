@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using App.Domain.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace App.Domain.Common;
@@ -53,6 +54,8 @@ public abstract class BaseUserDto : BaseEntityDto<int>
     [Display(Name = "آدرس تصویر ذخیره شده")]
     public string? PictureFilePath { get; set; }
 
+    [DataType(DataType.Upload)]
+    [FileValidationForPicture("فرمت قابل قبول نیست")]
     [Display(Name = "تصویر")]
     public IFormFile? PictureFile { get; set; }
 

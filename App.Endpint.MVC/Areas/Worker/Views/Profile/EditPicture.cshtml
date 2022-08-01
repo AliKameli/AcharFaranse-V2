@@ -1,0 +1,29 @@
+﻿@model App.Domain.Dtos.WorkerDto
+
+@{
+	ViewData["Title"] = "تغییر عکس";
+}
+<h3>تغییر عکس</h3>
+<br>
+
+<form enctype="multipart/form-data" asp-action="EditPicture" formmethod="post" asp-route-workerId="@Model.Id">
+	<div class="form-group">
+		<label asp-for="PictureFile" class="control-label"></label>
+		<input asp-for="PictureFile" class="form-control form-control-lg custom-file-input" id="customFile" type="file">
+		<br/>
+		<span asp-validation-for="PictureFile" class="text-danger"></span>
+	</div>
+	<div style="float: left; margin-top: 5px;">
+		<button type="submit" class="btn btn-primary">ذخیره</button>
+		<a class="btn btn-secondary" asp-action="Index">انصراف</a>
+	</div>
+
+</form>
+
+@section Scripts{
+	<partial name="_ValidationScriptsPartial"/>
+	<script type="text/javascript">
+		// Add the following code if you want the name of the file appear on select
+
+	</script>
+}

@@ -1,10 +1,13 @@
-﻿@using App.Endpoint.MVC.Areas.Admin.Models.Enum
-@using App.Endpoint.MVC.Areas.Admin.ViewComponents
+﻿@using App.Endpoint.MVC.Areas.Admin.ViewComponents
+@using App.EndPoint.MVC.Areas.Costumer.ViewComponents
+@using App.EndPoint.MVC.Models.Enum
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model App.Domain.Dtos.JobDto
 
 @{
-	ViewData["Title"] = "View";
+	ViewData["Title"] = "جزئیات کار";
+
+	var pageType = (DetailPageTypeEnum)(ViewData["PageType"] ??= DetailPageTypeEnum.None);
 }
 
 <h1>View</h1>
@@ -148,13 +151,29 @@
 		</div>
 	</div>
 	<div class="col">
-		<br />
-		<h3>لیست عکس‌ها</h3>
-		<br />
-		<a class="btn btn-info" asp-action="AddPicture" asp-route-jobId="@Model.Id">
-			عکس جدید
-		</a>
-		<br />
-		@await Component.InvokeAsync("JobPicture",new {jobId=Model.Id})
+		<nav>
+			<ul class="pagination">
+				<li class="page-item">
+					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Comments">کامنت‌ها</a>
+				</li>
+				<li class="page-item">
+					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Pictures">عکسها</a>
+				</li>
+			</ul>
+		</nav>
+		@if (pageType is DetailPageTypeEnum.Comments)
+		{
+			@await Component.InvokeAsync(typeof(CostumerJobCommentViewComponent), new
+			{
+				jobId = Model.Id
+			})
+		}
+		else if (pageType is DetailPageTypeEnum.Pictures)
+		{
+			@await Component.InvokeAsync(typeof(CostumerJobPictureViewComponent), new
+			{
+				jobId = Model.Id
+			})
+		}
 	</div>
 </div>

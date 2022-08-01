@@ -26,6 +26,7 @@
 			<th scope="col">توضیحات</th>
 			<th scope="col">نام کارمند</th>
 			<th scope="col">وضعیت</th>
+			<th scope="col">نوع پرداخت</th>
 			<th scope="col"></th>
 		</tr>
 	</thead>
@@ -39,6 +40,7 @@
 				<td>@job.Description</td>
 				<td>@job.WorkerName</td>
 				<td>@Html.DisplayFor(x => job.JobStatus)</td>
+				<td>@(job.IsOnlinePayment ? "آنلاین" : "نقدی")</td>
 				<td class="d-flex justify-content-end">
 					@if (job.JobStatus == JobStatusEnum.RequestedByCostumer)
 					{
@@ -47,6 +49,10 @@
 						</a>
 						<text>&nbsp;|&nbsp;</text>
 					}
+					<a class="btn btn-success" asp-action="ChangePaymentMethod" asp-route-Id="@job.Id">
+						تغییر نوع پرداخت
+					</a>
+					&nbsp;|&nbsp;
 					<a class="btn btn-success" asp-action="Details" asp-route-Id="@job.Id">
 						جزئیات
 					</a>

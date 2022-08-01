@@ -111,28 +111,39 @@ public class AccountController : Controller
         return View(model);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> WorkerRegister()
+    {
+        ViewData["Cities"] = new List<CityDto>(await _cityAppService.GetAllAsync());
+
+        var model = new WorkerDto();
+
+        return View(model);
+    }
+
     [HttpPost]
     public async Task<IActionResult> WorkerRegister(WorkerDto model)
     {
         if (ModelState.IsValid)
-        {
-            var user = new IdentityUser<int>
+            try
             {
-                UserName = model.Email,
-                Email = model.Email
-            };
+                await _workerAppService.AddAsync(model);
 
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                //await _userManager.AddToRoleAsync(user, "CustomerRole");
-                await _signInManager.SignInAsync(user, false);
-
-                return LocalRedirect("~/");
+                return await Login(new LoginViewModel
+                {
+                    UserName = model.Email,
+                    Password = model.Password,
+                    RememberMe = false
+                });
             }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("internalMessage", $"خطا ! {e.Message}");
+            }
+        else
+            ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
 
-            foreach (var item in result.Errors) ModelState.AddModelError(string.Empty, item.Description);
-        }
+        ViewData["Cities"] = new List<CityDto>(await _cityAppService.GetAllAsync());
 
         return View(model);
     }

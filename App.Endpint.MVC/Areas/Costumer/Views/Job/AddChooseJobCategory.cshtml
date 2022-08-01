@@ -1,13 +1,9 @@
-﻿@model List<App.Domain.Dtos.JobCategoryDto>
-@{
+﻿@{
 	ViewData["Title"] = "سفارش جدید";
 }
 <br/>
 <h2>دسته بندی سفارش را انتخاب کنید</h2>
 <br/>
 <div class="container-fluid">
-@await Component.InvokeAsync("CostumerJobCatChoose",new
-							{
-								jobCategories = Model,
-							})
+@await Component.InvokeAsync("CostumerJobCatChoose")
 </div>

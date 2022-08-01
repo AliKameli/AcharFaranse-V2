@@ -55,7 +55,7 @@ public class JobAppService : IJobAppService
         }
         else
         {
-            if (job.JobStatus == JobStatusEnum.RequestedByCostumer)
+            if (job.JobStatus is JobStatusEnum.RequestedByCostumer or JobStatusEnum.WorkerChosenByCostumer)
             {
                 await _jobService.DeleteAsync(jobId);
             }
@@ -65,7 +65,24 @@ public class JobAppService : IJobAppService
             }
         }
     }
+    public async Task ChangePaymentMethod(int jobId)
+    {
 
+        var job = await _jobService.GetByIdAsync(jobId);
+
+
+        if (job.IsClosed)
+        {
+            throw new Exception("این کار بسته شده است");
+        }
+        else
+        {
+            job.IsOnlinePayment = !job.IsOnlinePayment;
+
+            await _jobService.UpdateAsync(job);
+        }
+
+    }
     public async Task<List<JobDto>> GetAllAsync()
     {
         return await _jobService.GetAllAsync();

@@ -10,7 +10,7 @@
 	@if (SignInManager.IsSignedIn(User))
 	{
 		<li class="nav-item">
-			<a class="nav-link text-light" asp-controller="Account" asp-action="Manage" title="Manage">
+			<a class="nav-link " asp-controller="Profile" asp-action="Index">
 				سلام 
 				@{
 					var user = await UserManager.FindByNameAsync(User.Identity?.Name);
@@ -35,17 +35,17 @@
 		</li>
 		<li class="nav-item">
 			<form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout">
-				<button type="submit" class="nav-link btn btn-link text-light">خروج</button>
+				<button type="submit" class="btn btn-warning ">خروج</button>
 			</form>
 		</li>
 	}
 	else
 	{
 		<li class="nav-item">
-			<a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">ثبت نام</a>
+			<a class="nav-link " asp-area="" asp-controller="Account" asp-action="Register">ثبت نام</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
+			<a class="nav-link " asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
 		</li>
 	}
 </ul>

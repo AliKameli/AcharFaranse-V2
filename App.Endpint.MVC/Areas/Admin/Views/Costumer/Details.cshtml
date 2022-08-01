@@ -1,5 +1,5 @@
-﻿@using App.Endpoint.MVC.Areas.Admin.Models.Enum
-@using App.Endpoint.MVC.Areas.Admin.ViewComponents
+﻿@using App.Endpoint.MVC.Areas.Admin.ViewComponents
+@using App.EndPoint.MVC.Models.Enum
 @model App.Domain.Dtos.CostumerDto
 
 @{
@@ -88,7 +88,7 @@
 			, new
 			{
 				id = Model.Id,
-				pageType
+				pageType=pageType
 			})
 	</div>
 </div>

@@ -1,16 +1,15 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
-using App.Endpoint.MVC.Areas.Admin.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoint.MVC.Areas.Costumer.ViewComponents;
 
 [Area("Costumer")]
-public class JobPictureViewComponent : ViewComponent
+public class CostumerJobPictureViewComponent : ViewComponent
 {
     private readonly IJobPictureAppService _jobPictureAppService;
 
-    public JobPictureViewComponent(IJobPictureAppService jobPictureAppService)
+    public CostumerJobPictureViewComponent(IJobPictureAppService jobPictureAppService)
     {
         _jobPictureAppService = jobPictureAppService;
     }
@@ -18,6 +17,8 @@ public class JobPictureViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(int jobId)
     {
         var model = new List<JobPictureDto>(await _jobPictureAppService.GetByJobIdAsync(jobId));
+
+        ViewData["JobId"] = jobId;
 
         return View(model);
     }

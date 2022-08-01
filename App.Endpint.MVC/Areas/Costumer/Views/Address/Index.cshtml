@@ -1,0 +1,80 @@
+﻿@using App.Domain.Dtos
+@using App.Domain.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<App.Domain.Dtos.CostumerAddressDto>
+
+@{
+	ViewData["Title"] = "لیست آدرس‌ها";
+}
+<br />
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-auto">
+			<h3>لیست آدرس‌ها</h3>
+		</div>
+		<div class="col-md-auto me-auto">
+			<a class="btn btn-info" asp-action="Add">
+				آدرس جدید
+			</a>
+		</div>
+	</div>
+</div>
+
+<br />
+
+<table class="table table-striped ">
+	<thead>
+		<tr>
+			<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.Name)</th>
+			<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.CityName)</th>
+			<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.FullAddress)</th>
+			<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.ReceivingPersonFullName)</th>
+			<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.ReceivingPersonPhoneNumber)</th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var address in Model)
+		{
+			<tr>
+				<th scope="row">
+					@address.Name
+				</th>
+				<td>@address.CityName</td>
+				<td>@address.FullAddress</td>
+				<td>@address.ReceivingPersonFullName</td>
+				<td>@address.ReceivingPersonPhoneNumber</td>
+				<td class="d-flex justify-content-end">
+					<a class="btn btn-warning" asp-action="Edit" asp-route-Id="@address.Id">
+						ویرایش
+					</a>
+					&nbsp;|&nbsp;
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal" + address.Id))">
+						حذف
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="@(new string(@"Modal" + address.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+								</div>
+								<div class="modal-body">
+									آیا از حذف اطمینان دارید ؟
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+									<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@address.Id">
+										حذف
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

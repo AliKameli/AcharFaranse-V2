@@ -28,6 +28,15 @@
 		<br />
 		<span asp-validation-for="JobStartTimeRequestedByUserDateTime" class="text-danger"></span>
 	</div>
+	<div class="row">
+		<div class="col-auto">
+			<div class="form-check">
+				<label asp-for="IsOnlinePayment" class="form-check-label"></label>
+				<input asp-for="IsOnlinePayment" class="form-check-input" type="checkbox" value="True"/>
+			</div>
+		</div>
+	</div>
+	<br/>
 	<div class="form-group">
 		<label>آدرس سفارش</label>
 		@foreach (var address in addresses)

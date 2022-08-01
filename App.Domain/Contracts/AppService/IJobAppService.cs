@@ -14,4 +14,5 @@ public interface IJobAppService
     Task<List<JobDto>> GetByWorkerIdAsync(int workerId);
     Task<List<JobDto>> GetByCityIdAsync(int cityId);
     Task<List<JobDto>> GetByUserNameAsync(string userName);
+    Task ChangePaymentMethod(int jobId);
 }

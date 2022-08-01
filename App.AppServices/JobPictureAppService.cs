@@ -31,19 +31,18 @@ public class JobPictureAppService : IJobPictureAppService
     public async Task<int> AddAsync(JobPictureDto jobPictureDto)
     {
         await (jobPictureDto.UserType == UserTypeEnum.Customer
-            ? _costumerService.EnsureExistsByIdAsync((int) jobPictureDto.CostumerId!)
-            : _workerService.EnsureExistsByIdAsync((int) jobPictureDto.WorkerId!));
+            ? _costumerService.EnsureExistsByIdAsync((int)jobPictureDto.CostumerId!)
+            : _workerService.EnsureExistsByIdAsync((int)jobPictureDto.WorkerId!));
 
         await _jobService.EnsureExistsByIdAsync(jobPictureDto.JobId);
 
-        var uniqueFileName = string.Empty;
 
         if (jobPictureDto.PictureFile != null)
         {
             var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
-            uniqueFileName = Guid.NewGuid() + "_" + jobPictureDto.PictureFile.FileName;
+            string uniqueFileName = Guid.NewGuid() + "_" + jobPictureDto.PictureFile.FileName;
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            await using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await jobPictureDto.PictureFile.CopyToAsync(fileStream);
             }
