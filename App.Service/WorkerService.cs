@@ -307,4 +307,43 @@ public class WorkerService : IWorkerService
 
         return records;
     }
+
+    public async Task<bool> IsInJobCategory(int workerId, int jobCategoryId)
+    {
+        var result = await _dbContext.JobCategories.Where(x => x.Id == jobCategoryId)
+            .AnyAsync(x => x.Workers.Any(y => y.Id == workerId));
+
+        return result;
+    }
+
+    public async Task AddToJobCategory(int workerId, int jobCategoryId)
+    {
+        if (await IsInJobCategory(workerId,jobCategoryId))
+        {
+            throw new Exception("کارمند در این دسته‌بندی قرار دارد");
+        }
+
+        await _dbContext.JobCategoryWorkers.AddAsync(new JobCategoryWorker
+        {
+            JobCategoryId = jobCategoryId,
+            WorkerId = workerId,
+        });
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteFromJobCategory(int workerId, int jobCategoryId)
+    {
+        if (!await IsInJobCategory(workerId, jobCategoryId))
+        {
+            throw new Exception("کارمند در این دسته‌بندی قرار ندارد");
+        }
+
+        _dbContext.JobCategoryWorkers.Remove(
+            await _dbContext.JobCategoryWorkers
+                .FirstAsync(x =>
+                x.WorkerId == workerId && 
+                x.JobCategoryId == jobCategoryId));
+
+        await _dbContext.SaveChangesAsync();
+    }
 }

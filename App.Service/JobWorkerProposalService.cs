@@ -81,15 +81,16 @@ public class JobWorkerProposalService : IJobWorkerProposalService
     public async Task<List<JobWorkerProposalDto>> GetAllAsync()
     {
         var records = await _dbContext.JobWorkerProposals.Select(x => new JobWorkerProposalDto
-        {
-            Id = x.Id,
-            CreationDateTime = x.CreationDateTime,
-            ProposedPrice = x.ProposedPrice,
-            WorkerComment = x.WorkerComment,
-            JobId = x.JobId,
-            WorkerId = x.WorkerId,
-            WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
-        })
+            {
+                Id = x.Id,
+                CreationDateTime = x.CreationDateTime,
+                ProposedPrice = x.ProposedPrice,
+                WorkerComment = x.WorkerComment,
+                JobId = x.JobId,
+                WorkerId = x.WorkerId,
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName,
+                ProposalStatus = x.ProposalStatus
+            })
             .ToListAsync();
 
         return records;
@@ -108,7 +109,8 @@ public class JobWorkerProposalService : IJobWorkerProposalService
                 WorkerComment = x.WorkerComment,
                 JobId = x.JobId,
                 WorkerId = x.WorkerId,
-                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName,
+                ProposalStatus = x.ProposalStatus
             })
             .FirstAsync(x => x.Id == jobWorkerProposalId);
 
@@ -127,7 +129,8 @@ public class JobWorkerProposalService : IJobWorkerProposalService
                 WorkerComment = x.WorkerComment,
                 JobId = x.JobId,
                 WorkerId = x.WorkerId,
-                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName,
+                ProposalStatus = x.ProposalStatus
             })
             .ToListAsync();
 
@@ -146,7 +149,8 @@ public class JobWorkerProposalService : IJobWorkerProposalService
                 WorkerComment = x.WorkerComment,
                 JobId = x.JobId,
                 WorkerId = x.WorkerId,
-                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName,
+                ProposalStatus = x.ProposalStatus
             })
             .ToListAsync();
 

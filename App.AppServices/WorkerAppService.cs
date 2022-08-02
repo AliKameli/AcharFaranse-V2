@@ -12,16 +12,19 @@ public class WorkerAppService : IWorkerAppService
     private readonly UserManager<IdentityUser<int>> _userManager;
     private readonly IWorkerService _workerService;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IJobCategoryService _jobCategoryService;
 
     public WorkerAppService(IWorkerService workerService,
         UserManager<IdentityUser<int>> userManager,
         ICityService cityService,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        IJobCategoryService jobCategoryService)
     {
         _workerService = workerService;
         _userManager = userManager;
         _cityService = cityService;
         _webHostEnvironment = webHostEnvironment;
+        _jobCategoryService = jobCategoryService;
     }
 
     public async Task<int> AddAsync(WorkerDto workerDto)
@@ -191,5 +194,19 @@ public class WorkerAppService : IWorkerAppService
 
             await _workerService.UpdateAsync(record);
         }
+    }
+
+    public async Task AddToJobCategory(int workerId, int jobCategoryId)
+    {
+        await _workerService.EnsureExistsByIdAsync(workerId);
+        await _jobCategoryService.EnsureExistsByIdAsync(jobCategoryId);
+        await _workerService.AddToJobCategory(workerId, jobCategoryId);
+    }
+
+    public async Task DeleteFromJobCategory(int workerId, int jobCategoryId)
+    {
+        await _workerService.EnsureExistsByIdAsync(workerId);
+        await _jobCategoryService.EnsureExistsByIdAsync(jobCategoryId);
+        await _workerService.DeleteFromJobCategory(workerId, jobCategoryId);
     }
 }

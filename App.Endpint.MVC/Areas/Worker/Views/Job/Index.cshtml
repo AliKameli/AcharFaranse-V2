@@ -10,7 +10,7 @@
 			<h3>لیست کار‌ها</h3>
 		</div>
 		<div class="col-md-auto me-auto">
-			<a class="btn btn-info" asp-action="AddChooseJobCategory">
+			<a class="btn btn-info" asp-action="AvailableJobs">
 				کار جدید
 			</a>
 		</div>
@@ -24,7 +24,7 @@
 		<tr>
 			<th scope="col">دسته بندی</th>
 			<th scope="col">توضیحات</th>
-			<th scope="col">نام کارمند</th>
+			<th scope="col">نام مشتری</th>
 			<th scope="col">وضعیت</th>
 			<th scope="col">نوع پرداخت</th>
 			<th scope="col"></th>
@@ -38,7 +38,7 @@
 					@job.JobCategoryName
 				</th>
 				<td>@job.Description</td>
-				<td>@job.WorkerName</td>
+				<td>@job.CostumerName</td>
 				<td>@Html.DisplayFor(x => job.JobStatus)</td>
 				<td>@(job.IsOnlinePayment ? "آنلاین" : "نقدی")</td>
 				<td class="d-flex justify-content-end">

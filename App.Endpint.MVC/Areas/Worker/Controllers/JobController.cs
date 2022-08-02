@@ -66,112 +66,11 @@ public class JobController : Controller
         var model = await _jobAppService.GetByIdAsync(id);
 
         ViewData["PageType"] = pageType;
+        ViewData["Address"] = (await _costumerAddressAppService.GetByIdAsync(model.CostumerAddressId)).FullAddress;
 
         return View(model);
 
     }
-
-    public ActionResult AddChooseJobCategory()
-    {
-        
-        return View();
-    }
-
-    [HttpGet]
-    public async Task<ActionResult> Add(int jobCatId)
-    {
-        var model = new JobDto()
-        {
-            JobCategoryId = jobCatId
-        };
-        var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
-        int userId = user.Id;
-        ViewData["Addresses"] = new List<CostumerAddressDto>(await _costumerAddressAppService.GetByCostumerIdAsync(userId));
-
-        return View(model);
-    }
-
-    [HttpPost]
-    public async Task<ActionResult> Add(JobDto model, int jobCatId)
-    {
-        var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
-        int userId = user.Id;
-        model.JobCategoryId = jobCatId;
-        if (ModelState.IsValid)
-            try
-            {
-                model.CostumerId = userId;
-                model.JobCityId = _costumerAddressAppService.GetByIdAsync(model.CostumerAddressId).GetAwaiter().GetResult().CityId;
-                await _jobAppService.AddAsync(model);
-
-                return RedirectToAction(nameof(Index)
-                    , new { internalMessage = "با موفقیت ایجاد شد" });
-            }
-            catch (Exception e)
-            {
-                TempData.Keep();
-                ModelState.AddModelError("internalMessage", $"خطا ! {e.Message}");
-            }
-        else
-            ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
-
-        ViewData["Addresses"] = new List<CostumerAddressDto>(await _costumerAddressAppService.GetByCostumerIdAsync(userId));
-        return View(model);
-    }
-
-    public async Task<ActionResult> Delete(int id)
-    {
-        try
-        {
-            await _jobAppService.DeleteAsync(id, User?.Identity?.Name!);
-
-            return RedirectToAction(nameof(Index)
-                , new { internalMessage = "با موفقیت حذف شد" });
-        }
-        catch (Exception e)
-        {
-            return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
-        }
-    }
-    public async Task<ActionResult> ChangePaymentMethod(int id)
-    {
-        try
-        {
-            await _jobAppService.ChangePaymentMethod(id);
-
-            return RedirectToAction(nameof(Index)
-                , new { internalMessage = "با موفقیت تغییر کرد شد" });
-        }
-        catch (Exception e)
-        {
-            return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
-        }
-    }
-    public async Task<ActionResult> Proposals(int jobId)
-    {
-        var model = await _jobWorkerProposalAppService.GetByJobIdAsync(jobId);
-
-        return View(model);
-    }
-
-    public async Task<ActionResult> AcceptProposal(int proposalId)
-    {
-        try
-        {
-            await _jobWorkerProposalAppService.AcceptAsync(proposalId);
-
-            return RedirectToAction(nameof(Index)
-                , new { internalMessage = "پیشنهاد با موفقیت انتخاب شد" });
-        }
-        catch (Exception e)
-        {
-            return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
-        }
-    }
-
     public async Task<ActionResult> DeletePicture(int pictureId)
     {
         try
@@ -206,8 +105,8 @@ public class JobController : Controller
             {
                 var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
                 int userId = user.Id;
-                model.CostumerId = userId;
-                model.UserType = UserTypeEnum.Customer;
+                model.WorkerId = userId;
+                model.UserType = UserTypeEnum.Worker;
                 await _jobPictureAppService.AddAsync(model);
 
                 return RedirectToAction(nameof(Details)
@@ -260,8 +159,8 @@ public class JobController : Controller
             {
                 var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
                 int userId = user.Id;
-                model.CostumerId = userId;
-                model.UserType = UserTypeEnum.Customer;
+                model.WorkerId = userId;
+                model.UserType = UserTypeEnum.Worker;
                 await _commentAppService.AddAsync(model);
 
                 return RedirectToAction(nameof(Details)
@@ -277,6 +176,15 @@ public class JobController : Controller
             }
         else
             ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
+
+        return View(model);
+    }
+
+    public async Task<IActionResult> AvailableJobs()
+    {
+        var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
+        int userId = user.Id;
+        var model = await _jobAppService.GetAvailableJobsForWorkerAsync(userId);
 
         return View(model);
     }

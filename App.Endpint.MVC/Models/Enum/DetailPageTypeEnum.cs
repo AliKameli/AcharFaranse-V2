@@ -6,5 +6,6 @@ public enum DetailPageTypeEnum
     Addresses = 1,
     Comments = 2,
     Pictures = 3,
-    Jobs = 4
+    Jobs = 4,
+    Proposals = 5
 }

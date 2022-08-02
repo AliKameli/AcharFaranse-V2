@@ -15,4 +15,6 @@ public interface IWorkerAppService
     Task<List<WorkerDto>> SearchAsync(string? name = null, string? nationalId = null);
     Task ConfirmAsync(int workerId);
     Task EditPictureAsync(WorkerDto workerDto);
+    Task AddToJobCategory(int workerId, int jobCategoryId);
+    Task DeleteFromJobCategory(int workerId, int jobCategoryId);
 }

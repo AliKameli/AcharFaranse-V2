@@ -1,16 +1,19 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
+using App.Domain.Enums;
 
 namespace App.AppServices;
 
 public class JobWorkerProposalAppService : IJobWorkerProposalAppService
 {
     private readonly IJobWorkerProposalService _jobWorkerProposalService;
+    private readonly IJobService _jobService;
 
-    public JobWorkerProposalAppService(IJobWorkerProposalService jobWorkerProposalService)
+    public JobWorkerProposalAppService(IJobWorkerProposalService jobWorkerProposalService, IJobService jobService)
     {
         _jobWorkerProposalService = jobWorkerProposalService;
+        _jobService = jobService;
     }
 
     public async Task<int> AddAsync(JobWorkerProposalDto jobWorkerProposalDto)
@@ -20,7 +23,15 @@ public class JobWorkerProposalAppService : IJobWorkerProposalAppService
 
     public async Task DeleteAsync(int jobWorkerProposalId)
     {
-        await _jobWorkerProposalService.DeleteAsync(jobWorkerProposalId);
+        var record = await _jobWorkerProposalService.GetByIdAsync(jobWorkerProposalId);
+        if ((await _jobService.GetByIdAsync(record.JobId)).JobStatus == JobStatusEnum.RequestedByCostumer)
+        {
+            await _jobWorkerProposalService.DeleteAsync(jobWorkerProposalId);
+        }
+        else
+        {
+            throw new Exception("این پیشنهاد قیمت پذیرفته شده است و قابل حذف نیست");
+        }
     }
 
     public async Task<List<JobWorkerProposalDto>> GetAllAsync()

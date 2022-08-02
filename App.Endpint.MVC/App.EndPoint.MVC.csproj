@@ -10,6 +10,7 @@
     <Content Remove="Areas\Costumer\Views\Shared\Error.cshtml" />
     <Content Remove="Areas\Costumer\Views\_ViewImports.cshtml" />
     <Content Remove="Areas\Costumer\Views\_ViewStart.cshtml" />
+    <Content Remove="Areas\Worker\Views\JobCategory\Index.cshtml" />
     <Content Remove="Areas\Worker\Views\Shared\Error.cshtml" />
     <Content Remove="Areas\Worker\Views\_ViewImports.cshtml" />
     <Content Remove="Areas\Worker\Views\_ViewStart.cshtml" />
@@ -28,6 +29,7 @@
     <None Include="Areas\Costumer\Views\Shared\Error.cshtml" />
     <None Include="Areas\Costumer\Views\_ViewImports.cshtml" />
     <None Include="Areas\Costumer\Views\_ViewStart.cshtml" />
+    <None Include="Areas\Worker\Views\JobCategory\Index.cshtml" />
     <None Include="Areas\Worker\Views\Shared\Error.cshtml" />
     <None Include="Areas\Worker\Views\_ViewImports.cshtml" />
     <None Include="Areas\Worker\Views\_ViewStart.cshtml" />
@@ -107,6 +109,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Worker\Models\" />
     <Folder Include="Models\Enum\" />
     <Folder Include="Areas\Admin\Views\Comment\" />
@@ -125,6 +128,8 @@
     <_ContentIncludedByDefault Remove="Areas\Costumer\Views\Job\Add.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Costumer\Views\Job\AddComment.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Costumer\Views\Profile\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Worker\Views\Proposal\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Worker\Views\Job\AvailableJobs.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -180,15 +185,15 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Areas\Worker\Views\Shared\Components\CostumerJobCatChoose\Default.cshtml">
+    <Content Update="Areas\Worker\Views\Shared\Components\WorkerJobCatChoose\Default.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Areas\Worker\Views\Shared\Components\CostumerJobComment\Default.cshtml">
+    <Content Update="Areas\Worker\Views\Shared\Components\WorkerJobComment\Default.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Areas\Worker\Views\Shared\Components\CostumerJobPicture\Default.cshtml">
+    <Content Update="Areas\Worker\Views\Shared\Components\WorkerJobPicture\Default.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -200,6 +205,14 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Areas\Costumer\Views\Address\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Worker\Views\Job\AvailableJobs.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Worker\Views\Proposal\Index.cshtml" />
   </ItemGroup>
 
 </Project>

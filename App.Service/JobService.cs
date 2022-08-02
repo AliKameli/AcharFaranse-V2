@@ -423,4 +423,54 @@ public class JobService : IJobService
             .ToListAsync();
         return records;
     }
+
+    public async Task<List<JobDto>> GetAvailableJobsForWorkerAsync(int workerId)
+    {
+        var records = await _dbContext.Jobs
+            .Where(x=>x.JobStatus == JobStatusEnum.RequestedByCostumer)
+            .Where(x=>x.JobCity!.Workers.Any(y => y.Id == workerId))
+            .Where(x => x.JobCategory!.Workers.Any(y => y.Id == workerId))
+            .Select(x => new JobDto
+            {
+                Id = x.Id,
+                CreationDateTime = x.CreationDateTime,
+                LastUpdateDateTime = x.LastUpdateDateTime,
+                Description = x.Description,
+                OnlinePaymentReceiptInfo = x.OnlinePaymentReceiptInfo,
+                IsClosed = x.IsClosed,
+                IsOnlinePayment = x.IsOnlinePayment,
+                IsPictureAttached = x.IsPictureAttached,
+                JobStartTimeRequestedByUserDateTime = x.JobStartTimeRequestedByUserDateTime,
+                JobAcceptedByWorkerDateTime = x.JobAcceptedByWorkerDateTime,
+                JobStartedByWorkerDateTime = x.JobStartedByWorkerDateTime,
+                JobClosedDateTime = x.JobClosedDateTime,
+                JobStatus = x.JobStatus,
+                CostumerRatingForWorker = x.CostumerRatingForWorker,
+                WorkerRatingForCostumer = x.WorkerRatingForCostumer,
+                CostumerEstimatedFinalCost = x.CostumerEstimatedFinalCost,
+                WageCost = x.WageCost,
+                MaterialCost = x.MaterialCost,
+                CompanyProfit = x.CompanyProfit,
+                FinalCost = x.FinalCost,
+                CostumerName = x.Costumer!.FirstName + ' ' + x.Costumer.LastName,
+                WorkerName = x.Worker != null ? x.Worker.FirstName + ' ' + x.Worker.LastName : null,
+                CostumerAddressName = x.CostumerAddress!.Name,
+                JobCategoryName = x.JobCategory!.Name,
+                JobCityName = x.JobCity!.Name,
+                CostumerId = x.CostumerId,
+                JobCityId = x.JobCityId,
+                JobCategoryId = x.JobCategoryId,
+                CostumerAddressId = x.CostumerAddressId,
+                WorkerId = x.WorkerId,
+                CostumerCommentId = x.Comments.Where(y => y.UserType == UserTypeEnum.Customer)
+                    .Select(y => y.Id)
+                    .First(),
+                WorkerCommentId = x.Comments.Where(y => y.UserType == UserTypeEnum.Worker)
+                    .Select(y => y.Id)
+                    .First()
+            })
+            .ToListAsync();
+
+        return records;
+    }
 }

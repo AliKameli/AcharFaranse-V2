@@ -116,4 +116,10 @@ public class JobAppService : IJobAppService
     {
         return await _jobService.GetByUserNameAsync(userName);
     }
+    public async Task<List<JobDto>> GetAvailableJobsForWorkerAsync(int workerId)
+    {
+        await _workerService.EnsureExistsByIdAsync(workerId);
+
+        return await _jobService.GetAvailableJobsForWorkerAsync(workerId);
+    }
 }

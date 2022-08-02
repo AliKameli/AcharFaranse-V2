@@ -15,4 +15,5 @@ public interface IJobService
     Task<List<JobDto>> GetByWorkerIdAsync(int workerId);
     Task<List<JobDto>> GetByCityIdAsync(int cityId);
     Task<List<JobDto>> GetByUserNameAsync(string userName);
+    Task<List<JobDto>> GetAvailableJobsForWorkerAsync(int workerId);
 }

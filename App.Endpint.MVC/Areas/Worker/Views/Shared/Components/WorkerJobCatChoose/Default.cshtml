@@ -24,7 +24,7 @@
 							<p class="card-text">Atonement they blazon neer alas bade none will to none bower honeyed fabled than go in wins was him cheer who fabled deem and his at to deemed heavenly mirthful @category.Description</p>
 							@if (Model.Any(x => x.ParentJobCategoryId == category.Id))
 							{
-								@await Component.InvokeAsync("CostumerJobCatChoose", new
+								@await Component.InvokeAsync("WorkerJobCatChoose", new
 						{
 						jobCategories = Model,
 						parentId = category.Id
@@ -32,7 +32,7 @@
 							}
 							else
 							{
-								<a class="btn btn-info" asp-area="Costumer" asp-controller="Job" asp-action="Add" asp-route-jobCatId="@category.Id">انتخاب</a>
+								<a class="btn btn-info" asp-area="Worker" asp-controller="JobCategory" asp-action="Add" asp-route-jobCatId="@category.Id">انتخاب</a>
 							}
 						</div>
 					</div>

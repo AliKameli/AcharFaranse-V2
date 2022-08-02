@@ -8,6 +8,7 @@
 	ViewData["Title"] = "جزئیات کار";
 
 	var pageType = (DetailPageTypeEnum)(ViewData["PageType"] ??= DetailPageTypeEnum.None);
+    var address = ViewData["Address"] as string;
 }
 
 <h1>View</h1>
@@ -120,9 +121,9 @@
 					@Html.DisplayFor(model => model.WorkerName)
 				</li>
 				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.CostumerAddressName)
+					آدرس انجام کار
 					:
-					@Html.DisplayFor(model => model.CostumerAddressName)
+					@address
 				</li>
 				<li class="list-group-item">
 					@Html.DisplayNameFor(model => model.JobCategoryName)
@@ -156,9 +157,12 @@
 				<li class="page-item">
 					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Comments">کامنت‌ها</a>
 				</li>
-				<li class="page-item">
-					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Pictures">عکسها</a>
-				</li>
+                <li class="page-item">
+                    <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Pictures">عکسها</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Proposals">پیشنهاد‌های قیمت</a>
+                </li>
 			</ul>
 		</nav>
 		@if (pageType is DetailPageTypeEnum.Comments)
@@ -174,6 +178,13 @@
 			{
 				jobId = Model.Id
 			})
+		}
+		else if (pageType is DetailPageTypeEnum.Proposals)
+		{
+		    @await Component.InvokeAsync(typeof(WorkerJobProposalViewComponent), new
+		    {
+		        jobId = Model.Id
+		    })
 		}
 	</div>
 </div>

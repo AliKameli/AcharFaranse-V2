@@ -1,15 +1,20 @@
-﻿@using App.Domain.Enums
+﻿@inject IJobAppService _JobAppService
+@using App.Domain.Enums
+@using App.Domain.Contracts.AppService
 @model List<App.Domain.Dtos.JobPictureDto>
 @{
-	var jobId = (int)(ViewData["PageType"]!);
+	var jobId = (int)(ViewData["JobId"]!);
 }
 <br />
 <h3>لیست عکس‌ها</h3>
 <br />
-<a class="btn btn-info" asp-action="AddPicture" asp-route-jobId="@jobId">
-	عکس جدید
-</a>
-<br />
+@if ((await _JobAppService.GetByIdAsync(jobId)).JobStatus != JobStatusEnum.RequestedByCostumer)
+{
+	<a class="btn btn-info" asp-action="AddPicture" asp-route-jobId="@jobId">
+		عکس جدید
+	</a>
+	<br/>
+}
 <table class="table table-striped ">
 	<thead>
 	<tr>

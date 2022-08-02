@@ -1,11 +1,14 @@
-﻿@model List<App.Domain.Dtos.CommentDto>
+﻿@inject IJobAppService _JobAppService
+@using App.Domain.Contracts.AppService
+@using App.Domain.Enums
+@model List<App.Domain.Dtos.CommentDto>
 @{
-	var jobId = (int) (ViewData["PageType"]!);
+	var jobId = (int) (ViewData["JobId"]!);
 }
 <br/>
 <h3>لیست کامنت‌ها</h3>
 <br/>
-@if (Model.All(x => x.CostumerId == null))
+@if ((await _JobAppService.GetByIdAsync(jobId)).JobStatus != JobStatusEnum.RequestedByCostumer)
 {
 	<a class="btn btn-info" asp-action="AddComment" asp-route-jobId="@jobId">
 		اضافه کردن کامنت
