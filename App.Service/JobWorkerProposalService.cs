@@ -64,6 +64,7 @@ public class JobWorkerProposalService : IJobWorkerProposalService
             );
         record.ProposalStatus = ProposalStatusEnum.AcceptedByCostumer;
         job.JobStatus = JobStatusEnum.WorkerChosenByCostumer;
+        job.WorkerId = record.WorkerId;
 
         await _dbContext.SaveChangesAsync();
     }
