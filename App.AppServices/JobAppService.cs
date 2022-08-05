@@ -14,13 +14,15 @@ public class JobAppService : IJobAppService
     private readonly IJobService _jobService;
     private readonly IWorkerService _workerService;
     private readonly UserManager<IdentityUser<int>> _userManager;
+    private readonly IJobPictureAppService _jobPictureAppService;
 
     public JobAppService(IJobService jobService,
         ICostumerService costumerService,
         ICostumerAddressService costumerAddressService,
         ICityService cityService,
         IWorkerService workerService,
-        UserManager<IdentityUser<int>> userManager)
+        UserManager<IdentityUser<int>> userManager,
+        IJobPictureAppService jobPictureAppService)
     {
         _jobService = jobService;
         _costumerService = costumerService;
@@ -28,6 +30,7 @@ public class JobAppService : IJobAppService
         _cityService = cityService;
         _workerService = workerService;
         _userManager = userManager;
+        _jobPictureAppService = jobPictureAppService;
     }
 
 
@@ -57,6 +60,11 @@ public class JobAppService : IJobAppService
         {
             if (job.JobStatus is JobStatusEnum.RequestedByCostumer or JobStatusEnum.WorkerChosenByCostumer)
             {
+                var pictures = await _jobPictureAppService.GetByJobIdAsync(jobId);
+                foreach(var picture in pictures)
+                {
+                    await _jobPictureAppService.DeleteAsync(picture.Id);
+                }
                 await _jobService.DeleteAsync(jobId);
             }
             else
