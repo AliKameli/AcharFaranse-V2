@@ -21,6 +21,7 @@ public static class MyDependencyInjections
         services.AddScoped<IJobPictureService, JobPictureService>();
         services.AddScoped<IJobWorkerProposalService, JobWorkerProposalService>();
         services.AddScoped<IWorkerService, WorkerService>();
+
         return services;
     }
 
@@ -36,6 +37,7 @@ public static class MyDependencyInjections
         services.AddScoped<IJobPictureAppService, JobPictureAppService>();
         services.AddScoped<IJobWorkerProposalAppService, JobWorkerProposalAppService>();
         services.AddScoped<IWorkerAppService, WorkerAppService>();
+
         return services;
     }
 

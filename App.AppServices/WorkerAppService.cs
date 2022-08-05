@@ -1,6 +1,7 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.AppServices;
@@ -8,16 +9,22 @@ namespace App.AppServices;
 public class WorkerAppService : IWorkerAppService
 {
     private readonly ICityService _cityService;
-    private readonly IWorkerService _workerService;
     private readonly UserManager<IdentityUser<int>> _userManager;
+    private readonly IWorkerService _workerService;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IJobCategoryService _jobCategoryService;
 
     public WorkerAppService(IWorkerService workerService,
         UserManager<IdentityUser<int>> userManager,
-        ICityService cityService)
+        ICityService cityService,
+        IWebHostEnvironment webHostEnvironment,
+        IJobCategoryService jobCategoryService)
     {
         _workerService = workerService;
         _userManager = userManager;
         _cityService = cityService;
+        _webHostEnvironment = webHostEnvironment;
+        _jobCategoryService = jobCategoryService;
     }
 
     public async Task<int> AddAsync(WorkerDto workerDto)
@@ -52,6 +59,7 @@ public class WorkerAppService : IWorkerAppService
             catch (Exception)
             {
                 await _userManager.DeleteAsync(user);
+
                 throw;
             }
         }
@@ -91,6 +99,7 @@ public class WorkerAppService : IWorkerAppService
                 user.PhoneNumber = oldPhone;
 
                 await _userManager.UpdateAsync(user);
+
                 throw;
             }
         }
@@ -149,5 +158,55 @@ public class WorkerAppService : IWorkerAppService
         record.ConfirmDateTime = DateTimeOffset.Now;
 
         await _workerService.UpdateAsync(record);
+    }
+
+    public async Task EditPictureAsync(WorkerDto workerDto)
+    {
+        var record = await _workerService.GetByIdAsync(workerDto.Id);
+
+        if (workerDto.PictureFile != null)
+        {
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+            string uniqueFileName = Guid.NewGuid() + "_" + workerDto.PictureFile.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            await using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await workerDto.PictureFile.CopyToAsync(fileStream);
+            }
+            if (record.PictureFilePath is not null)
+            {
+                var oldFilePath = Path.Join(_webHostEnvironment.WebRootPath, record.PictureFilePath);
+                File.Delete(oldFilePath);
+            }
+
+            record.PictureFilePath = @"/Images/" + uniqueFileName;
+
+            await _workerService.UpdateAsync(record);
+
+            return;
+        }
+
+        if (record.PictureFilePath is not null)
+        {
+            var oldFilePath = Path.Join(_webHostEnvironment.WebRootPath, record.PictureFilePath);
+            File.Delete(oldFilePath);
+            record.PictureFilePath = null;
+
+            await _workerService.UpdateAsync(record);
+        }
+    }
+
+    public async Task AddToJobCategory(int workerId, int jobCategoryId)
+    {
+        await _workerService.EnsureExistsByIdAsync(workerId);
+        await _jobCategoryService.EnsureExistsByIdAsync(jobCategoryId);
+        await _workerService.AddToJobCategory(workerId, jobCategoryId);
+    }
+
+    public async Task DeleteFromJobCategory(int workerId, int jobCategoryId)
+    {
+        await _workerService.EnsureExistsByIdAsync(workerId);
+        await _jobCategoryService.EnsureExistsByIdAsync(jobCategoryId);
+        await _workerService.DeleteFromJobCategory(workerId, jobCategoryId);
     }
 }

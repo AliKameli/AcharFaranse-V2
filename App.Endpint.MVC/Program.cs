@@ -2,7 +2,6 @@ using App.Endpoint.MVC;
 using App.Infrastructures.SQLServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +12,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(
-    options =>
-    {
-        options.UseSqlServer(connectionString);
-    });
+    options => { options.UseSqlServer(connectionString); });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -51,15 +47,14 @@ using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
 
-        var userManager = serviceProvider.
-            GetRequiredService<UserManager<IdentityUser<int>>>();
+    var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser<int>>>();
 
-        var roleManager = serviceProvider.
-            GetRequiredService<RoleManager<IdentityRole<int>>>();
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
-        await MyIdentityDataInitializer.SeedData
-            (userManager, roleManager);
+    await MyIdentityDataInitializer.SeedData
+        (userManager, roleManager);
 }
+
 app.MapAreaControllerRoute(
     "areas",
     "Admin",

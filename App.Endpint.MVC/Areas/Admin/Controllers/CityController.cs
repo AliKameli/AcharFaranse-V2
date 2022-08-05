@@ -36,12 +36,14 @@ public class CityController : Controller
     {
         var model = await _cityAppService.GetByIdAsync(id);
         ViewData["Workers"] = new List<WorkerDto>(await _workerAppService.GetByCityIdAsync(id));
+
         return View(model);
     }
 
     public ActionResult Add()
     {
         var model = new CityDto();
+
         return View(model);
     }
 
@@ -52,6 +54,7 @@ public class CityController : Controller
             try
             {
                 await _cityAppService.AddAsync(model);
+
                 return RedirectToAction(nameof(Index)
                     , new {internalMessage = "با موفقیت ایجاد شد"});
             }
@@ -68,6 +71,7 @@ public class CityController : Controller
     public async Task<ActionResult> Edit(int id)
     {
         var model = await _cityAppService.GetByIdAsync(id);
+
         return View(model);
     }
 
@@ -79,6 +83,7 @@ public class CityController : Controller
             {
                 model.Id = id;
                 await _cityAppService.UpdateAsync(model);
+
                 return RedirectToAction(nameof(Index)
                     , new {internalMessage = "با موفقیت ویرایش شد"});
             }
@@ -97,6 +102,7 @@ public class CityController : Controller
         try
         {
             await _cityAppService.DeleteAsync(id);
+
             return RedirectToAction(nameof(Index)
                 , new {internalMessage = "با موفقیت حذف شد"});
         }

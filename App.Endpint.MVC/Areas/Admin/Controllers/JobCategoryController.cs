@@ -1,10 +1,7 @@
-﻿using App.AppServices;
-using App.Domain.Contracts.AppService;
+﻿using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
-using App.Endpoint.MVC.Areas.Admin.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace App.Endpoint.MVC.Areas.Admin.Controllers;
 
@@ -40,7 +37,7 @@ public class JobCategoryController : Controller
     [HttpGet]
     public async Task<IActionResult> Add(int? parentId, bool ended = false)
     {
-        ViewBag.ParentId  = parentId;
+        ViewBag.ParentId = parentId;
         ViewBag.ParentParentId = null;
         ViewBag.ParentTree = null;
 
@@ -51,7 +48,7 @@ public class JobCategoryController : Controller
             ViewBag.ParentTree = $"{parentJob.GroupPath}/{parentJob.Name}";
         }
 
-        if (ended) return View(new JobCategoryDto(){});
+        if (ended) return View(new JobCategoryDto());
 
         var model = await _jobCategoryAppService.GetByParentIdAsync(parentId);
 
@@ -66,8 +63,9 @@ public class JobCategoryController : Controller
             {
                 model.ParentJobCategoryId = parentId;
                 await _jobCategoryAppService.AddAsync(model);
+
                 return RedirectToAction(nameof(Index)
-                        , new { internalMessage = "با موفقیت ایجاد شد" });
+                    , new {internalMessage = "با موفقیت ایجاد شد"});
             }
             catch (Exception e)
             {
@@ -83,20 +81,21 @@ public class JobCategoryController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var model = await _jobCategoryAppService.GetByIdAsync(id);
+
         return View(model);
     }
 
     [HttpPost]
     public async Task<IActionResult> Edit(JobCategoryDto model, int id)
     {
-
         if (ModelState.IsValid)
             try
             {
                 model.Id = id;
                 await _jobCategoryAppService.UpdateAsync(model);
+
                 return RedirectToAction(nameof(Index)
-                    , new { internalMessage = "با موفقیت ویرایش شد" });
+                    , new {internalMessage = "با موفقیت ویرایش شد"});
             }
             catch (Exception e)
             {
@@ -106,7 +105,6 @@ public class JobCategoryController : Controller
             ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
 
         return View(model);
-
     }
 
     public async Task<ActionResult> Delete(int id)
@@ -114,13 +112,14 @@ public class JobCategoryController : Controller
         try
         {
             await _jobCategoryAppService.DeleteAsync(id);
+
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "با موفقیت حذف شد" });
+                , new {internalMessage = "با موفقیت حذف شد"});
         }
         catch (Exception e)
         {
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
+                , new {internalMessage = "خطا : " + e.Message});
         }
     }
 }

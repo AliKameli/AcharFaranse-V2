@@ -18,18 +18,21 @@ public class CityService : ICityService
     public async Task EnsureExistsByIdAsync(int cityId)
     {
         var result = await _dbContext.Cities.AnyAsync(x => x.Id == cityId);
+
         if (!result) throw new Exception($"شهر با شناسه {cityId} وجود ندارد !");
     }
 
     public async Task EnsureExistsByNameAsync(string cityName)
     {
         var result = await _dbContext.Cities.AnyAsync(x => x.Name == cityName);
+
         if (!result) throw new Exception($"شهر {cityName} وجود ندارد !");
     }
 
     public async Task EnsureDoesNotExistAsync(string cityName)
     {
         var result = await _dbContext.Cities.AnyAsync(x => x.Name == cityName);
+
         if (result) throw new Exception($"شهر {cityName} وجود دارد !");
     }
 

@@ -1,6 +1,7 @@
 ﻿using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
 using App.Domain.Entities;
+using App.Domain.Enums;
 using App.Infrastructures.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ public class JobWorkerProposalService : IJobWorkerProposalService
     public async Task EnsureExistsByIdAsync(int jobWorkerProposalId)
     {
         var result = await _dbContext.JobWorkerProposals.AnyAsync(x => x.Id == jobWorkerProposalId);
+
         if (!result) throw new Exception($"پیشنهاد قیمت با شناسه {jobWorkerProposalId} وجود ندارد !");
     }
 
@@ -26,6 +28,7 @@ public class JobWorkerProposalService : IJobWorkerProposalService
         var result = await _dbContext.JobWorkerProposals.AnyAsync(x =>
             x.JobId == jobWorkerProposalDto.JobId &&
             x.WorkerId == jobWorkerProposalDto.WorkerId);
+
         if (result) throw new Exception("کارمند قبلا به این کار پیشنهاد قیمت داده است");
     }
 
@@ -48,10 +51,23 @@ public class JobWorkerProposalService : IJobWorkerProposalService
         return result.Entity.Id;
     }
 
-    //public async Task UpdateAsync(JobWorkerProposalDto jobWorkerProposalDto)
-    //{
-    //    throw new Exception("نمیتوان پیشنهاد را تغییر داد")ک
-    //}
+    public async Task AcceptAsync(int jobWorkerProposalId)
+    {
+        await EnsureExistsByIdAsync(jobWorkerProposalId);
+        var record = await _dbContext.JobWorkerProposals
+            .FirstAsync(x => x.Id == jobWorkerProposalId);
+        var job = await _dbContext.Jobs.FirstAsync(x => x.Id == record.JobId);
+        _dbContext.JobWorkerProposals.RemoveRange(
+            _dbContext.JobWorkerProposals.Where(x =>
+                x.JobId == record.JobId &&
+                x.Id != record.Id)
+            );
+        record.ProposalStatus = ProposalStatusEnum.AcceptedByCostumer;
+        job.JobStatus = JobStatusEnum.WorkerChosenByCostumer;
+        job.WorkerId = record.WorkerId;
+
+        await _dbContext.SaveChangesAsync();
+    }
 
     public async Task DeleteAsync(int jobWorkerProposalId)
     {
@@ -73,7 +89,8 @@ public class JobWorkerProposalService : IJobWorkerProposalService
                 WorkerComment = x.WorkerComment,
                 JobId = x.JobId,
                 WorkerId = x.WorkerId,
-                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName,
+                ProposalStatus = x.ProposalStatus
             })
             .ToListAsync();
 
@@ -85,7 +102,7 @@ public class JobWorkerProposalService : IJobWorkerProposalService
         await EnsureExistsByIdAsync(jobWorkerProposalId);
 
         var result = await _dbContext.JobWorkerProposals
-            .Select(x=> new JobWorkerProposalDto()
+            .Select(x => new JobWorkerProposalDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,
@@ -93,7 +110,8 @@ public class JobWorkerProposalService : IJobWorkerProposalService
                 WorkerComment = x.WorkerComment,
                 JobId = x.JobId,
                 WorkerId = x.WorkerId,
-                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName,
+                ProposalStatus = x.ProposalStatus
             })
             .FirstAsync(x => x.Id == jobWorkerProposalId);
 
@@ -112,7 +130,8 @@ public class JobWorkerProposalService : IJobWorkerProposalService
                 WorkerComment = x.WorkerComment,
                 JobId = x.JobId,
                 WorkerId = x.WorkerId,
-                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName,
+                ProposalStatus = x.ProposalStatus
             })
             .ToListAsync();
 
@@ -131,7 +150,8 @@ public class JobWorkerProposalService : IJobWorkerProposalService
                 WorkerComment = x.WorkerComment,
                 JobId = x.JobId,
                 WorkerId = x.WorkerId,
-                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName
+                WorkerName = x.Worker!.FirstName + ' ' + x.Worker.LastName,
+                ProposalStatus = x.ProposalStatus
             })
             .ToListAsync();
 

@@ -62,18 +62,40 @@
 			<td>@(costumer.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
 			<td class="d-flex justify-content-end">
 				<a class="btn btn-success" asp-action="Details" asp-route-Id="@costumer.Id">
-					جزئیات @(costumer.IsConfirmed? null : "و تایید")
+					جزئیات @(costumer.IsConfirmed ? null : "و تایید")
 				</a>
 				&nbsp;|&nbsp;
 				<a class="btn btn-warning" asp-action="Edit" asp-route-Id=@costumer.Id>
 					ویرایش
 				</a>
 				&nbsp;|&nbsp;
-				<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@costumer.Id">
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal"+costumer.Id))">
 					حذف
-				</a>
+				</button>
+
+				<!-- Modal -->
+				<div class="modal fade" id="@(new string(@"Modal"+costumer.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+							</div>
+							<div class="modal-body">
+								آیا از حذف @costumer.FirstName @costumer.LastName اطمینان دارید ؟
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+								<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@costumer.Id">
+									حذف
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
 			</td>
 		</tr>
 	}
 	</tbody>
 </table>
+

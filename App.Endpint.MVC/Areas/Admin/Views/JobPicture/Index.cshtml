@@ -1,43 +1,64 @@
-﻿@model System.Collections.Generic.List<App.Domain.Dtos.JobPictureDto>
+﻿@model List<App.Domain.Dtos.JobPictureDto>
 
 @{
 	ViewData["Title"] = "لیست عکس‌ها";
 }
-<br/>
+<br />
 <h3>لیست عکس‌ها</h3>
-<br/>
+<br />
 <a class="btn btn-info" asp-action="Add">
 	عکس جدید
 </a>
-<br/>
+<br />
 <table class="table table-striped ">
 	<thead>
-	<tr>
-		<th scope="col">نام کاربر</th>
-		<th scope="col">توضیحات</th>
-		<th scope="col">وضعیت تایید</th>
-		<th scope="col"></th>
-	</tr>
+		<tr>
+			<th scope="col">نام کاربر</th>
+			<th scope="col">توضیحات</th>
+			<th scope="col">وضعیت تایید</th>
+			<th scope="col"></th>
+		</tr>
 	</thead>
 	<tbody>
-	@foreach (var jobPicture in Model)
-	{
-		<tr>
-			<th scope="row">
-				@jobPicture.UserFullName
-			</th>
-			<td>@jobPicture.Description</td>
-			<td>@(jobPicture.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
-			<td class="d-flex justify-content-end">
-				<a class="btn btn-success" asp-action="Details" asp-route-Id="@jobPicture.Id">
-					جزئیات @(jobPicture.IsConfirmed? null : "و تایید")
-				</a>
-				&nbsp;|&nbsp;
-				<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@jobPicture.Id">
-					حذف
-				</a>
-			</td>
-		</tr>
-	}
+		@foreach (var jobPicture in Model)
+		{
+			<tr>
+				<th scope="row">
+					@jobPicture.UserFullName
+				</th>
+				<td>@jobPicture.Description</td>
+				<td>@(jobPicture.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
+				<td class="d-flex justify-content-end">
+					<a class="btn btn-success" asp-action="Details" asp-route-Id="@jobPicture.Id">
+						جزئیات @(jobPicture.IsConfirmed ? null : "و تایید")
+					</a>
+					&nbsp;|&nbsp;
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal"+jobPicture.Id))">
+						حذف
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="@(new string(@"Modal"+jobPicture.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+								</div>
+								<div class="modal-body">
+									آیا از حذف اطمینان دارید ؟
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+									<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@jobPicture.Id">
+										حذف
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
 	</tbody>
 </table>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using App.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace App.Domain.Dtos;
@@ -6,14 +7,13 @@ namespace App.Domain.Dtos;
 public class JobWorkerProposalDto
 {
     [Display(Name = "شناسه")]
-    public int Id { get; init; }
+    public int Id { get; set; }
 
     [Display(Name = "تاریخ ایجاد")]
     public DateTimeOffset CreationDateTime { get; set; }
 
     [Required(ErrorMessage = "{0} نمیتواند خالی باشد")]
     [RegularExpression(@"\d+(\.\d?)?", ErrorMessage = "{0} باید عدد باشد")]
-    [MaxLength(11, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
     [Precision(10, 1)]
     [Display(Name = "هزینه پیشنهادی")]
     public decimal ProposedPrice { get; set; }
@@ -24,12 +24,15 @@ public class JobWorkerProposalDto
 
     [Editable(false)]
     [Display(Name = "شناسه کار")]
-    public int JobId { get; init; }
+    public int JobId { get; set; }
 
     [Editable(false)]
     [Display(Name = "شناسه کارمند")]
-    public int WorkerId { get; init; }
+    public int WorkerId { get; set; }
 
     [Display(Name = "نام کارمند")]
-    public string? WorkerName { get; init; }
+    public string? WorkerName { get; set; }
+
+    [Display(Name = "وضعیت پیشنهاد")]
+    public ProposalStatusEnum ProposalStatus { get; set; } = ProposalStatusEnum.ProposedByWorker;
 }

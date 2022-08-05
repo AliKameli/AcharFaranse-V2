@@ -23,6 +23,7 @@ public class CostumerAddressAppService : ICostumerAddressAppService
     {
         await _cityService.EnsureExistsByIdAsync(costumerAddressDto.CityId);
         await _costumerService.EnsureExistsByIdAsync(costumerAddressDto.CostumerId);
+
         return await _costumerAddressService.AddAsync(costumerAddressDto);
     }
 
@@ -37,13 +38,9 @@ public class CostumerAddressAppService : ICostumerAddressAppService
     public async Task DeleteAsync(int costumerAddressId)
     {
         if (await _costumerAddressService.InUseStatus(costumerAddressId))
-        {
             await _costumerAddressService.SoftDeleteAsync(costumerAddressId);
-        }
         else
-        {
             await _costumerAddressService.DeleteAsync(costumerAddressId);
-        }
     }
 
     public async Task<List<CostumerAddressDto>> GetAllAsync()
@@ -59,6 +56,7 @@ public class CostumerAddressAppService : ICostumerAddressAppService
     public async Task<List<CostumerAddressDto>> GetByCostumerIdAsync(int costumerId)
     {
         await _costumerService.EnsureExistsByIdAsync(costumerId);
+
         return await _costumerAddressService.GetByCostumerIdAsync(costumerId);
     }
 }

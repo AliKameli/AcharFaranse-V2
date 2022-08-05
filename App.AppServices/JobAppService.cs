@@ -1,7 +1,8 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
-using App.Domain.Entities;
+using App.Domain.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace App.AppServices;
 
@@ -12,18 +13,24 @@ public class JobAppService : IJobAppService
     private readonly ICostumerService _costumerService;
     private readonly IJobService _jobService;
     private readonly IWorkerService _workerService;
+    private readonly UserManager<IdentityUser<int>> _userManager;
+    private readonly IJobPictureAppService _jobPictureAppService;
 
     public JobAppService(IJobService jobService,
         ICostumerService costumerService,
         ICostumerAddressService costumerAddressService,
         ICityService cityService,
-        IWorkerService workerService)
+        IWorkerService workerService,
+        UserManager<IdentityUser<int>> userManager,
+        IJobPictureAppService jobPictureAppService)
     {
         _jobService = jobService;
         _costumerService = costumerService;
         _costumerAddressService = costumerAddressService;
         _cityService = cityService;
         _workerService = workerService;
+        _userManager = userManager;
+        _jobPictureAppService = jobPictureAppService;
     }
 
 
@@ -32,6 +39,7 @@ public class JobAppService : IJobAppService
         await _costumerService.EnsureExistsByIdAsync(jobDto.CostumerId);
         await _costumerAddressService.EnsureExistsByIdAsync(jobDto.CostumerAddressId);
         await _cityService.EnsureExistsByIdAsync(jobDto.JobCityId);
+
         return await _jobService.AddAsync(jobDto);
     }
 
@@ -40,11 +48,49 @@ public class JobAppService : IJobAppService
         await _jobService.UpdateAsync(jobDto);
     }
 
-    public async Task DeleteAsync(int jobId)
+    public async Task DeleteAsync(int jobId, string userName)
     {
-        await _jobService.DeleteAsync(jobId);
+        var user = await _userManager.FindByNameAsync(userName);
+        var job = await _jobService.GetByIdAsync(jobId);
+        if ((await _userManager.IsInRoleAsync(user, "Admin")))
+        {
+            await _jobService.DeleteAsync(jobId);
+        }
+        else
+        {
+            if (job.JobStatus is JobStatusEnum.RequestedByCostumer or JobStatusEnum.WorkerChosenByCostumer)
+            {
+                var pictures = await _jobPictureAppService.GetByJobIdAsync(jobId);
+                foreach(var picture in pictures)
+                {
+                    await _jobPictureAppService.DeleteAsync(picture.Id);
+                }
+                await _jobService.DeleteAsync(jobId);
+            }
+            else
+            {
+                throw new Exception("این کار در مرحله قابل حذف نیست");
+            }
+        }
     }
+    public async Task ChangePaymentMethod(int jobId)
+    {
 
+        var job = await _jobService.GetByIdAsync(jobId);
+
+
+        if (job.IsClosed)
+        {
+            throw new Exception("این کار بسته شده است");
+        }
+        else
+        {
+            job.IsOnlinePayment = !job.IsOnlinePayment;
+
+            await _jobService.UpdateAsync(job);
+        }
+
+    }
     public async Task<List<JobDto>> GetAllAsync()
     {
         return await _jobService.GetAllAsync();
@@ -71,7 +117,17 @@ public class JobAppService : IJobAppService
     }
 
     public async Task<List<JobDto>> GetByCityIdAsync(int cityId)
-{
-    return await _jobService.GetByCityIdAsync(cityId);
+    {
+        return await _jobService.GetByCityIdAsync(cityId);
+    }
+    public async Task<List<JobDto>> GetByUserNameAsync(string userName)
+    {
+        return await _jobService.GetByUserNameAsync(userName);
+    }
+    public async Task<List<JobDto>> GetAvailableJobsForWorkerAsync(int workerId)
+    {
+        await _workerService.EnsureExistsByIdAsync(workerId);
+
+        return await _jobService.GetAvailableJobsForWorkerAsync(workerId);
     }
 }

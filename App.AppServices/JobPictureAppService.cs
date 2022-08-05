@@ -1,5 +1,4 @@
-﻿using System.Net;
-using App.Domain.Contracts.AppService;
+﻿using App.Domain.Contracts.AppService;
 using App.Domain.Contracts.Service;
 using App.Domain.Dtos;
 using App.Domain.Enums;
@@ -9,12 +8,17 @@ namespace App.AppServices;
 
 public class JobPictureAppService : IJobPictureAppService
 {
+    private readonly ICostumerService _costumerService;
     private readonly IJobPictureService _jobPictureService;
     private readonly IJobService _jobService;
-    private readonly IWorkerService _workerService;
-    private readonly ICostumerService _costumerService;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    public JobPictureAppService(IJobPictureService jobPictureService, IJobService jobService, IWorkerService workerService, ICostumerService costumerService, IWebHostEnvironment webHostEnvironment)
+    private readonly IWorkerService _workerService;
+
+    public JobPictureAppService(IJobPictureService jobPictureService,
+        IJobService jobService,
+        IWorkerService workerService,
+        ICostumerService costumerService,
+        IWebHostEnvironment webHostEnvironment)
     {
         _jobPictureService = jobPictureService;
         _jobService = jobService;
@@ -32,25 +36,23 @@ public class JobPictureAppService : IJobPictureAppService
 
         await _jobService.EnsureExistsByIdAsync(jobPictureDto.JobId);
 
-        string uniqueFileName = string.Empty;
 
         if (jobPictureDto.PictureFile != null)
         {
-            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
-            uniqueFileName = Guid.NewGuid().ToString() + "_" + jobPictureDto.PictureFile.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+            string uniqueFileName = Guid.NewGuid() + "_" + jobPictureDto.PictureFile.FileName;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            await using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await jobPictureDto.PictureFile.CopyToAsync(fileStream);
             }
 
             jobPictureDto.FileSavePath = @"/Images/" + uniqueFileName;
-        return await _jobPictureService.AddAsync(jobPictureDto);
+
+            return await _jobPictureService.AddAsync(jobPictureDto);
         }
-        else
-        {
-            throw new Exception("نشد");
-        }
+
+        throw new Exception("نشد");
     }
 
     public async Task UpdateAsync(JobPictureDto jobPictureDto)
@@ -61,7 +63,7 @@ public class JobPictureAppService : IJobPictureAppService
     public async Task DeleteAsync(int jobPictureId)
     {
         var record = await _jobPictureService.GetByIdAsync(jobPictureId);
-        var savePath =Path.Join(_webHostEnvironment.WebRootPath, record.FileSavePath);
+        var savePath = Path.Join(_webHostEnvironment.WebRootPath, record.FileSavePath);
         File.Delete(savePath);
         await _jobPictureService.DeleteAsync(jobPictureId);
     }

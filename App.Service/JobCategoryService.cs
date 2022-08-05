@@ -18,12 +18,14 @@ public class JobCategoryService : IJobCategoryService
     public async Task EnsureExistsByIdAsync(int jobCategoryId)
     {
         var result = await _dbContext.JobCategories.AnyAsync(x => x.Id == jobCategoryId);
+
         if (!result) throw new Exception($"دسته‌بندی با شناسه {jobCategoryId} وجود ندارد !");
     }
 
     public async Task EnsureExistsByNameAsync(string jobCategoryName)
     {
         var result = await _dbContext.JobCategories.AnyAsync(x => x.Name == jobCategoryName);
+
         if (!result) throw new Exception($"دسته‌بندی {jobCategoryName} وجود ندارد !");
     }
 
@@ -98,19 +100,20 @@ public class JobCategoryService : IJobCategoryService
     public async Task<List<JobCategoryDto>> GetAllAsync()
     {
         var records = await _dbContext.JobCategories.Select(x => new JobCategoryDto
-        {
-            Id = x.Id,
-            CreationDateTime = x.CreationDateTime,
-            LastUpdateDateTime = x.LastUpdateDateTime,
-            Name = x.Name,
-            Description = x.Description,
-            PictureFilePath = x.PictureFilePath,
-            EstimatedWageCost = x.EstimatedWageCost,
-            ParentJobCategoryId = x.ParentJobCategoryId,
-        })
+            {
+                Id = x.Id,
+                CreationDateTime = x.CreationDateTime,
+                LastUpdateDateTime = x.LastUpdateDateTime,
+                Name = x.Name,
+                Description = x.Description,
+                PictureFilePath = x.PictureFilePath,
+                EstimatedWageCost = x.EstimatedWageCost,
+                ParentJobCategoryId = x.ParentJobCategoryId
+            })
             .ToListAsync();
         records.ForEach(x =>
             x.GroupPath = GetGroupPath(x.Id, x.ParentJobCategoryId));
+
         return records;
     }
 
@@ -149,11 +152,12 @@ public class JobCategoryService : IJobCategoryService
                 Description = x.Description,
                 PictureFilePath = x.PictureFilePath,
                 EstimatedWageCost = x.EstimatedWageCost,
-                ParentJobCategoryId = x.ParentJobCategoryId,
+                ParentJobCategoryId = x.ParentJobCategoryId
             })
             .ToListAsync();
         records.ForEach(x =>
             x.GroupPath = GetGroupPath(x.Id, x.ParentJobCategoryId));
+
         return records;
     }
 
@@ -170,7 +174,7 @@ public class JobCategoryService : IJobCategoryService
                 Description = x.Description,
                 PictureFilePath = x.PictureFilePath,
                 EstimatedWageCost = x.EstimatedWageCost,
-                ParentJobCategoryId = x.ParentJobCategoryId,
+                ParentJobCategoryId = x.ParentJobCategoryId
             })
             .ToListAsync();
 

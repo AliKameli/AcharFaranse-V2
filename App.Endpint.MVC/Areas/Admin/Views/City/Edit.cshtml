@@ -5,7 +5,7 @@
 <h3>ویرایش شهر</h3>
 <br>
 
-<form>
+<form asp-action="Edit" formmethod="post" asp-route-id="@Model.Id">
 	<div class="form-group">
 		<label asp-for="Name"></label>
 		<input class="form-control" asp-for="Name">
@@ -13,8 +13,8 @@
 		<span asp-validation-for="Name" class="text-danger"></span>
 	</div>
 	<div style="float: left; margin-top: 5px;">
-		<button type="submit" class="btn btn-primary" asp-action="Edit" formmethod="post">ویرایش</button>
-		<a class="btn btn-danger" asp-action="Index">انصراف</a>
+		<button type="submit" class="btn btn-primary" >ویرایش</button>
+		<a class="btn btn-secondary" asp-action="Index">انصراف</a>
 	</div>
 
 </form>

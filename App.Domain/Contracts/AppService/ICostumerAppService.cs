@@ -13,4 +13,5 @@ public interface ICostumerAppService
     Task<List<CostumerDto>> GetByCityIdAsync(int cityId);
     Task<List<CostumerDto>> SearchAsync(string? name = null, string? nationalId = null);
     Task ConfirmAsync(int costumerId);
+    Task EditPictureAsync(CostumerDto costumerDto);
 }

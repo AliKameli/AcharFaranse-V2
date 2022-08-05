@@ -35,7 +35,7 @@ public class JobPictureDto : BaseEntityDto<int>
 
     [Required(ErrorMessage = "{0} نمیتواند خالی باشد")]
     [DataType(DataType.Upload)]
-    [FileValidationForPicture(errorMessage:"فرمت قابل قبول نیست")]
+    [FileValidationForPicture("فرمت قابل قبول نیست")]
     [Display(Name = "عکس انتخابی")]
     public IFormFile? PictureFile { get; set; } = null;
 }

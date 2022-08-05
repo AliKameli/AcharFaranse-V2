@@ -18,18 +18,21 @@ public class WorkerService : IWorkerService
     public async Task EnsureExistsByIdAsync(int workerId)
     {
         var result = await _dbContext.Workers.AnyAsync(x => x.Id == workerId);
+
         if (!result) throw new Exception($"کارمند با شناسه {workerId} وجود ندارد !");
     }
 
     public async Task EnsureExistsByNationalIdAsync(string nationalId)
     {
         var result = await _dbContext.Workers.AnyAsync(x => x.NationalId == nationalId);
+
         if (!result) throw new Exception($"کارمند با شماره ملی {nationalId} وجود ندارد !");
     }
 
     public async Task EnsureDoesNotExistAsync(string nationalId)
     {
         var result = await _dbContext.Workers.AnyAsync(x => x.NationalId == nationalId);
+
         if (result) throw new Exception($"کارمند با شماره ملی {nationalId} وجود دارد !");
     }
 
@@ -303,5 +306,44 @@ public class WorkerService : IWorkerService
             .ToListAsync();
 
         return records;
+    }
+
+    public async Task<bool> IsInJobCategory(int workerId, int jobCategoryId)
+    {
+        var result = await _dbContext.JobCategories.Where(x => x.Id == jobCategoryId)
+            .AnyAsync(x => x.Workers.Any(y => y.Id == workerId));
+
+        return result;
+    }
+
+    public async Task AddToJobCategory(int workerId, int jobCategoryId)
+    {
+        if (await IsInJobCategory(workerId,jobCategoryId))
+        {
+            throw new Exception("کارمند در این دسته‌بندی قرار دارد");
+        }
+
+        await _dbContext.JobCategoryWorkers.AddAsync(new JobCategoryWorker
+        {
+            JobCategoryId = jobCategoryId,
+            WorkerId = workerId,
+        });
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeleteFromJobCategory(int workerId, int jobCategoryId)
+    {
+        if (!await IsInJobCategory(workerId, jobCategoryId))
+        {
+            throw new Exception("کارمند در این دسته‌بندی قرار ندارد");
+        }
+
+        _dbContext.JobCategoryWorkers.Remove(
+            await _dbContext.JobCategoryWorkers
+                .FirstAsync(x =>
+                x.WorkerId == workerId && 
+                x.JobCategoryId == jobCategoryId));
+
+        await _dbContext.SaveChangesAsync();
     }
 }

@@ -10,6 +10,10 @@
     <Content Remove="Areas\Costumer\Views\Shared\Error.cshtml" />
     <Content Remove="Areas\Costumer\Views\_ViewImports.cshtml" />
     <Content Remove="Areas\Costumer\Views\_ViewStart.cshtml" />
+    <Content Remove="Areas\Worker\Views\JobCategory\Index.cshtml" />
+    <Content Remove="Areas\Worker\Views\Shared\Error.cshtml" />
+    <Content Remove="Areas\Worker\Views\_ViewImports.cshtml" />
+    <Content Remove="Areas\Worker\Views\_ViewStart.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +29,10 @@
     <None Include="Areas\Costumer\Views\Shared\Error.cshtml" />
     <None Include="Areas\Costumer\Views\_ViewImports.cshtml" />
     <None Include="Areas\Costumer\Views\_ViewStart.cshtml" />
+    <None Include="Areas\Worker\Views\JobCategory\Index.cshtml" />
+    <None Include="Areas\Worker\Views\Shared\Error.cshtml" />
+    <None Include="Areas\Worker\Views\_ViewImports.cshtml" />
+    <None Include="Areas\Worker\Views\_ViewStart.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
     <None Include="Views\Shared\Error.cshtml" />
@@ -101,11 +109,12 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\Enum\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Worker\Models\" />
+    <Folder Include="Models\Enum\" />
     <Folder Include="Areas\Admin\Views\Comment\" />
     <Folder Include="Areas\Costumer\Models\" />
     <Folder Include="wwwroot\css\Home\" />
-    <Folder Include="wwwroot\css\Worker\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -115,10 +124,95 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Areas\Admin\Views\JobPicture\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Areas\Admin\Views\Job\AddChooseCostumerAddress.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Costumer\Views\Address\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Costumer\Views\Job\Add.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Costumer\Views\Job\AddComment.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Costumer\Views\Profile\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Worker\Views\Proposal\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Worker\Views\Job\AvailableJobs.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Areas\Admin\Views\Job\AddChooseCostumerAddress.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Costumer\Views\Job\Add.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Costumer\Views\Job\AddComment.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Costumer\Views\Profile\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Worker\Views\Home\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Job\AddChooseJobCategory.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Job\AddComment.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Job\AddPicture.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Job\Details.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Job\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Job\Proposals.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Profile\EditPicture.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Profile\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Shared\Components\WorkerJobCatChoose\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Shared\Components\WorkerJobComment\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Shared\Components\WorkerJobPicture\Default.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Worker\Views\Shared\_Layout.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Costumer\Views\Address\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Worker\Views\Job\AvailableJobs.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Worker\Views\Proposal\Index.cshtml" />
   </ItemGroup>
 
 </Project>

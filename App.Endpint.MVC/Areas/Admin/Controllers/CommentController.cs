@@ -1,68 +1,73 @@
-﻿using App.AppServices;
-using App.Domain.Contracts.AppService;
-using App.Domain.Dtos;
+﻿using App.Domain.Contracts.AppService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
-namespace App.EndPoint.MVC.Areas.Admin.Controllers
+namespace App.EndPoint.MVC.Areas.Admin.Controllers;
+
+[Area("Admin")]
+[Authorize(Roles = "Admin")]
+public class CommentController : Controller
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
-    public class CommentController : Controller
+    private readonly ICommentAppService _commentAppService;
+    private readonly IJobAppService _jobAppService;
+
+    public CommentController(ICommentAppService commentAppService, IJobAppService jobAppService)
     {
-        private readonly ICommentAppService _commentAppService;
-        private readonly IJobAppService _jobAppService;
+        _commentAppService = commentAppService;
+        _jobAppService = jobAppService;
+    }
 
-        public CommentController(ICommentAppService commentAppService, IJobAppService jobAppService)
+    public async Task<ActionResult> Index(string? internalMessage = null)
+    {
+        if (internalMessage != null) ModelState.AddModelError("internalMessage", internalMessage);
+
+        var model = await _commentAppService.GetAllAsync();
+
+        return View(model);
+    }
+
+    public async Task<ActionResult> Details(int id, string? internalMessage = null)
+    {
+        if (internalMessage != null) ModelState.AddModelError("internalMessage", internalMessage);
+        var model = await _commentAppService.GetByIdAsync(id);
+        ViewData["Job"] = await _jobAppService.GetByIdAsync(model.JobId);
+
+        return View(model);
+    }
+
+    public async Task<ActionResult> Delete(int id)
+    {
+        try
         {
-            _commentAppService = commentAppService;
-            _jobAppService = jobAppService;
+            await _commentAppService.DeleteAsync(id);
+
+            return RedirectToAction(nameof(Index)
+                , new {internalMessage = "با موفقیت حذف شد"});
         }
-
-        public async Task<ActionResult> Index(string? internalMessage = null)
+        catch (Exception e)
         {
-            if (internalMessage != null) ModelState.AddModelError("internalMessage", internalMessage);
-
-            var model = await _commentAppService.GetAllAsync();
-
-            return View(model);
+            return RedirectToAction(nameof(Index)
+                , new {internalMessage = "خطا : " + e.Message});
         }
+    }
 
-        public async Task<ActionResult> Details(int id, string? internalMessage = null)
+    public async Task<ActionResult> ConfirmComment(int id)
+    {
+        try
         {
-            if (internalMessage != null) ModelState.AddModelError("internalMessage", internalMessage);
-            var model = await _commentAppService.GetByIdAsync(id);
-            ViewData["Job"] = await _jobAppService.GetByIdAsync(model.JobId);
-            return View(model);
+            await _commentAppService.ConfirmAsync(id);
+
+            return RedirectToAction(nameof(Details), new
+            {
+                id, internalMessage = "با موفقیت تایید شد"
+            });
         }
-
-        public async Task<ActionResult> Delete(int id)
+        catch (Exception)
         {
-            try
+            return RedirectToAction(nameof(Details), new
             {
-                await _commentAppService.DeleteAsync(id);
-                return RedirectToAction(nameof(Index)
-                    , new { internalMessage = "با موفقیت حذف شد" });
-            }
-            catch (Exception e)
-            {
-                return RedirectToAction(nameof(Index)
-                    , new { internalMessage = "خطا : " + e.Message });
-            }
-        }
-
-        public async Task<ActionResult> ConfirmComment(int id)
-        {
-            try
-            {
-                await _commentAppService.ConfirmAsync(id);
-                return RedirectToAction(nameof(Details), new { id = id, internalMessage = "با موفقیت تایید شد" });
-            }
-            catch (Exception)
-            {
-                return RedirectToAction(nameof(Details), new { id = id, internalMessage = "خطا ! در فرآیند تایید مشکلی به وجود آمد" });
-            }
+                id, internalMessage = "خطا ! در فرآیند تایید مشکلی به وجود آمد"
+            });
         }
     }
 }
