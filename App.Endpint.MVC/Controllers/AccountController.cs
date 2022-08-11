@@ -16,6 +16,7 @@ public class AccountController : Controller
     private readonly SignInManager<IdentityUser<int>> _signInManager;
     private readonly UserManager<IdentityUser<int>> _userManager;
     private readonly IWorkerAppService _workerAppService;
+    private readonly ILogger _logger;
 
     public AccountController(
         SignInManager<IdentityUser<int>> signInManager,
@@ -23,7 +24,8 @@ public class AccountController : Controller
         UserManager<IdentityUser<int>> userManager,
         ICityAppService cityAppService,
         ICostumerAppService costumerAppService,
-        IWorkerAppService workerAppService)
+        IWorkerAppService workerAppService,
+        ILogger<AccountController> logger)
     {
         _signInManager = signInManager;
         _roleManager = roleManager;
@@ -31,6 +33,7 @@ public class AccountController : Controller
         _cityAppService = cityAppService;
         _costumerAppService = costumerAppService;
         _workerAppService = workerAppService;
+        _logger = logger;
     }
 
     public async Task<IActionResult> Login()
@@ -49,12 +52,18 @@ public class AccountController : Controller
                 await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
             if (result.Succeeded)
+            {
+                _logger.LogWarning("کاربر {ModelUserName} با موفقیت وارد شد", model.UserName);
                 return await GoToUserHomePage(model.UserName);
-            ModelState.AddModelError(string.Empty, "خطا در فرآیند لاگین");
+            }
+
+            ModelState.AddModelError("internalMessage", "خطا در فرآیند لاگین");
+            _logger.LogError("خطا در فرآیند لاگین");
         }
         else
         {
             ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
+            _logger.LogError("خطا ! ورودی پذیرفته نیست");
         }
 
         return View(model);
@@ -64,7 +73,7 @@ public class AccountController : Controller
     {
         await _signInManager.SignOutAsync();
 
-        return RedirectToAction(nameof(Index), "Home", new {area = ""});
+        return RedirectToAction(nameof(Index), "Home", new { area = "" });
     }
 
     public async Task<IActionResult> Register()
@@ -158,14 +167,14 @@ public class AccountController : Controller
         var user = await _userManager.FindByNameAsync(userName);
 
         if (await _userManager.IsInRoleAsync(user, "Admin"))
-            return RedirectToAction(nameof(Index), "Home", new {area = "Admin"});
+            return RedirectToAction(nameof(Index), "Home", new { area = "Admin" });
 
         if (await _userManager.IsInRoleAsync(user, "Costumer"))
-            return RedirectToAction(nameof(Index), "Home", new {area = "Costumer"});
+            return RedirectToAction(nameof(Index), "Home", new { area = "Costumer" });
 
         if (await _userManager.IsInRoleAsync(user, "Worker"))
         {
-            return RedirectToAction(nameof(Index), "Home", new {area = "Worker"});
+            return RedirectToAction(nameof(Index), "Home", new { area = "Worker" });
         }
 
         return null!;

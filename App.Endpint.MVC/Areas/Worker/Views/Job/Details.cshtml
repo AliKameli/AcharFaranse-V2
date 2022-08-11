@@ -1,5 +1,4 @@
-﻿@using App.Endpoint.MVC.Areas.Admin.ViewComponents
-@using App.EndPoint.MVC.Areas.Worker.ViewComponents
+﻿@using App.EndPoint.MVC.Areas.Worker.ViewComponents
 @using App.EndPoint.MVC.Models.Enum
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model App.Domain.Dtos.JobDto
@@ -111,9 +110,9 @@
 					@Html.DisplayFor(model => model.FinalCost)
 				</li>
 				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.WorkerName)
+					@Html.DisplayNameFor(model => model.CostumerName)
 					:
-					@Html.DisplayFor(model => model.WorkerName)
+					@Html.DisplayFor(model => model.CostumerName)
 				</li>
 				<li class="list-group-item">
 					@Html.DisplayNameFor(model => model.WorkerName)

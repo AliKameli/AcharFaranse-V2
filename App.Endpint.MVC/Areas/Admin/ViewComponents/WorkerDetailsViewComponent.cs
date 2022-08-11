@@ -28,21 +28,21 @@ public class WorkerDetailsViewComponent : ViewComponent
         {
             var items = new List<CommentDto>(await _commentAppService.GetByWorkerIdAsync(id));
 
-            return View("Comments", items);
+            return View(viewName: "Comments", model: items);
         }
 
         if (pageType == DetailPageTypeEnum.Pictures)
         {
             var items = new List<JobPictureDto>(await _jobPictureAppService.GetByWorkerIdAsync(id));
 
-            return View("Pictures", items);
+            return View(viewName: "Pictures", model: items);
         }
 
         if (pageType == DetailPageTypeEnum.Jobs)
         {
             var items = new List<JobDto>(await _jobAppService.GetByWorkerIdAsync(id));
 
-            return View("Jobs", items);
+            return View(viewName: "Jobs", model: items);
         }
 
         return View();

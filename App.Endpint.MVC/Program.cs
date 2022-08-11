@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -24,7 +28,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddServicesCollection();
 builder.Services.AddAppServicesCollection();
 builder.Services.AddMyIdentity();
-
 
 var app = builder.Build();
 
