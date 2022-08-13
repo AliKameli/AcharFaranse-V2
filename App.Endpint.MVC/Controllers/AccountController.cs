@@ -53,17 +53,17 @@ public class AccountController : Controller
 
             if (result.Succeeded)
             {
-                _logger.LogWarning("کاربر {ModelUserName} با موفقیت وارد شد", model.UserName);
+                _logger.LogInformation("User {ModelUserName} Logged In Successfully", model.UserName);
                 return await GoToUserHomePage(model.UserName);
             }
 
             ModelState.AddModelError("internalMessage", "خطا در فرآیند لاگین");
-            _logger.LogError("خطا در فرآیند لاگین");
+            _logger.LogWarning("Wrong username and password Used to login");
         }
         else
         {
             ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
-            _logger.LogError("خطا ! ورودی پذیرفته نیست");
+            _logger.LogError("Invalid Input for login");
         }
 
         return View(model);
