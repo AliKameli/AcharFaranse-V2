@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="BaseData\0-Enums\" />
+    <Folder Include="BaseData\4-Contracts\2-Services\" />
+    <Folder Include="Job\0-Enums\" />
+    <Folder Include="Job\3-Contracts\2-Services\" />
+    <Folder Include="Job\3-Contracts\1-AppServices\" />
+    <Folder Include="Job\3-Contracts\3-Repositories\" />
+    <Folder Include="User\AppIdentity\0-Enums\" />
+    <Folder Include="User\AppIdentity\2-Dtos\" />
+    <Folder Include="User\AppIdentity\3-Contracts\1-AppServices\" />
+    <Folder Include="User\AppIdentity\3-Contracts\2-Services\" />
+    <Folder Include="User\AppIdentity\3-Contracts\3-Repositories\" />
+    <Folder Include="User\Costumer\0-Enums\" />
+    <Folder Include="User\Costumer\2-Dtos\" />
+    <Folder Include="User\Worker\0-Enums\" />
+    <Folder Include="User\Worker\2-Dtos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
+  </ItemGroup>
+
+</Project>
