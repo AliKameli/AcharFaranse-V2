@@ -21,7 +21,7 @@
             <td>@job.JobStatus</td>
             <td>@job.Description</td>
             <td class="d-flex justify-content-end">
-                <a class="btn btn-info" asp-action="Details" asp-route-Id=@job.Id>
+                <a class="btn btn-info" asp-controller="Job" asp-action="Details" asp-route-Id=@job.Id>
                     جزئیات
                 </a>
             </td>
