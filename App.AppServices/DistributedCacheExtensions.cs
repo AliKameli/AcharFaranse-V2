@@ -12,9 +12,13 @@ public static class DistributedCacheExtensions
         return SetAsync(cache, key, value, new DistributedCacheEntryOptions());
     }
 
-    public static Task SetAsync<T>(this IDistributedCache cache, string key, T value, DistributedCacheEntryOptions options)
+    public static Task SetAsync<T>(this IDistributedCache cache,
+        string key,
+        T value,
+        DistributedCacheEntryOptions options)
     {
         var bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(value, GetJsonSerializerOptions()));
+
         return cache.SetAsync(key, bytes, options);
     }
 
@@ -32,12 +36,12 @@ public static class DistributedCacheExtensions
 
     private static JsonSerializerOptions GetJsonSerializerOptions()
     {
-        return new JsonSerializerOptions()
+        return new JsonSerializerOptions
         {
             PropertyNamingPolicy = null,
             WriteIndented = true,
             AllowTrailingCommas = true,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
     }
-}    
+}

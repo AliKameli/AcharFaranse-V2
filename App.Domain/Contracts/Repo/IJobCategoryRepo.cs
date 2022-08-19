@@ -1,8 +1,8 @@
 ﻿using App.Domain.Dtos;
 
-namespace App.Domain.Contracts.Service;
+namespace App.Domain.Contracts.Repo;
 
-public interface IJobCategoryService
+public interface IJobCategoryRepo
 {
     Task EnsureExistsByIdAsync(int jobCategoryId);
     Task EnsureExistsByNameAsync(string jobCategoryName);

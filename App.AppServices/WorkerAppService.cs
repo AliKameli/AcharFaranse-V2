@@ -1,5 +1,5 @@
 ﻿using App.Domain.Contracts.AppService;
-using App.Domain.Contracts.Service;
+using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,17 +8,17 @@ namespace App.AppServices;
 
 public class WorkerAppService : IWorkerAppService
 {
-    private readonly ICityService _cityService;
+    private readonly ICityRepo _cityService;
+    private readonly IJobCategoryRepo _jobCategoryService;
     private readonly UserManager<IdentityUser<int>> _userManager;
-    private readonly IWorkerService _workerService;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IJobCategoryService _jobCategoryService;
+    private readonly IWorkerRepo _workerService;
 
-    public WorkerAppService(IWorkerService workerService,
+    public WorkerAppService(IWorkerRepo workerService,
         UserManager<IdentityUser<int>> userManager,
-        ICityService cityService,
+        ICityRepo cityService,
         IWebHostEnvironment webHostEnvironment,
-        IJobCategoryService jobCategoryService)
+        IJobCategoryRepo jobCategoryService)
     {
         _workerService = workerService;
         _userManager = userManager;
@@ -167,12 +167,13 @@ public class WorkerAppService : IWorkerAppService
         if (workerDto.PictureFile != null)
         {
             var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
-            string uniqueFileName = Guid.NewGuid() + "_" + workerDto.PictureFile.FileName;
+            var uniqueFileName = Guid.NewGuid() + "_" + workerDto.PictureFile.FileName;
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
             await using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await workerDto.PictureFile.CopyToAsync(fileStream);
             }
+
             if (record.PictureFilePath is not null)
             {
                 var oldFilePath = Path.Join(_webHostEnvironment.WebRootPath, record.PictureFilePath);

@@ -1,16 +1,16 @@
-﻿using App.Domain.Contracts.Service;
+﻿using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using App.Domain.Entities;
 using App.Infrastructures.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.Service;
+namespace App.Infrastructures.Repo;
 
-public class CostumerService : ICostumerService
+public class CostumerRepo : ICostumerRepo
 {
     private readonly AppDbContext _dbContext;
 
-    public CostumerService(AppDbContext dbContext)
+    public CostumerRepo(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }

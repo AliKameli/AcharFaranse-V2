@@ -1,8 +1,8 @@
 ﻿using App.Domain.Dtos;
 
-namespace App.Domain.Contracts.Service;
+namespace App.Domain.Contracts.Repo;
 
-public interface IWorkerService
+public interface IWorkerRepo
 {
     Task EnsureExistsByIdAsync(int workerId);
     Task EnsureExistsByNationalIdAsync(string nationalId);
@@ -16,7 +16,7 @@ public interface IWorkerService
     Task<List<WorkerDto>> GetByJobCategoryIdAsync(int jobCategoryId);
     Task<List<WorkerDto>> GetByCityIdAsync(int cityId);
     Task<List<WorkerDto>> SearchAsync(string? name = null, string? nationalId = null);
-    Task<bool> IsInJobCategory(int workerId,int jobCategoryId);
+    Task<bool> IsInJobCategory(int workerId, int jobCategoryId);
     Task AddToJobCategory(int workerId, int jobCategoryId);
     Task DeleteFromJobCategory(int workerId, int jobCategoryId);
 }

@@ -2,71 +2,71 @@
 @model App.Domain.Dtos.CityDto
 
 @{
-	ViewData["Title"] = "جزئیات شهر";
+    ViewData["Title"] = "جزئیات شهر";
 
 }
 <div class="row ">
-	<div class="col-auto">
-		<div class="card ">
-			<div class="card-header">
-				مشخصات شهر
-			</div>
-			<ul class="list-group list-group-flush" style="padding: 0;">
-				<li class="list-group-item">
-					<label class="card-text" asp-for="Id"></label> : @Model.Id
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="Name"></label> : @Model.Name
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="LastUpdateDateTime"></label> :
-					<p class="card-text">@Model.LastUpdateDateTime</p>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="CreationDateTime"></label> :
-					<p class="card-text">@Model.CreationDateTime</p>
-				</li>
-			</ul>
+    <div class="col-auto">
+        <div class="card ">
+            <div class="card-header">
+                مشخصات شهر
+            </div>
+            <ul class="list-group list-group-flush" style="padding: 0;">
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="Id"></label> : @Model.Id
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="Name"></label> : @Model.Name
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="LastUpdateDateTime"></label> :
+                    <p class="card-text">@Model.LastUpdateDateTime</p>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="CreationDateTime"></label> :
+                    <p class="card-text">@Model.CreationDateTime</p>
+                </li>
+            </ul>
 
-			<a class="btn btn-warning"
-			   asp-action="Index">
-				بازگشت
-			</a>
-		</div>
-	</div>
-	<div class="col">
-		<p>لیست کارمندان در این شهر</p>
-		<table class="table table-striped ">
-			<thead>
-			<tr>
-				<th scope="col">نام</th>
-				<th scope="col">نام خانوادگی</th>
-				<th scope="col">ایمیل</th>
-				<th scope="col">شماره ملی</th>
-				<th scope="col">شماره تفن</th>
-				<th scope="col">تایید شده</th>
-			</tr>
-			</thead>
-			<tbody>
-			@if (ViewData.TryGetValue("Workers", out var workers))
-			{
-				@foreach (var worker in (workers as List<WorkerDto>)!)
-				{
-					<tr>
-						<th scope="row">
-							@worker.Id
-						</th>
-						<td>@worker.FirstName</td>
-						<td>@worker.LastName</td>
-						<td>@worker.Email</td>
-						<td>@worker.NationalId</td>
-						<td>@worker.PhoneNumber</td>
-						<td>@(worker.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
+            <a class="btn btn-warning"
+               asp-action="Index">
+                بازگشت
+            </a>
+        </div>
+    </div>
+    <div class="col">
+        <p>لیست کارمندان در این شهر</p>
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <th scope="col">نام</th>
+                <th scope="col">نام خانوادگی</th>
+                <th scope="col">ایمیل</th>
+                <th scope="col">شماره ملی</th>
+                <th scope="col">شماره تفن</th>
+                <th scope="col">تایید شده</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (ViewData.TryGetValue("Workers", out var workers))
+            {
+                @foreach (var worker in (workers as List<WorkerDto>)!)
+                {
+                    <tr>
+                        <th scope="row">
+                            @worker.Id
+                        </th>
+                        <td>@worker.FirstName</td>
+                        <td>@worker.LastName</td>
+                        <td>@worker.Email</td>
+                        <td>@worker.NationalId</td>
+                        <td>@worker.PhoneNumber</td>
+                        <td>@(worker.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
 
-					</tr>
-				}
-			}
-			</tbody>
-		</table>
-	</div>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
 </div>

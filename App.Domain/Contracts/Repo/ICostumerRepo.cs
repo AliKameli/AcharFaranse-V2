@@ -1,8 +1,8 @@
 ﻿using App.Domain.Dtos;
 
-namespace App.Domain.Contracts.Service;
+namespace App.Domain.Contracts.Repo;
 
-public interface ICostumerService
+public interface ICostumerRepo
 {
     Task EnsureExistsByIdAsync(int costumerId);
     Task EnsureExistsByNationalIdAsync(string nationalId);

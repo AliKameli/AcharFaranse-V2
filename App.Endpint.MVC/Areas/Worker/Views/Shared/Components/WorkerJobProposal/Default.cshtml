@@ -1,17 +1,17 @@
 ﻿@model List<App.Domain.Dtos.JobWorkerProposalDto>
 @{
-    var jobId = (int)(ViewData["JobId"]!);
-    var workerId = (int)(ViewData["WorkerId"]!);
+    var jobId = (int) ViewData["JobId"]!;
+    var workerId = (int) ViewData["WorkerId"]!;
 }
-<br />
+<br/>
 <h3>لیست پیشنهاد‌های قیمت</h3>
-<br />
+<br/>
 @if (Model.All(x => x.WorkerId != workerId))
 {
     <a class="btn btn-info" asp-controller="Proposal" asp-action="Add" asp-route-jobId="@jobId">
         اضافه کردن پیشنهاد
     </a>
-    <br />
+    <br/>
 }
 
 <table class="table table-striped ">
@@ -25,42 +25,42 @@
     </tr>
     </thead>
     <tbody>
-        @foreach (var proposal in Model)
-        {
-            <tr>
-                <td>@proposal.WorkerName</td>
-                <td>@proposal.ProposedPrice</td>
-                <td>@proposal.WorkerComment</td>
-                <td class="d-flex justify-content-end">
-                    @if (proposal.WorkerId == workerId)
-                    {
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal" + proposal.Id))">
-                            حذف
-                        </button>
+    @foreach (var proposal in Model)
+    {
+        <tr>
+            <td>@proposal.WorkerName</td>
+            <td>@proposal.ProposedPrice</td>
+            <td>@proposal.WorkerComment</td>
+            <td class="d-flex justify-content-end">
+                @if (proposal.WorkerId == workerId)
+                {
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal" + proposal.Id))">
+                        حذف
+                    </button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="@(new string(@"Modal" + proposal.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        آیا از حذف اطمینان دارید ؟
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
-                                        <a class="btn btn-danger" asp-controller="Proposal" asp-action="Delete" asp-route-proposalId="@proposal.Id">
-                                            حذف
-                                        </a>
-                                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="@(new string(@"Modal" + proposal.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+                                </div>
+                                <div class="modal-body">
+                                    آیا از حذف اطمینان دارید ؟
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                    <a class="btn btn-danger" asp-controller="Proposal" asp-action="Delete" asp-route-proposalId="@proposal.Id">
+                                        حذف
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    }
-                </td>
-            </tr>
-        }
+                    </div>
+                }
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

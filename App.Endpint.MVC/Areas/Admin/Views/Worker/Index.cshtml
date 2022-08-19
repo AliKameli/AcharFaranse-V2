@@ -50,31 +50,31 @@
     </tr>
     </thead>
     <tbody>
-            @foreach (var worker in Model)
-            {
-                <tr>
-                    <td>@worker.FirstName</td>
-                    <td>@worker.LastName</td>
-                    <td>@worker.Email</td>
-                    <td>@worker.NationalId</td>
-                    <td>@worker.PhoneNumber</td>
-                    <td>@worker.CityName</td>
-                    <td>@worker.Description</td>
-                    <td>@(worker.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
-                    <td class="d-flex justify-content-end">
-                        <a class="btn btn-success" asp-action="Details" asp-route-Id="@worker.Id">
-                            جزئیات @(worker.IsConfirmed ? null : "و تایید")
-                        </a>
-                        &nbsp;|&nbsp;
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-Id=@worker.Id>
-                            ویرایش
-                        </a>
-                        &nbsp;|&nbsp;
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-Id="@worker.Id">
-                            حذف
-                        </a>
-                    </td>
-                </tr>
-            }
+    @foreach (var worker in Model)
+    {
+        <tr>
+            <td>@worker.FirstName</td>
+            <td>@worker.LastName</td>
+            <td>@worker.Email</td>
+            <td>@worker.NationalId</td>
+            <td>@worker.PhoneNumber</td>
+            <td>@worker.CityName</td>
+            <td>@worker.Description</td>
+            <td>@(worker.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
+            <td class="d-flex justify-content-end">
+                <a class="btn btn-success" asp-action="Details" asp-route-Id="@worker.Id">
+                    جزئیات @(worker.IsConfirmed ? null : "و تایید")
+                </a>
+                &nbsp;|&nbsp;
+                <a class="btn btn-warning" asp-action="Edit" asp-route-Id=@worker.Id>
+                    ویرایش
+                </a>
+                &nbsp;|&nbsp;
+                <a class="btn btn-danger" asp-action="Delete" asp-route-Id="@worker.Id">
+                    حذف
+                </a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

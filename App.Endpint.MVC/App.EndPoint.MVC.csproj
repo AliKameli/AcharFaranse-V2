@@ -104,7 +104,7 @@
     <ProjectReference Include="..\App.AppServices\App.AppServices.csproj" />
     <ProjectReference Include="..\App.Domain\App.Domain.csproj" />
     <ProjectReference Include="..\App.Infrastructures.SQLServer\App.Infrastructures.SQLServer.csproj" />
-    <ProjectReference Include="..\App.Service\App.Service.csproj" />
+    <ProjectReference Include="..\App.Service\App.Infrastructures.Repo.csproj" />
   </ItemGroup>
 
   <ItemGroup>

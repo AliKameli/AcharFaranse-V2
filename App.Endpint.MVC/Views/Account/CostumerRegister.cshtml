@@ -2,77 +2,77 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model App.Domain.Dtos.CostumerDto
 @{
-	ViewData["Title"] = "مشتری جدید";
-	var cities = (ViewData["Cities"] as List<CityDto>)!;
+    ViewData["Title"] = "مشتری جدید";
+    var cities = (ViewData["Cities"] as List<CityDto>)!;
 }
 <h3>ثبت نام مشتری جدید</h3>
 <br>
 
 <form asp-action="CostumerRegister" formmethod="post">
-	<div class="row mt-2">
-		<div class="form-group col-md-6">
-			<label asp-for="Email"></label>
-			<input class="form-control" asp-for="Email">
-			<br />
-			<span asp-validation-for="Email" class="text-danger"></span>
-		</div>
-		<div class="form-group col-md-6">
-			<label asp-for="NationalId"></label>
-			<input class="form-control" asp-for="NationalId">
-			<br />
-			<span asp-validation-for="NationalId" class="text-danger"></span>
-		</div>
-		<div class="form-group col-md-6">
-			<label asp-for="Password"></label>
-			<input class="form-control" asp-for="Password">
-			<br />
-			<span asp-validation-for="Password" class="text-danger"></span>
-		</div>
-		<div class="form-group col-md-6">
-			<label asp-for="ConfirmPassword"></label>
-			<input class="form-control" asp-for="ConfirmPassword">
-			<br />
-			<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-		</div>
-		<div class="form-group col-md-6">
-			<label asp-for="FirstName"></label>
-			<input class="form-control" asp-for="FirstName">
-			<br />
-			<span asp-validation-for="FirstName" class="text-danger"></span>
-		</div>
-		<div class="form-group col-md-6">
-			<label asp-for="LastName"></label>
-			<input class="form-control" asp-for="LastName">
-			<br />
-			<span asp-validation-for="LastName" class="text-danger"></span>
-		</div>
-		<div class="form-group col-md-6">
-			<label asp-for="PhoneNumber"></label>
-			<input class="form-control" asp-for="PhoneNumber">
-			<br />
-			<span asp-validation-for="PhoneNumber" class="text-danger"></span>
-		</div>
-		<div class="form-group col-md-6">
-			<label asp-for="HomeAddress"></label>
-			<input class="form-control" asp-for="HomeAddress">
-			<br />
-			<span asp-validation-for="HomeAddress" class="text-danger"></span>
-		</div>
-		<div class="form-group col-md-6">
-			<label asp-for="CityName"></label>
-			<select class="form-select" asp-for="CityId" asp-items="@(new SelectList(cities, nameof(CityDto.Id), nameof(CityDto.Name)))">
-				<option disabled selected>یک شهر انتخاب کنید</option>
-			</select>
-			<span asp-validation-for="CityId" class="text-danger"></span>
-		</div>
-		<div style="float: left; margin-top: 5px;">
-			<br/>
-			<button type="submit" class="btn btn-primary">ثبت نام</button>
-			<a class="btn btn-danger" asp-controller="Home" asp-action="Index">انصراف</a>
-		</div>
-	</div>
+    <div class="row mt-2">
+        <div class="form-group col-md-6">
+            <label asp-for="Email"></label>
+            <input class="form-control" asp-for="Email">
+            <br/>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="NationalId"></label>
+            <input class="form-control" asp-for="NationalId">
+            <br/>
+            <span asp-validation-for="NationalId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Password"></label>
+            <input class="form-control" asp-for="Password">
+            <br/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="ConfirmPassword"></label>
+            <input class="form-control" asp-for="ConfirmPassword">
+            <br/>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="FirstName"></label>
+            <input class="form-control" asp-for="FirstName">
+            <br/>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="LastName"></label>
+            <input class="form-control" asp-for="LastName">
+            <br/>
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PhoneNumber"></label>
+            <input class="form-control" asp-for="PhoneNumber">
+            <br/>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="HomeAddress"></label>
+            <input class="form-control" asp-for="HomeAddress">
+            <br/>
+            <span asp-validation-for="HomeAddress" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="CityName"></label>
+            <select class="form-select" asp-for="CityId" asp-items="@(new SelectList(cities, nameof(CityDto.Id), nameof(CityDto.Name)))">
+                <option disabled selected>یک شهر انتخاب کنید</option>
+            </select>
+            <span asp-validation-for="CityId" class="text-danger"></span>
+        </div>
+        <div style="float: left; margin-top: 5px;">
+            <br/>
+            <button type="submit" class="btn btn-primary">ثبت نام</button>
+            <a class="btn btn-danger" asp-controller="Home" asp-action="Index">انصراف</a>
+        </div>
+    </div>
 </form>
 
 @section Scripts{
-	<partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial"/>
 }

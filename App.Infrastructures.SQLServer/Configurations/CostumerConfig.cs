@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace App.Domain.Configurations;
+namespace App.Infrastructures.SQLServer.Configurations;
 
-public class WorkerConfig : IEntityTypeConfiguration<Worker>
+public class CostumerConfig : IEntityTypeConfiguration<Costumer>
 {
-    public void Configure(EntityTypeBuilder<Worker> builder)
+    public void Configure(EntityTypeBuilder<Costumer> builder)
     {
         builder.HasKey(x => x.Id);
 
@@ -30,10 +30,6 @@ public class WorkerConfig : IEntityTypeConfiguration<Worker>
             .HasMaxLength(256)
             .IsRequired(false);
 
-        builder.Property(x => x.Description)
-            .HasMaxLength(256)
-            .IsRequired(false);
-
         builder.Property(x => x.NationalId)
             .HasMaxLength(10)
             .HasColumnType("char(10)");
@@ -42,19 +38,15 @@ public class WorkerConfig : IEntityTypeConfiguration<Worker>
             .HasMaxLength(256)
             .IsRequired(false);
 
-        builder.Property(x => x.TotalWageEarned)
+        builder.Property(x => x.TotalMoneyPaid)
             .HasPrecision(10, 1)
             .HasDefaultValue(0);
 
-        builder.Property(x => x.TotalCompanyProfitEarnedFromWorker)
+        builder.Property(x => x.TotalCompanyProfitEarnedFromCostumer)
             .HasPrecision(10, 1)
             .HasDefaultValue(0);
 
-        builder.Property(x => x.MoneyOwedToCompany)
-            .HasPrecision(10, 1)
-            .HasDefaultValue(0);
-
-        builder.Property(x => x.RatingByCostumers)
+        builder.Property(x => x.RatingByWorkers)
             .HasDefaultValue(0);
 
         builder.Property(x => x.RatingCount)
@@ -64,49 +56,35 @@ public class WorkerConfig : IEntityTypeConfiguration<Worker>
             .HasDefaultValue(false);
 
         builder.HasOne(x => x.UserCity)
-            .WithMany(x => x.Workers)
+            .WithMany(x => x.Costumers)
             .HasForeignKey(x => x.UserCityId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.IdentityUser)
             .WithOne()
             .HasPrincipalKey<IdentityUser<int>>(x => x.Id)
-            .HasForeignKey<Worker>(x => x.Id)
+            .HasForeignKey<Costumer>(x => x.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.CostumerAddresses)
+            .WithOne(x => x.Costumer)
+            .HasForeignKey(x => x.CostumerId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Comments)
-            .WithOne(x => x.Worker)
-            .HasForeignKey(x => x.WorkerId)
+            .WithOne(x => x.Costumer)
+            .HasForeignKey(x => x.CostumerId)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany(x => x.WorkerJobs)
-            .WithOne(x => x.Worker)
-            .HasForeignKey(x => x.WorkerId)
-            .IsRequired(false)
+        builder.HasMany(x => x.CostumerJobs)
+            .WithOne(x => x.Costumer)
+            .HasForeignKey(x => x.CostumerId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasMany(x => x.JobCategories)
-            .WithMany(x => x.Workers)
-            .UsingEntity<JobCategoryWorker>();
-
-        builder.HasMany(x => x.JobCategoryWorkers)
-            .WithOne(x => x.Worker)
-            .HasForeignKey(x => x.WorkerId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(x => x.JobWorkerProposals)
-            .WithOne(x => x.Worker)
-            .HasForeignKey(x => x.WorkerId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasMany(x => x.JobsProposed)
-            .WithMany(x => x.ProposedWorkers)
-            .UsingEntity<JobWorkerProposal>();
 
         builder.HasMany(x => x.JobPictures)
-            .WithOne(x => x.Worker)
-            .HasForeignKey(x => x.WorkerId)
+            .WithOne(x => x.Costumer)
+            .HasForeignKey(x => x.CostumerId)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
     }

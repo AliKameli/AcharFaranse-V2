@@ -1,93 +1,100 @@
 ﻿using App.Domain.Common;
-using App.Domain.Contracts.Service;
+using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using App.Domain.Entities;
 using App.Infrastructures.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.Service;
+namespace App.Infrastructures.Repo;
 
-public class JobPictureService : IJobPictureService
+public class CommentRepo : ICommentRepo
 {
     private readonly AppDbContext _dbContext;
 
-    public JobPictureService(AppDbContext dbContext)
+    public CommentRepo(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task EnsureExistsByIdAsync(int jobPictureId)
+    public async Task EnsureExistsByIdAsync(int commentId)
     {
-        var result = await _dbContext.JobPictures.AnyAsync(x => x.Id == jobPictureId);
+        var result = await _dbContext.Comments.AnyAsync(x => x.Id == commentId);
 
-        if (!result) throw new Exception($"عکس با شناسه {jobPictureId} وجود ندارد !");
+        if (!result) throw new Exception($"گزارش با شناسه {commentId} وجود ندارد !");
     }
 
-
-    public async Task<int> AddAsync(JobPictureDto jobPictureDto)
+    public async Task EnsureDoesNotExistAsync(CommentDto commentDto)
     {
-        var record = new JobPicture
+        var result = await _dbContext.Comments.AnyAsync(x =>
+            x.UserType == commentDto.UserType &&
+            x.JobId == commentDto.JobId);
+
+        if (result) throw new Exception($"گزارش {commentDto.UserType} برای این کار وجود دارد");
+    }
+
+    public async Task<int> AddAsync(CommentDto commentDto)
+    {
+        await EnsureDoesNotExistAsync(commentDto);
+
+        var record = new Comment
         {
-            FileSavePath = jobPictureDto.FileSavePath,
-            Description = jobPictureDto.Description,
-            JobId = jobPictureDto.JobId,
-            UserType = jobPictureDto.UserType,
-            CostumerId = jobPictureDto.CostumerId,
-            WorkerId = jobPictureDto.WorkerId
+            UserType = commentDto.UserType,
+            CostumerId = commentDto.CostumerId,
+            WorkerId = commentDto.WorkerId,
+            JobId = commentDto.JobId,
+            Description = commentDto.Description
         };
 
-        var result = await _dbContext.JobPictures.AddAsync(record);
+        var result = await _dbContext.Comments.AddAsync(record);
 
         await _dbContext.SaveChangesAsync();
 
         return result.Entity.Id;
     }
 
-    public async Task UpdateAsync(JobPictureDto jobPictureDto)
+    public async Task UpdateAsync(CommentDto commentDto)
     {
-        await EnsureExistsByIdAsync(jobPictureDto.Id);
+        await EnsureExistsByIdAsync(commentDto.Id);
 
-        var record = await _dbContext.JobPictures.FirstAsync(x => x.Id == jobPictureDto.Id);
+        var record = await _dbContext.Comments.FirstAsync(x => x.Id == commentDto.Id);
 
-        record.Description = jobPictureDto.Description;
-        record.IsConfirmed = jobPictureDto.IsConfirmed;
-
+        record.Description = commentDto.Description;
+        record.IsConfirmed = commentDto.IsConfirmed;
         record.LastUpdateDateTime = DateTimeOffset.Now;
 
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int jobPictureId)
+    public async Task DeleteAsync(int commentId)
     {
-        await EnsureExistsByIdAsync(jobPictureId);
+        await EnsureExistsByIdAsync(commentId);
 
-        var record = await _dbContext.JobPictures.FirstAsync(x => x.Id == jobPictureId);
+        var record = await _dbContext.Comments.FirstAsync(x => x.Id == commentId);
 
         try
         {
-            _dbContext.JobPictures.Remove(record);
+            _dbContext.Comments.Remove(record);
             await _dbContext.SaveChangesAsync();
         }
         catch (Exception e)
         {
-            throw new Exception(innerException: e, message: $"عکس {record.Id} در حال استفاده است و قابل حذف نیست !");
+            throw new Exception(innerException: e, message: $"گزارش {record.Id} در حال استفاده است و قابل حذف نیست !");
         }
     }
 
-    public async Task<List<JobPictureDto>> GetAllAsync()
+    public async Task<List<CommentDto>> GetAllAsync()
     {
-        var records = await _dbContext.JobPictures.Select(x => new JobPictureDto
+        var records = await _dbContext.Comments.Select(x => new CommentDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,
                 LastUpdateDateTime = x.LastUpdateDateTime,
-                FileSavePath = x.FileSavePath,
-                Description = x.Description,
-                JobId = x.JobId,
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
                 UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
+                JobId = x.JobId,
+                Description = x.Description,
                 IsConfirmed = x.IsConfirmed
             })
             .ToListAsync();
@@ -95,46 +102,45 @@ public class JobPictureService : IJobPictureService
         return records;
     }
 
-    public async Task<JobPictureDto> GetByIdAsync(int jobPictureId)
+    public async Task<CommentDto> GetByIdAsync(int commentId)
     {
-        await EnsureExistsByIdAsync(jobPictureId);
+        await EnsureExistsByIdAsync(commentId);
 
-        var record = await _dbContext.JobPictures
-            .Select(x => new JobPictureDto
+        var record = await _dbContext.Comments
+            .Select(x => new CommentDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,
                 LastUpdateDateTime = x.LastUpdateDateTime,
-                FileSavePath = x.FileSavePath,
-                Description = x.Description,
-                JobId = x.JobId,
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
                 UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
+                JobId = x.JobId,
+                Description = x.Description,
                 IsConfirmed = x.IsConfirmed
             })
-            .FirstAsync(x => x.Id == jobPictureId);
+            .FirstAsync(x => x.Id == commentId);
+
 
         return record;
     }
 
-    public async Task<List<JobPictureDto>> GetByJobIdAsync(int jobId)
+    public async Task<List<CommentDto>> GetByJobIdAsync(int jobId)
     {
-        var records = await _dbContext.JobPictures
+        var records = await _dbContext.Comments
             .Where(x => x.JobId == jobId)
-            .Select(x => new JobPictureDto
+            .Select(x => new CommentDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,
                 LastUpdateDateTime = x.LastUpdateDateTime,
-                FileSavePath = x.FileSavePath,
-                Description = x.Description,
-                JobId = x.JobId,
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
                 UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
+                JobId = x.JobId,
+                Description = x.Description,
                 IsConfirmed = x.IsConfirmed
             })
             .ToListAsync();
@@ -142,22 +148,21 @@ public class JobPictureService : IJobPictureService
         return records;
     }
 
-    public async Task<List<JobPictureDto>> GetByCostumerIdAsync(int costumerId)
+    public async Task<List<CommentDto>> GetByCostumerIdAsync(int costumerId)
     {
-        var records = await _dbContext.JobPictures
+        var records = await _dbContext.Comments
             .Where(x => x.CostumerId == costumerId)
-            .Select(x => new JobPictureDto
+            .Select(x => new CommentDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,
                 LastUpdateDateTime = x.LastUpdateDateTime,
-                FileSavePath = x.FileSavePath,
-                Description = x.Description,
-                JobId = x.JobId,
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
                 UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
+                JobId = x.JobId,
+                Description = x.Description,
                 IsConfirmed = x.IsConfirmed
             })
             .ToListAsync();
@@ -165,22 +170,21 @@ public class JobPictureService : IJobPictureService
         return records;
     }
 
-    public async Task<List<JobPictureDto>> GetByWorkerIdAsync(int workerId)
+    public async Task<List<CommentDto>> GetByWorkerIdAsync(int workerId)
     {
-        var records = await _dbContext.JobPictures
+        var records = await _dbContext.Comments
             .Where(x => x.WorkerId == workerId)
-            .Select(x => new JobPictureDto
+            .Select(x => new CommentDto
             {
                 Id = x.Id,
                 CreationDateTime = x.CreationDateTime,
                 LastUpdateDateTime = x.LastUpdateDateTime,
-                FileSavePath = x.FileSavePath,
-                Description = x.Description,
-                JobId = x.JobId,
                 UserType = x.UserType,
                 CostumerId = x.CostumerId,
                 WorkerId = x.WorkerId,
                 UserFullName = (x.Worker != null ? (BaseUser) x.Worker : x.Costumer!).ToString(),
+                JobId = x.JobId,
+                Description = x.Description,
                 IsConfirmed = x.IsConfirmed
             })
             .ToListAsync();

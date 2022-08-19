@@ -1,16 +1,16 @@
-﻿using App.Domain.Contracts.Service;
+﻿using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using App.Domain.Entities;
 using App.Infrastructures.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.Service;
+namespace App.Infrastructures.Repo;
 
-public class WorkerService : IWorkerService
+public class WorkerRepo : IWorkerRepo
 {
     private readonly AppDbContext _dbContext;
 
-    public WorkerService(AppDbContext dbContext)
+    public WorkerRepo(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -318,31 +318,25 @@ public class WorkerService : IWorkerService
 
     public async Task AddToJobCategory(int workerId, int jobCategoryId)
     {
-        if (await IsInJobCategory(workerId,jobCategoryId))
-        {
-            throw new Exception("کارمند در این دسته‌بندی قرار دارد");
-        }
+        if (await IsInJobCategory(workerId, jobCategoryId)) throw new Exception("کارمند در این دسته‌بندی قرار دارد");
 
         await _dbContext.JobCategoryWorkers.AddAsync(new JobCategoryWorker
         {
             JobCategoryId = jobCategoryId,
-            WorkerId = workerId,
+            WorkerId = workerId
         });
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteFromJobCategory(int workerId, int jobCategoryId)
     {
-        if (!await IsInJobCategory(workerId, jobCategoryId))
-        {
-            throw new Exception("کارمند در این دسته‌بندی قرار ندارد");
-        }
+        if (!await IsInJobCategory(workerId, jobCategoryId)) throw new Exception("کارمند در این دسته‌بندی قرار ندارد");
 
         _dbContext.JobCategoryWorkers.Remove(
             await _dbContext.JobCategoryWorkers
                 .FirstAsync(x =>
-                x.WorkerId == workerId && 
-                x.JobCategoryId == jobCategoryId));
+                    x.WorkerId == workerId &&
+                    x.JobCategoryId == jobCategoryId));
 
         await _dbContext.SaveChangesAsync();
     }

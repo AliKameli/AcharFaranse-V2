@@ -1,8 +1,8 @@
 ﻿using App.Domain.Dtos;
 
-namespace App.Domain.Contracts.Service;
+namespace App.Domain.Contracts.Repo;
 
-public interface IJobPictureService
+public interface IJobPictureRepo
 {
     Task EnsureExistsByIdAsync(int jobPictureId);
     Task<int> AddAsync(JobPictureDto jobPictureDto);

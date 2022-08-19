@@ -1,8 +1,8 @@
 ﻿using App.Domain.Dtos;
 
-namespace App.Domain.Contracts.Service;
+namespace App.Domain.Contracts.Repo;
 
-public interface ICommentService
+public interface ICommentRepo
 {
     Task EnsureExistsByIdAsync(int commentId);
     Task EnsureDoesNotExistAsync(CommentDto commentDto);

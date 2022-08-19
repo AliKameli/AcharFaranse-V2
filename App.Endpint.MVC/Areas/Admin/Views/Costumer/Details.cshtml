@@ -1,94 +1,94 @@
-﻿@using App.Endpoint.MVC.Areas.Admin.ViewComponents
-@using App.EndPoint.MVC.Models.Enum
+﻿@using App.EndPoint.MVC.Models.Enum
+@using App.Endpoint.MVC.Areas.Admin.ViewComponents
 @model App.Domain.Dtos.CostumerDto
 
 @{
-	ViewData["Title"] = "جزئیات مشتری";
-	var pageType = (DetailPageTypeEnum) (ViewData["PageType"] ??= DetailPageTypeEnum.None);
+    ViewData["Title"] = "جزئیات مشتری";
+    var pageType = (DetailPageTypeEnum) (ViewData["PageType"] ??= DetailPageTypeEnum.None);
 
 }
 <div class="row ">
-	<div class="col-auto">
-		<div class="card ">
-			<div class="card-header">
-				مشخصات مشتری
-			</div>
-			<ul class="list-group list-group-flush" style="padding: 0;">
+    <div class="col-auto">
+        <div class="card ">
+            <div class="card-header">
+                مشخصات مشتری
+            </div>
+            <ul class="list-group list-group-flush" style="padding: 0;">
 
-				<li class="list-group-item">
-					<label class="card-text" asp-for="Id"></label> : @Model.Id <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="Email"></label> : @Model.Email <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="FirstName"></label> : @Model.FirstName <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="LastName"></label> : @Model.LastName <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="NationalId"></label> : @Model.NationalId <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="PhoneNumber"></label> : @Model.PhoneNumber <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="CityName"></label> : @Model.CityName <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="IsConfirmed"></label> : @(Model.IsConfirmed ? "بله" : "خیر") <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="HomeAddress"></label> :
-					<p class="card-text">@Model.HomeAddress</p>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="ConfirmDateTime"></label> :
-					<p class="card-text">@Model.ConfirmDateTime</p>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="LastUpdateDateTime"></label> :
-					<p class="card-text">@Model.LastUpdateDateTime</p>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="CreationDateTime"></label> :
-					<p class="card-text">@Model.CreationDateTime</p>
-				</li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="Id"></label> : @Model.Id <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="Email"></label> : @Model.Email <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="FirstName"></label> : @Model.FirstName <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="LastName"></label> : @Model.LastName <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="NationalId"></label> : @Model.NationalId <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="PhoneNumber"></label> : @Model.PhoneNumber <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="CityName"></label> : @Model.CityName <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="IsConfirmed"></label> : @(Model.IsConfirmed ? "بله" : "خیر") <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="HomeAddress"></label> :
+                    <p class="card-text">@Model.HomeAddress</p>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="ConfirmDateTime"></label> :
+                    <p class="card-text">@Model.ConfirmDateTime</p>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="LastUpdateDateTime"></label> :
+                    <p class="card-text">@Model.LastUpdateDateTime</p>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="CreationDateTime"></label> :
+                    <p class="card-text">@Model.CreationDateTime</p>
+                </li>
 
-			</ul>
-			@if (!Model.IsConfirmed)
-			{
-				<a class="btn btn-success" asp-action="ConfirmCostumer" asp-route-id="@Model.Id">تایید مشتری</a>
-			}
-			<a class="btn btn-info"
-			   asp-action="Index">
-				بازگشت
-			</a>
-		</div>
-	</div>
-	<div class="col">
-		<nav>
-			<ul class="pagination">
-				<li class="page-item">
-					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Addresses">آدرس‌های مشتری</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Comments">کامنت‌های مشتری</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Pictures">عکس‌‌های مشتری</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Jobs">کار‌های مشتری</a>
-				</li>
-			</ul>
-		</nav>
-		@await Component.InvokeAsync(typeof(JobCatChooseViewComponent)
-			, new
-			{
-				id = Model.Id,
-				pageType=pageType
-			})
-	</div>
+            </ul>
+            @if (!Model.IsConfirmed)
+            {
+                <a class="btn btn-success" asp-action="ConfirmCostumer" asp-route-id="@Model.Id">تایید مشتری</a>
+            }
+            <a class="btn btn-info"
+               asp-action="Index">
+                بازگشت
+            </a>
+        </div>
+    </div>
+    <div class="col">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Addresses">آدرس‌های مشتری</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Comments">کامنت‌های مشتری</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Pictures">عکس‌‌های مشتری</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Jobs">کار‌های مشتری</a>
+                </li>
+            </ul>
+        </nav>
+        @await Component.InvokeAsync(typeof(JobCatChooseViewComponent)
+            , new
+            {
+                id = Model.Id,
+                pageType
+            })
+    </div>
 </div>

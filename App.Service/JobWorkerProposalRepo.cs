@@ -1,17 +1,17 @@
-﻿using App.Domain.Contracts.Service;
+﻿using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using App.Domain.Entities;
 using App.Domain.Enums;
 using App.Infrastructures.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.Service;
+namespace App.Infrastructures.Repo;
 
-public class JobWorkerProposalService : IJobWorkerProposalService
+public class JobWorkerProposalRepo : IJobWorkerProposalRepo
 {
     private readonly AppDbContext _dbContext;
 
-    public JobWorkerProposalService(AppDbContext dbContext)
+    public JobWorkerProposalRepo(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -61,7 +61,7 @@ public class JobWorkerProposalService : IJobWorkerProposalService
             _dbContext.JobWorkerProposals.Where(x =>
                 x.JobId == record.JobId &&
                 x.Id != record.Id)
-            );
+        );
         record.ProposalStatus = ProposalStatusEnum.AcceptedByCostumer;
         job.JobStatus = JobStatusEnum.WorkerChosenByCostumer;
         job.WorkerId = record.WorkerId;

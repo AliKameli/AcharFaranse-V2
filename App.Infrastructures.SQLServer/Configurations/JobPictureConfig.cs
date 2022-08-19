@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace App.Domain.Configurations;
+namespace App.Infrastructures.SQLServer.Configurations;
 
 public class JobPictureConfig : IEntityTypeConfiguration<JobPicture>
 {

@@ -1,9 +1,9 @@
 ﻿@using App.Domain.Enums
-@model System.Collections.Generic.List<App.Domain.Dtos.JobWorkerProposalDto>
+@model List<App.Domain.Dtos.JobWorkerProposalDto>
 @{
     ViewData["Title"] = "لیست پیشنهادهای قیمت";
 }
-<br />
+<br/>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-auto">
@@ -12,58 +12,58 @@
     </div>
 </div>
 
-<br />
+<br/>
 
 <table class="table table-striped ">
     <thead>
-        <tr>
-            <th scope="col">توضیحات</th>
-            <th scope="col">قیمت</th>
-            <th scope="col">وضعیت</th>
-        </tr>
+    <tr>
+        <th scope="col">توضیحات</th>
+        <th scope="col">قیمت</th>
+        <th scope="col">وضعیت</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var proposal in Model)
-        {
-            <tr>
-                <th scope="row">
-                    @proposal.WorkerComment
-                </th>
-                <td>@proposal.ProposedPrice</td>
-                <td>@Html.DisplayFor(x => proposal.ProposalStatus)</td>
-                <td class="d-flex justify-content-end">
-                    <a class="btn btn-success" asp-controller="Job" asp-action="Details" asp-route-Id="@proposal.JobId">
-                        مشاهده کار
-                    </a>
-                    @if (proposal.ProposalStatus != ProposalStatusEnum.AcceptedByCostumer)
-                    {
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal" + proposal.Id))">
-                            حذف
-                        </button>
+    @foreach (var proposal in Model)
+    {
+        <tr>
+            <th scope="row">
+                @proposal.WorkerComment
+            </th>
+            <td>@proposal.ProposedPrice</td>
+            <td>@Html.DisplayFor(x => proposal.ProposalStatus)</td>
+            <td class="d-flex justify-content-end">
+                <a class="btn btn-success" asp-controller="Job" asp-action="Details" asp-route-Id="@proposal.JobId">
+                    مشاهده کار
+                </a>
+                @if (proposal.ProposalStatus != ProposalStatusEnum.AcceptedByCostumer)
+                {
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal" + proposal.Id))">
+                        حذف
+                    </button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="@(new string(@"Modal" + proposal.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        آیا از حذف اطمینان دارید ؟
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
-                                        <a class="btn btn-danger" asp-controller="Proposal" asp-action="Delete" asp-route-proposalId="@proposal.Id">
-                                            حذف
-                                        </a>
-                                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="@(new string(@"Modal" + proposal.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+                                </div>
+                                <div class="modal-body">
+                                    آیا از حذف اطمینان دارید ؟
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                    <a class="btn btn-danger" asp-controller="Proposal" asp-action="Delete" asp-route-proposalId="@proposal.Id">
+                                        حذف
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    }
-                </td>
-            </tr>
-        }
+                    </div>
+                }
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

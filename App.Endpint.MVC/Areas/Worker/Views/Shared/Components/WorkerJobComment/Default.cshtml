@@ -3,61 +3,61 @@
 @using App.Domain.Enums
 @model List<App.Domain.Dtos.CommentDto>
 @{
-	var jobId = (int) (ViewData["JobId"]!);
+    var jobId = (int) ViewData["JobId"]!;
 }
 <br/>
 <h3>لیست کامنت‌ها</h3>
 <br/>
 @if ((await _JobAppService.GetByIdAsync(jobId)).JobStatus != JobStatusEnum.RequestedByCostumer)
 {
-	<a class="btn btn-info" asp-action="AddComment" asp-route-jobId="@jobId">
-		اضافه کردن کامنت
-	</a>
-	<br/>
+    <a class="btn btn-info" asp-action="AddComment" asp-route-jobId="@jobId">
+        اضافه کردن کامنت
+    </a>
+    <br/>
 }
 <table class="table table-striped ">
-	<thead>
-	<tr>
-		<th scope="col">نام کاربر</th>
-		<th scope="col">توضیحات</th>
-		<th scope="col">وضعیت تایید</th>
-		<th scope="col"></th>
-	</tr>
-	</thead>
-	<tbody>
-		@foreach (var comment in Model)
-		{
-			<tr>
-				<td>@comment.UserFullName</td>
-				<td>@comment.Description</td>
-				<td>@(comment.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
-				<td class="d-flex justify-content-end">
-					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal" + comment.Id))">
-						حذف
-					</button>
+    <thead>
+    <tr>
+        <th scope="col">نام کاربر</th>
+        <th scope="col">توضیحات</th>
+        <th scope="col">وضعیت تایید</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var comment in Model)
+    {
+        <tr>
+            <td>@comment.UserFullName</td>
+            <td>@comment.Description</td>
+            <td>@(comment.IsConfirmed ? "تایید شده" : "تایید نشده")</td>
+            <td class="d-flex justify-content-end">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal" + comment.Id))">
+                    حذف
+                </button>
 
-					<!-- Modal -->
-					<div class="modal fade" id="@(new string(@"Modal" + comment.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
-								</div>
-								<div class="modal-body">
-									آیا از حذف اطمینان دارید ؟
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
-									<a class="btn btn-danger" asp-action="DeleteComment" asp-route-commentId="@comment.Id">
-										حذف
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-		}
-	</tbody>
+                <!-- Modal -->
+                <div class="modal fade" id="@(new string(@"Modal" + comment.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+                            </div>
+                            <div class="modal-body">
+                                آیا از حذف اطمینان دارید ؟
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                <a class="btn btn-danger" asp-action="DeleteComment" asp-route-commentId="@comment.Id">
+                                    حذف
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
 </table>

@@ -12,7 +12,8 @@ public class WorkerJobProposalViewComponent : ViewComponent
     private readonly UserManager<IdentityUser<int>> _userManager;
 
 
-    public WorkerJobProposalViewComponent(IJobWorkerProposalAppService jobWorkerProposalAppService, UserManager<IdentityUser<int>> userManager)
+    public WorkerJobProposalViewComponent(IJobWorkerProposalAppService jobWorkerProposalAppService,
+        UserManager<IdentityUser<int>> userManager)
     {
         _jobWorkerProposalAppService = jobWorkerProposalAppService;
         _userManager = userManager;
@@ -21,7 +22,7 @@ public class WorkerJobProposalViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(int jobId)
     {
         var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
-        int userId = user.Id;
+        var userId = user.Id;
         var model = new List<JobWorkerProposalDto>(await _jobWorkerProposalAppService.GetByJobIdAsync(jobId));
 
         ViewData["JobId"] = jobId;

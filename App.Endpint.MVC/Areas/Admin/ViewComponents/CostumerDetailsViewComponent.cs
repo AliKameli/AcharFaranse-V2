@@ -2,6 +2,7 @@
 using App.Domain.Dtos;
 using App.EndPoint.MVC.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
+
 // ReSharper disable Mvc.ViewComponentViewNotResolved
 
 namespace App.Endpoint.MVC.Areas.Admin.ViewComponents;
@@ -33,28 +34,28 @@ public class JobCatChooseViewComponent : ViewComponent
             var items =
                 new List<CostumerAddressDto>(await _costumerAddressAppService.GetByCostumerIdAsync(id));
 
-            return View(viewName: "Addresses", model: items);
+            return View("Addresses", items);
         }
 
         if (pageType == DetailPageTypeEnum.Comments)
         {
             var items = new List<CommentDto>(await _commentAppService.GetByCostumerIdAsync(id));
 
-            return View(viewName: "Comments", model: items);
+            return View("Comments", items);
         }
 
         if (pageType == DetailPageTypeEnum.Pictures)
         {
             var items = new List<JobPictureDto>(await _jobPictureAppService.GetByCostumerIdAsync(id));
 
-            return View(viewName: "Pictures", model: items);
+            return View("Pictures", items);
         }
 
         if (pageType == DetailPageTypeEnum.Jobs)
         {
             var items = new List<JobDto>(await _jobAppService.GetByCostumerIdAsync(id));
 
-            return View(viewName: "Jobs", model: items);
+            return View("Jobs", items);
         }
 
         return View();

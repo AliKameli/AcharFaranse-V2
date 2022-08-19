@@ -1,9 +1,9 @@
-﻿@model System.Collections.Generic.List<App.Domain.Dtos.JobDto>
+﻿@model List<App.Domain.Dtos.JobDto>
 
 @{
     ViewData["Title"] = "لیست کار‌های موجود";
 }
-<br />
+<br/>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-auto">
@@ -12,36 +12,36 @@
     </div>
 </div>
 
-<br />
+<br/>
 
 <table class="table table-striped ">
     <thead>
-        <tr>
-            <th scope="col">دسته بندی</th>
-            <th scope="col">توضیحات</th>
-            <th scope="col">نام مشتری</th>
-            <th scope="col">قیمت پیشنهادی مشتری</th>
-            <th scope="col">نوع پرداخت</th>
-            <th scope="col"></th>
-        </tr>
+    <tr>
+        <th scope="col">دسته بندی</th>
+        <th scope="col">توضیحات</th>
+        <th scope="col">نام مشتری</th>
+        <th scope="col">قیمت پیشنهادی مشتری</th>
+        <th scope="col">نوع پرداخت</th>
+        <th scope="col"></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var job in Model)
-        {
-            <tr>
-                <th scope="row">
-                    @job.JobCategoryName
-                </th>
-                <td>@job.Description</td>
-                <td>@job.CostumerName</td>
-                <td>@job.CostumerEstimatedFinalCost</td>
-                <td>@(job.IsOnlinePayment ? "آنلاین" : "نقدی")</td>
-                <td class="d-flex justify-content-end">
-                    <a class="btn btn-success" asp-controller="Job" asp-action="Details" asp-route-Id="@job.Id">
-                        جزئیات و پیشنهاد دادن
-                    </a>
-                </td>
-            </tr>
-        }
+    @foreach (var job in Model)
+    {
+        <tr>
+            <th scope="row">
+                @job.JobCategoryName
+            </th>
+            <td>@job.Description</td>
+            <td>@job.CostumerName</td>
+            <td>@job.CostumerEstimatedFinalCost</td>
+            <td>@(job.IsOnlinePayment ? "آنلاین" : "نقدی")</td>
+            <td class="d-flex justify-content-end">
+                <a class="btn btn-success" asp-controller="Job" asp-action="Details" asp-route-Id="@job.Id">
+                    جزئیات و پیشنهاد دادن
+                </a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>

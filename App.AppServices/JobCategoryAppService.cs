@@ -1,14 +1,14 @@
 ﻿using App.Domain.Contracts.AppService;
-using App.Domain.Contracts.Service;
+using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 
 namespace App.AppServices;
 
 public class JobCategoryAppService : IJobCategoryAppService
 {
-    private readonly IJobCategoryService _jobCategoryService;
+    private readonly IJobCategoryRepo _jobCategoryService;
 
-    public JobCategoryAppService(IJobCategoryService jobCategoryService)
+    public JobCategoryAppService(IJobCategoryRepo jobCategoryService)
     {
         _jobCategoryService = jobCategoryService;
     }

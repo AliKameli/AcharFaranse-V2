@@ -1,16 +1,16 @@
-﻿using App.Domain.Contracts.Service;
+﻿using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using App.Domain.Entities;
 using App.Infrastructures.SQLServer;
 using Microsoft.EntityFrameworkCore;
 
-namespace App.Service;
+namespace App.Infrastructures.Repo;
 
-public class CityService : ICityService
+public class CityRepo : ICityRepo
 {
     private readonly AppDbContext _dbContext;
 
-    public CityService(AppDbContext dbContext)
+    public CityRepo(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }

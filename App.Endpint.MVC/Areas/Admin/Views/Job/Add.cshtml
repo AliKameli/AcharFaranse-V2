@@ -1,38 +1,38 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model App.Domain.Dtos.JobDto
 @{
-	ViewData["Title"] = "کار جدید";
+    ViewData["Title"] = "کار جدید";
 }
 <h3>اضافه کردن کار جدید</h3>
 <br>
 
 <form asp-action="Add" formmethod="post">
-	<div class="form-group">
-		<label asp-for="Description"></label>
-		<input class="form-control" asp-for="Description">
-		<br/>
-		<span asp-validation-for="Description" class="text-danger"></span>
-	</div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <input class="form-control" asp-for="Description">
+        <br/>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
 
-	<div class="form-group">
-		<label asp-for="CostumerEstimatedFinalCost"></label>
-		<input class="form-control" asp-for="CostumerEstimatedFinalCost">
-		<br/>
-		<span asp-validation-for="CostumerEstimatedFinalCost" class="text-danger"></span>
-	</div>
-	<div class="form-group">
-		<label asp-for="JobStartTimeRequestedByUserDateTime"></label>
-		<input class="form-control" type="datetime-local" asp-for="JobStartTimeRequestedByUserDateTime" value="@DateTimeOffset.Now">
-		<br/>
-		<span asp-validation-for="JobStartTimeRequestedByUserDateTime" class="text-danger"></span>
-	</div>
-	<div style="float: left; margin-top: 5px;">
-		<button type="submit" class="btn btn-primary">ایجاد</button>
-		<a class="btn btn-secondary" asp-action="Index">انصراف</a>
-	</div>
+    <div class="form-group">
+        <label asp-for="CostumerEstimatedFinalCost"></label>
+        <input class="form-control" asp-for="CostumerEstimatedFinalCost">
+        <br/>
+        <span asp-validation-for="CostumerEstimatedFinalCost" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="JobStartTimeRequestedByUserDateTime"></label>
+        <input class="form-control" type="datetime-local" asp-for="JobStartTimeRequestedByUserDateTime" value="@DateTimeOffset.Now">
+        <br/>
+        <span asp-validation-for="JobStartTimeRequestedByUserDateTime" class="text-danger"></span>
+    </div>
+    <div style="float: left; margin-top: 5px;">
+        <button type="submit" class="btn btn-primary">ایجاد</button>
+        <a class="btn btn-secondary" asp-action="Index">انصراف</a>
+    </div>
 
 </form>
 
 @section Scripts{
-	<partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial"/>
 }
