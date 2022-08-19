@@ -1,7 +1,5 @@
-﻿using App.AppServices;
-using App.Domain.Contracts.AppService;
+﻿using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
-using App.EndPoint.MVC.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoint.MVC.Areas.Costumer.ViewComponents;

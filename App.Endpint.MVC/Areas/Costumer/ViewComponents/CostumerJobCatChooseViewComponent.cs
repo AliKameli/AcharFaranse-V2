@@ -1,6 +1,4 @@
-﻿using App.AppServices;
-using App.Domain.Contracts.AppService;
-using App.Domain.Dtos;
+﻿using App.Domain.Contracts.AppService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoint.MVC.Areas.Costumer.ViewComponents;
@@ -19,6 +17,7 @@ public class CostumerJobCatChooseViewComponent : ViewComponent
     {
         var model = await _jobCategoryAppService.GetAllAsync();
         ViewData["ParentId"] = parentId;
+
         return View(model);
     }
 }

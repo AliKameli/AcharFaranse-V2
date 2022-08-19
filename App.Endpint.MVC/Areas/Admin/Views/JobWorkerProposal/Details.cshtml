@@ -2,115 +2,115 @@
 @model App.Domain.Dtos.JobWorkerProposalDto
 
 @{
-	ViewData["Title"] = "جزئیات پیشنهاد";
-	var job = (ViewData["Job"] as JobDto)!;
+    ViewData["Title"] = "جزئیات پیشنهاد";
+    var job = (ViewData["Job"] as JobDto)!;
 }
 <div class="row ">
-	<div class="col-md-auto">
-		<div class="card ">
-			<div class="card-header">
-				مشخصات پیشنهاد
-			</div>
-			<ul class="list-group list-group-flush" style="padding: 0;">
-				<li class="list-group-item">
-					<label class="card-text" asp-for="Id"></label> : &nbsp;@Model.Id
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="WorkerName"></label> : &nbsp;@Model.WorkerName
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="ProposedPrice"></label> : &nbsp;@Model.ProposedPrice
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="WorkerComment"></label> : &nbsp;@Model.WorkerComment <br/>
-				</li>
-				<li class="list-group-item">
-					<label class="card-text" asp-for="CreationDateTime"></label> :
-					<p class="card-text">@Model.CreationDateTime</p>
-				</li>
-			</ul>
-			<a class="btn btn-warning"
-			   asp-action="Index">
-				لیست پیشنهادها
-			</a>
-		</div>
-	</div>
-	<div class="col-md">
-		<h4>کار مربوطه</h4>
-		<hr/>
-		<dl class="row row-cols-md-5"style="width: 100%">
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.Description)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.Description)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.JobStartTimeRequestedByUserDateTime)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.JobStartTimeRequestedByUserDateTime)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.JobStatus)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.JobStatus)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.CostumerEstimatedFinalCost)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.CostumerEstimatedFinalCost)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.CostumerName)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.CostumerName)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.WorkerName)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => model.WorkerName)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.CostumerAddressName)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.CostumerAddressName)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.JobCategoryName)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.JobCategoryName)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.JobCityName)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.JobCityName)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.Id)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.Id)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.CreationDateTime)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.CreationDateTime)
-			</dd>
-			<dt class="col-md">
-				@Html.DisplayNameFor(model => job.LastUpdateDateTime)
-			</dt>
-			<dd class="col-md">
-				@Html.DisplayFor(model => job.LastUpdateDateTime)
-			</dd>
-		</dl>
-	</div>
+    <div class="col-md-auto">
+        <div class="card ">
+            <div class="card-header">
+                مشخصات پیشنهاد
+            </div>
+            <ul class="list-group list-group-flush" style="padding: 0;">
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="Id"></label> : &nbsp;@Model.Id
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="WorkerName"></label> : &nbsp;@Model.WorkerName
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="ProposedPrice"></label> : &nbsp;@Model.ProposedPrice
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="WorkerComment"></label> : &nbsp;@Model.WorkerComment <br/>
+                </li>
+                <li class="list-group-item">
+                    <label class="card-text" asp-for="CreationDateTime"></label> :
+                    <p class="card-text">@Model.CreationDateTime</p>
+                </li>
+            </ul>
+            <a class="btn btn-warning"
+               asp-action="Index">
+                لیست پیشنهادها
+            </a>
+        </div>
+    </div>
+    <div class="col-md">
+        <h4>کار مربوطه</h4>
+        <hr/>
+        <dl class="row row-cols-md-5"style="width: 100%">
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.Description)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.Description)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.JobStartTimeRequestedByUserDateTime)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.JobStartTimeRequestedByUserDateTime)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.JobStatus)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.JobStatus)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.CostumerEstimatedFinalCost)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.CostumerEstimatedFinalCost)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.CostumerName)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.CostumerName)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.WorkerName)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => model.WorkerName)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.CostumerAddressName)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.CostumerAddressName)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.JobCategoryName)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.JobCategoryName)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.JobCityName)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.JobCityName)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.Id)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.Id)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.CreationDateTime)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.CreationDateTime)
+            </dd>
+            <dt class="col-md">
+                @Html.DisplayNameFor(model => job.LastUpdateDateTime)
+            </dt>
+            <dd class="col-md">
+                @Html.DisplayFor(model => job.LastUpdateDateTime)
+            </dd>
+        </dl>
+    </div>
 </div>

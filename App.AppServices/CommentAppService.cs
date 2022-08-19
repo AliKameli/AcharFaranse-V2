@@ -1,5 +1,5 @@
 ﻿using App.Domain.Contracts.AppService;
-using App.Domain.Contracts.Service;
+using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using App.Domain.Enums;
 
@@ -7,15 +7,15 @@ namespace App.AppServices;
 
 public class CommentAppService : ICommentAppService
 {
-    private readonly ICommentService _commentService;
-    private readonly ICostumerService _costumerService;
-    private readonly IJobService _jobService;
-    private readonly IWorkerService _workerService;
+    private readonly ICommentRepo _commentService;
+    private readonly ICostumerRepo _costumerService;
+    private readonly IJobRepo _jobService;
+    private readonly IWorkerRepo _workerService;
 
-    public CommentAppService(ICommentService commentService,
-        ICostumerService costumerService,
-        IJobService jobService,
-        IWorkerService workerService)
+    public CommentAppService(ICommentRepo commentService,
+        ICostumerRepo costumerService,
+        IJobRepo jobService,
+        IWorkerRepo workerService)
     {
         _commentService = commentService;
         _costumerService = costumerService;

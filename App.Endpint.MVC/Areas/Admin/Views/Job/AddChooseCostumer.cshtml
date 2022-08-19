@@ -1,22 +1,22 @@
 ﻿@using App.Domain.Dtos
 @{
-	ViewData["Title"] = "ایجاد کار جدید";
-	var costumers = (ViewData["Costumers"] as List<CostumerDto>)!;
+    ViewData["Title"] = "ایجاد کار جدید";
+    var costumers = (ViewData["Costumers"] as List<CostumerDto>)!;
 }
 <h3>ایجاد کار جدید</h3>
 <br>
 
 <form asp-action="AddChooseCostumerAddress" formmethod="post">
-	<div class="form-group">
-		<label> مشتری مورد نظر را انتخاب کنید</label>
-		<select class="form-select" name="costumerId" asp-items="@(new SelectList(costumers, nameof(CostumerDto.Id), nameof(CostumerDto.LastName)))">
-		</select>
-	</div>
-	<div style="float: left; margin-top: 5px;">
-		@if (costumers.Any())
-		{
-			<button type="submit" class="btn btn-primary">مرحله بعد</button>
-		}
-		<a class="btn btn-secondary" asp-action="Index">انصراف</a>
-	</div>
+    <div class="form-group">
+        <label> مشتری مورد نظر را انتخاب کنید</label>
+        <select class="form-select" name="costumerId" asp-items="@(new SelectList(costumers, nameof(CostumerDto.Id), nameof(CostumerDto.LastName)))">
+        </select>
+    </div>
+    <div style="float: left; margin-top: 5px;">
+        @if (costumers.Any())
+        {
+            <button type="submit" class="btn btn-primary">مرحله بعد</button>
+        }
+        <a class="btn btn-secondary" asp-action="Index">انصراف</a>
+    </div>
 </form>

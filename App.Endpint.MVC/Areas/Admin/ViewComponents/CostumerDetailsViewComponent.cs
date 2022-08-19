@@ -3,6 +3,8 @@ using App.Domain.Dtos;
 using App.EndPoint.MVC.Models.Enum;
 using Microsoft.AspNetCore.Mvc;
 
+// ReSharper disable Mvc.ViewComponentViewNotResolved
+
 namespace App.Endpoint.MVC.Areas.Admin.ViewComponents;
 
 [Area("Admin")]

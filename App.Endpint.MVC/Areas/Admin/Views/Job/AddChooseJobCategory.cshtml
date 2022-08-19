@@ -1,19 +1,19 @@
 ﻿@using App.Domain.Dtos
 @{
-	ViewData["Title"] = "ایجاد کار جدید";
-	var jobCategories = (ViewData["JobCategories"] as List<JobCategoryDto>)!;
+    ViewData["Title"] = "ایجاد کار جدید";
+    var jobCategories = (ViewData["JobCategories"] as List<JobCategoryDto>)!;
 }
 <h3>ایجاد کار جدید</h3>
 <br>
 
 <form asp-action="AddChooseCostumer" formmethod="post">
-	<div class="form-group">
-		<label> دسته بندی مورد نظر را انتخاب کنید</label>
-		<select class="form-select" name="jobCategoryId" asp-items="@(new SelectList(jobCategories, nameof(JobCategoryDto.Id), nameof(JobCategoryDto.Name)))">
-		</select>
-	</div>
-	<div style="float: left; margin-top: 5px;">
-		<button type="submit" class="btn btn-primary">مرحله بعد</button>
-		<a class="btn btn-secondary" asp-action="Index">انصراف</a>
-	</div>
+    <div class="form-group">
+        <label> دسته بندی مورد نظر را انتخاب کنید</label>
+        <select class="form-select" name="jobCategoryId" asp-items="@(new SelectList(jobCategories, nameof(JobCategoryDto.Id), nameof(JobCategoryDto.Name)))">
+        </select>
+    </div>
+    <div style="float: left; margin-top: 5px;">
+        <button type="submit" class="btn btn-primary">مرحله بعد</button>
+        <a class="btn btn-secondary" asp-action="Index">انصراف</a>
+    </div>
 </form>

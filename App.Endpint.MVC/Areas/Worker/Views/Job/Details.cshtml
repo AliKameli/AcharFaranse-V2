@@ -1,190 +1,189 @@
-﻿@using App.Endpoint.MVC.Areas.Admin.ViewComponents
-@using App.EndPoint.MVC.Areas.Worker.ViewComponents
-@using App.EndPoint.MVC.Models.Enum
+﻿@using App.EndPoint.MVC.Models.Enum
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using App.EndPoint.MVC.Areas.Worker.ViewComponents
 @model App.Domain.Dtos.JobDto
 
 @{
-	ViewData["Title"] = "جزئیات کار";
+    ViewData["Title"] = "جزئیات کار";
 
-	var pageType = (DetailPageTypeEnum)(ViewData["PageType"] ??= DetailPageTypeEnum.None);
+    var pageType = (DetailPageTypeEnum) (ViewData["PageType"] ??= DetailPageTypeEnum.None);
     var address = ViewData["Address"] as string;
 }
 
 <h1>View</h1>
 
 <div class="row ">
-	<div class="col-auto">
-		<div class="card ">
-			<div class="card-header">
-				مشخصات کار
-			</div>
-			<ul class="list-group list-group-flush" style="padding: 0;">
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.Id)
-					:
-					@Html.DisplayFor(model => model.Id)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.Description)
-					:
-					@Html.DisplayFor(model => model.Description)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.OnlinePaymentReceiptInfo)
-					:
-					@Html.DisplayFor(model => model.OnlinePaymentReceiptInfo)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.IsClosed)
-					:
-					@Html.DisplayFor(model => model.IsClosed)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.IsOnlinePayment)
-					:
-					@Html.DisplayFor(model => model.IsOnlinePayment)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.IsPictureAttached)
-					:
-					@Html.DisplayFor(model => model.IsPictureAttached)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.JobStartTimeRequestedByUserDateTime)
-					:
-					@Html.DisplayFor(model => model.JobStartTimeRequestedByUserDateTime)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.JobAcceptedByWorkerDateTime)
-					:
-					@Html.DisplayFor(model => model.JobAcceptedByWorkerDateTime)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.JobStartedByWorkerDateTime)
-					:
-					@Html.DisplayFor(model => model.JobStartedByWorkerDateTime)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.JobClosedDateTime)
-					:
-					@Html.DisplayFor(model => model.JobClosedDateTime)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.JobStatus)
-					:
-					@Html.DisplayFor(model => model.JobStatus)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.CostumerRatingForWorker)
-					:
-					@Html.DisplayFor(model => model.CostumerRatingForWorker)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.WorkerRatingForCostumer)
-					:
-					@Html.DisplayFor(model => model.WorkerRatingForCostumer)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.CostumerEstimatedFinalCost)
-					:
-					@Html.DisplayFor(model => model.CostumerEstimatedFinalCost)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.WageCost)
-					:
-					@Html.DisplayFor(model => model.WageCost)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.MaterialCost)
-					:
-					@Html.DisplayFor(model => model.MaterialCost)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.CompanyProfit)
-					:
-					@Html.DisplayFor(model => model.CompanyProfit)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.FinalCost)
-					:
-					@Html.DisplayFor(model => model.FinalCost)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.WorkerName)
-					:
-					@Html.DisplayFor(model => model.WorkerName)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.WorkerName)
-					:
-					@Html.DisplayFor(model => model.WorkerName)
-				</li>
-				<li class="list-group-item">
-					آدرس انجام کار
-					:
-					@address
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.JobCategoryName)
-					:
-					@Html.DisplayFor(model => model.JobCategoryName)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.JobCityName)
-					:
-					@Html.DisplayFor(model => model.JobCityName)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.CreationDateTime)
-					:
-					@Html.DisplayFor(model => model.CreationDateTime)
-				</li>
-				<li class="list-group-item">
-					@Html.DisplayNameFor(model => model.LastUpdateDateTime)
-					:
-					@Html.DisplayFor(model => model.LastUpdateDateTime)
-				</li>
-			</ul>
-			<a class="btn btn-info" asp-action="Index">
-				لیست کارها
-			</a>
-		</div>
-	</div>
-	<div class="col">
-		<nav>
-			<ul class="pagination">
-				<li class="page-item">
-					<a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Comments">کامنت‌ها</a>
-				</li>
+    <div class="col-auto">
+        <div class="card ">
+            <div class="card-header">
+                مشخصات کار
+            </div>
+            <ul class="list-group list-group-flush" style="padding: 0;">
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.Id)
+                    :
+                    @Html.DisplayFor(model => model.Id)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.Description)
+                    :
+                    @Html.DisplayFor(model => model.Description)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.OnlinePaymentReceiptInfo)
+                    :
+                    @Html.DisplayFor(model => model.OnlinePaymentReceiptInfo)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.IsClosed)
+                    :
+                    @Html.DisplayFor(model => model.IsClosed)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.IsOnlinePayment)
+                    :
+                    @Html.DisplayFor(model => model.IsOnlinePayment)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.IsPictureAttached)
+                    :
+                    @Html.DisplayFor(model => model.IsPictureAttached)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.JobStartTimeRequestedByUserDateTime)
+                    :
+                    @Html.DisplayFor(model => model.JobStartTimeRequestedByUserDateTime)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.JobAcceptedByWorkerDateTime)
+                    :
+                    @Html.DisplayFor(model => model.JobAcceptedByWorkerDateTime)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.JobStartedByWorkerDateTime)
+                    :
+                    @Html.DisplayFor(model => model.JobStartedByWorkerDateTime)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.JobClosedDateTime)
+                    :
+                    @Html.DisplayFor(model => model.JobClosedDateTime)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.JobStatus)
+                    :
+                    @Html.DisplayFor(model => model.JobStatus)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.CostumerRatingForWorker)
+                    :
+                    @Html.DisplayFor(model => model.CostumerRatingForWorker)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.WorkerRatingForCostumer)
+                    :
+                    @Html.DisplayFor(model => model.WorkerRatingForCostumer)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.CostumerEstimatedFinalCost)
+                    :
+                    @Html.DisplayFor(model => model.CostumerEstimatedFinalCost)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.WageCost)
+                    :
+                    @Html.DisplayFor(model => model.WageCost)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.MaterialCost)
+                    :
+                    @Html.DisplayFor(model => model.MaterialCost)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.CompanyProfit)
+                    :
+                    @Html.DisplayFor(model => model.CompanyProfit)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.FinalCost)
+                    :
+                    @Html.DisplayFor(model => model.FinalCost)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.CostumerName)
+                    :
+                    @Html.DisplayFor(model => model.CostumerName)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.WorkerName)
+                    :
+                    @Html.DisplayFor(model => model.WorkerName)
+                </li>
+                <li class="list-group-item">
+                    آدرس انجام کار
+                    :
+                    @address
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.JobCategoryName)
+                    :
+                    @Html.DisplayFor(model => model.JobCategoryName)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.JobCityName)
+                    :
+                    @Html.DisplayFor(model => model.JobCityName)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.CreationDateTime)
+                    :
+                    @Html.DisplayFor(model => model.CreationDateTime)
+                </li>
+                <li class="list-group-item">
+                    @Html.DisplayNameFor(model => model.LastUpdateDateTime)
+                    :
+                    @Html.DisplayFor(model => model.LastUpdateDateTime)
+                </li>
+            </ul>
+            <a class="btn btn-info" asp-action="Index">
+                لیست کارها
+            </a>
+        </div>
+    </div>
+    <div class="col">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Comments">کامنت‌ها</a>
+                </li>
                 <li class="page-item">
                     <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Pictures">عکسها</a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" asp-action="Details" asp-route-id="@Model.Id" asp-route-pageType="@DetailPageTypeEnum.Proposals">پیشنهاد‌های قیمت</a>
                 </li>
-			</ul>
-		</nav>
-		@if (pageType is DetailPageTypeEnum.Comments)
-		{
-			@await Component.InvokeAsync(typeof(WorkerJobCommentViewComponent), new
-			{
-				jobId = Model.Id
-			})
-		}
-		else if (pageType is DetailPageTypeEnum.Pictures)
-		{
-			@await Component.InvokeAsync(typeof(WorkerJobPictureViewComponent), new
-			{
-				jobId = Model.Id
-			})
-		}
-		else if (pageType is DetailPageTypeEnum.Proposals)
-		{
-		    @await Component.InvokeAsync(typeof(WorkerJobProposalViewComponent), new
-		    {
-		        jobId = Model.Id
-		    })
-		}
-	</div>
+            </ul>
+        </nav>
+        @if (pageType is DetailPageTypeEnum.Comments)
+        {
+            @await Component.InvokeAsync(typeof(WorkerJobCommentViewComponent), new
+            {
+                jobId = Model.Id
+            })
+        }
+        else if (pageType is DetailPageTypeEnum.Pictures)
+        {
+            @await Component.InvokeAsync(typeof(WorkerJobPictureViewComponent), new
+            {
+                jobId = Model.Id
+            })
+        }
+        else if (pageType is DetailPageTypeEnum.Proposals)
+        {
+            @await Component.InvokeAsync(typeof(WorkerJobProposalViewComponent), new
+            {
+                jobId = Model.Id
+            })
+        }
+    </div>
 </div>

@@ -1,8 +1,8 @@
 ﻿using App.AppServices;
 using App.Domain.Contracts.AppService;
-using App.Domain.Contracts.Service;
+using App.Domain.Contracts.Repo;
+using App.Infrastructures.Repo;
 using App.Infrastructures.SQLServer;
-using App.Service;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.Endpoint.MVC;
@@ -12,15 +12,15 @@ public static class MyDependencyInjections
     public static IServiceCollection AddServicesCollection(
         this IServiceCollection services)
     {
-        services.AddScoped<ICityService, CityService>();
-        services.AddScoped<ICommentService, CommentService>();
-        services.AddScoped<ICostumerService, CostumerService>();
-        services.AddScoped<ICostumerAddressService, CostumerAddressService>();
-        services.AddScoped<IJobService, JobService>();
-        services.AddScoped<IJobCategoryService, JobCategoryService>();
-        services.AddScoped<IJobPictureService, JobPictureService>();
-        services.AddScoped<IJobWorkerProposalService, JobWorkerProposalService>();
-        services.AddScoped<IWorkerService, WorkerService>();
+        services.AddScoped<ICityRepo, CityRepo>();
+        services.AddScoped<ICommentRepo, CommentRepo>();
+        services.AddScoped<ICostumerRepo, CostumerRepo>();
+        services.AddScoped<ICostumerAddressRepo, CostumerAddressRepo>();
+        services.AddScoped<IJobRepo, JobRepo>();
+        services.AddScoped<IJobCategoryRepo, JobCategoryRepo>();
+        services.AddScoped<IJobPictureRepo, JobPictureRepo>();
+        services.AddScoped<IJobWorkerProposalRepo, JobWorkerProposalRepo>();
+        services.AddScoped<IWorkerRepo, WorkerRepo>();
 
         return services;
     }

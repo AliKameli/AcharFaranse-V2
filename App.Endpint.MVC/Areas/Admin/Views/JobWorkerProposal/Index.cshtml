@@ -1,60 +1,60 @@
 ﻿@model List<App.Domain.Dtos.JobWorkerProposalDto>
 @{
-	ViewData["Title"] = "لیست پیشنهادها";
+    ViewData["Title"] = "لیست پیشنهادها";
 }
 <br/>
 <h3>لیست پیشنهادها</h3>
 <br/>
 
 <table class="table table-striped ">
-	<thead>
-	<tr>
-		<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.WorkerName)</th>
-		<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.WorkerComment)</th>
-		<th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.ProposedPrice)</th>
-		<th scope="col"></th>
-	</tr>
-	</thead>
-	<tbody>
-	@foreach (var workerProposal in Model)
-	{
-		<tr>
-			<th scope="row">
-				@Html.DisplayFor(x => workerProposal.WorkerName)
-			</th>
-			<td>@Html.DisplayFor(x => workerProposal.WorkerComment)</td>
-			<td>@Html.DisplayFor(x => workerProposal.ProposedPrice)</td>
-			<td class="d-flex justify-content-end">
-				<a class="btn btn-success" asp-action="Details" asp-route-Id="@workerProposal.Id">
-					جزئیات
-				</a>
-				&nbsp;|&nbsp;
-				<!-- Button trigger modal -->
-				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal"+workerProposal.Id))">
-					حذف
-				</button>
+    <thead>
+    <tr>
+        <th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.WorkerName)</th>
+        <th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.WorkerComment)</th>
+        <th scope="col">@Html.DisplayNameFor(x => x.FirstOrDefault()!.ProposedPrice)</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var workerProposal in Model)
+    {
+        <tr>
+            <th scope="row">
+                @Html.DisplayFor(x => workerProposal.WorkerName)
+            </th>
+            <td>@Html.DisplayFor(x => workerProposal.WorkerComment)</td>
+            <td>@Html.DisplayFor(x => workerProposal.ProposedPrice)</td>
+            <td class="d-flex justify-content-end">
+                <a class="btn btn-success" asp-action="Details" asp-route-Id="@workerProposal.Id">
+                    جزئیات
+                </a>
+                &nbsp;|&nbsp;
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="@(new string(@"#Modal" + workerProposal.Id))">
+                    حذف
+                </button>
 
-				<!-- Modal -->
-				<div class="modal fade" id="@(new string(@"Modal"+workerProposal.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
-							</div>
-							<div class="modal-body">
-								آیا از حذف اطمینان دارید ؟
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
-								<a class="btn btn-danger" asp-action="Delete" asp-route-Id="@workerProposal.Id">
-									حذف
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</td>
-		</tr>
-	}
-	</tbody>
+                <!-- Modal -->
+                <div class="modal fade" id="@(new string(@"Modal" + workerProposal.Id))" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">توجه !</h5>
+                            </div>
+                            <div class="modal-body">
+                                آیا از حذف اطمینان دارید ؟
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-Id="@workerProposal.Id">
+                                    حذف
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
 </table>

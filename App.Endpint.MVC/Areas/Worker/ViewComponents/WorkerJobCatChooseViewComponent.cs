@@ -9,7 +9,9 @@ public class WorkerJobCatChooseViewComponent : ViewComponent
 {
     private readonly IJobCategoryAppService _jobCategoryAppService;
     private readonly UserManager<IdentityUser<int>> _userManager;
-    public WorkerJobCatChooseViewComponent(IJobCategoryAppService jobCategoryAppService, UserManager<IdentityUser<int>> userManager)
+
+    public WorkerJobCatChooseViewComponent(IJobCategoryAppService jobCategoryAppService,
+        UserManager<IdentityUser<int>> userManager)
     {
         _jobCategoryAppService = jobCategoryAppService;
         _userManager = userManager;
@@ -18,7 +20,7 @@ public class WorkerJobCatChooseViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(int? parentId = null)
     {
         var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
-        int userId = user.Id;
+        var userId = user.Id;
         var allCats = await _jobCategoryAppService.GetAllAsync();
         var workerCats = await _jobCategoryAppService.GetByWorkerIdAsync(userId);
         var model = allCats.Where(x => workerCats.All(y => y.Id != x.Id)).ToList();

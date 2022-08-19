@@ -1,18 +1,18 @@
 ﻿using App.Domain.Contracts.AppService;
-using App.Domain.Contracts.Service;
+using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 
 namespace App.AppServices;
 
 public class CostumerAddressAppService : ICostumerAddressAppService
 {
-    private readonly ICityService _cityService;
-    private readonly ICostumerAddressService _costumerAddressService;
-    private readonly ICostumerService _costumerService;
+    private readonly ICityRepo _cityService;
+    private readonly ICostumerAddressRepo _costumerAddressService;
+    private readonly ICostumerRepo _costumerService;
 
-    public CostumerAddressAppService(ICostumerAddressService costumerAddressService,
-        ICostumerService costumerService,
-        ICityService cityService)
+    public CostumerAddressAppService(ICostumerAddressRepo costumerAddressService,
+        ICostumerRepo costumerService,
+        ICityRepo cityService)
     {
         _costumerAddressService = costumerAddressService;
         _costumerService = costumerService;

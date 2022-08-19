@@ -7,45 +7,45 @@
 @inject IWorkerAppService WorkerAppService
 
 <ul class="navbar-nav ">
-	@if (SignInManager.IsSignedIn(User))
-	{
-		<li class="nav-item">
-			<a class="nav-link " asp-controller="Profile" asp-action="Index">
-				سلام 
-				@{
-					var user = await UserManager.FindByNameAsync(User.Identity?.Name);
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link " asp-controller="Profile" asp-action="Index">
+                سلام
+                @{
+                    var user = await UserManager.FindByNameAsync(User.Identity?.Name);
 
-					if (UserManager.IsInRoleAsync(user, "Costumer").Result)
-					{
-						var costumer = await CostumerAppService.GetByIdAsync(user.Id);
-						<text>@costumer.FirstName</text>
-					}
-					else if (UserManager.IsInRoleAsync(user, "Worker").Result)
-					{
-						var worker = await WorkerAppService.GetByIdAsync(user.Id);
-						<text>@worker.FirstName</text>
-					}
-					else
-					{
-						<text>ادمین</text>
-					}
-				}
-				&nbsp; |
-			</a>
-		</li>
-		<li class="nav-item">
-			<form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout">
-				<button type="submit" class="btn btn-warning ">خروج</button>
-			</form>
-		</li>
-	}
-	else
-	{
-		<li class="nav-item">
-			<a class="nav-link " asp-area="" asp-controller="Account" asp-action="Register">ثبت نام</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link " asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
-		</li>
-	}
+                    if (UserManager.IsInRoleAsync(user, "Costumer").Result)
+                    {
+                        var costumer = await CostumerAppService.GetByIdAsync(user.Id);
+                        <text>@costumer.FirstName</text>
+                    }
+                    else if (UserManager.IsInRoleAsync(user, "Worker").Result)
+                    {
+                        var worker = await WorkerAppService.GetByIdAsync(user.Id);
+                        <text>@worker.FirstName</text>
+                    }
+                    else
+                    {
+                        <text>ادمین</text>
+                    }
+                }
+                &nbsp; |
+            </a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout">
+                <button type="submit" class="btn btn-warning ">خروج</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link " asp-area="" asp-controller="Account" asp-action="Register">ثبت نام</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
+        </li>
+    }
 </ul>

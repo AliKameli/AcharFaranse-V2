@@ -1,5 +1,4 @@
-﻿using App.AppServices;
-using App.Domain.Contracts.AppService;
+﻿using App.Domain.Contracts.AppService;
 using App.Domain.Dtos;
 using App.Domain.Enums;
 using App.EndPoint.MVC.Models.Enum;
@@ -14,15 +13,15 @@ namespace App.EndPoint.MVC.Areas.Costumer.Controllers;
 public class JobController : Controller
 {
     private readonly ICityAppService _cityAppService;
+    private readonly ICommentAppService _commentAppService;
     private readonly ICostumerAddressAppService _costumerAddressAppService;
     private readonly ICostumerAppService _costumerAppService;
     private readonly IJobAppService _jobAppService;
     private readonly IJobCategoryAppService _jobCategoryAppService;
-    private readonly IWorkerAppService _workerAppService;
-    private readonly UserManager<IdentityUser<int>> _userManager;
-    private readonly IJobWorkerProposalAppService _jobWorkerProposalAppService;
     private readonly IJobPictureAppService _jobPictureAppService;
-    private readonly ICommentAppService _commentAppService;
+    private readonly IJobWorkerProposalAppService _jobWorkerProposalAppService;
+    private readonly UserManager<IdentityUser<int>> _userManager;
+    private readonly IWorkerAppService _workerAppService;
 
     public JobController(IJobAppService jobAppService,
         ICostumerAddressAppService costumerAddressAppService,
@@ -59,8 +58,8 @@ public class JobController : Controller
     }
 
     public async Task<ActionResult> Details(int id,
-        DetailPageTypeEnum pageType = 0
-        , string? internalMessage = null)
+        DetailPageTypeEnum pageType = 0,
+        string? internalMessage = null)
     {
         if (internalMessage != null) ModelState.AddModelError("internalMessage", internalMessage);
 
@@ -69,26 +68,25 @@ public class JobController : Controller
         ViewData["PageType"] = pageType;
 
         return View(model);
-
     }
 
     public ActionResult AddChooseJobCategory()
     {
-        
         return View();
     }
 
     [HttpGet]
     public async Task<ActionResult> Add(int jobCatId)
     {
-        var model = new JobDto()
+        var model = new JobDto
         {
             JobCategoryId = jobCatId
         };
         var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
-        int userId = user.Id;
+        var userId = user.Id;
 
-        ViewData["Addresses"] = new List<CostumerAddressDto>((await _costumerAddressAppService.GetByCostumerIdAsync(userId))
+        ViewData["Addresses"] = new List<CostumerAddressDto>(
+            (await _costumerAddressAppService.GetByCostumerIdAsync(userId))
             .Where(x => !x.IsDeleted)
             .ToList());
 
@@ -99,17 +97,18 @@ public class JobController : Controller
     public async Task<ActionResult> Add(JobDto model, int jobCatId)
     {
         var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
-        int userId = user.Id;
+        var userId = user.Id;
         model.JobCategoryId = jobCatId;
         if (ModelState.IsValid)
             try
             {
                 model.CostumerId = userId;
-                model.JobCityId = _costumerAddressAppService.GetByIdAsync(model.CostumerAddressId).GetAwaiter().GetResult().CityId;
+                model.JobCityId = _costumerAddressAppService.GetByIdAsync(model.CostumerAddressId).GetAwaiter()
+                    .GetResult().CityId;
                 await _jobAppService.AddAsync(model);
 
                 return RedirectToAction(nameof(Index)
-                    , new { internalMessage = "با موفقیت ایجاد شد" });
+                    , new {internalMessage = "با موفقیت ایجاد شد"});
             }
             catch (Exception e)
             {
@@ -119,7 +118,8 @@ public class JobController : Controller
         else
             ModelState.AddModelError("internalMessage", "خطا ! ورودی پذیرفته نیست");
 
-        ViewData["Addresses"] = new List<CostumerAddressDto>((await _costumerAddressAppService.GetByCostumerIdAsync(userId))
+        ViewData["Addresses"] = new List<CostumerAddressDto>(
+            (await _costumerAddressAppService.GetByCostumerIdAsync(userId))
             .Where(x => !x.IsDeleted)
             .ToList());
 
@@ -133,14 +133,15 @@ public class JobController : Controller
             await _jobAppService.DeleteAsync(id, User?.Identity?.Name!);
 
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "با موفقیت حذف شد" });
+                , new {internalMessage = "با موفقیت حذف شد"});
         }
         catch (Exception e)
         {
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
+                , new {internalMessage = "خطا : " + e.Message});
         }
     }
+
     public async Task<ActionResult> ChangePaymentMethod(int id)
     {
         try
@@ -148,14 +149,15 @@ public class JobController : Controller
             await _jobAppService.ChangePaymentMethod(id);
 
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "با موفقیت تغییر کرد شد" });
+                , new {internalMessage = "با موفقیت تغییر کرد شد"});
         }
         catch (Exception e)
         {
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
+                , new {internalMessage = "خطا : " + e.Message});
         }
     }
+
     public async Task<ActionResult> Proposals(int jobId)
     {
         var model = await _jobWorkerProposalAppService.GetByJobIdAsync(jobId);
@@ -170,12 +172,12 @@ public class JobController : Controller
             await _jobWorkerProposalAppService.AcceptAsync(proposalId);
 
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "پیشنهاد با موفقیت انتخاب شد" });
+                , new {internalMessage = "پیشنهاد با موفقیت انتخاب شد"});
         }
         catch (Exception e)
         {
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
+                , new {internalMessage = "خطا : " + e.Message});
         }
     }
 
@@ -186,17 +188,18 @@ public class JobController : Controller
             await _jobPictureAppService.DeleteAsync(pictureId);
 
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "با موفقیت حذف شد" });
+                , new {internalMessage = "با موفقیت حذف شد"});
         }
         catch (Exception e)
         {
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
+                , new {internalMessage = "خطا : " + e.Message});
         }
     }
+
     public ActionResult AddPicture(int jobId)
     {
-        var model = new JobPictureDto()
+        var model = new JobPictureDto
         {
             JobId = jobId
         };
@@ -212,7 +215,7 @@ public class JobController : Controller
             try
             {
                 var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
-                int userId = user.Id;
+                var userId = user.Id;
                 model.CostumerId = userId;
                 model.UserType = UserTypeEnum.Customer;
                 await _jobPictureAppService.AddAsync(model);
@@ -233,6 +236,7 @@ public class JobController : Controller
 
         return View(model);
     }
+
     public async Task<ActionResult> DeleteComment(int commentId)
     {
         try
@@ -240,17 +244,18 @@ public class JobController : Controller
             await _commentAppService.DeleteAsync(commentId);
 
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "با موفقیت حذف شد" });
+                , new {internalMessage = "با موفقیت حذف شد"});
         }
         catch (Exception e)
         {
             return RedirectToAction(nameof(Index)
-                , new { internalMessage = "خطا : " + e.Message });
+                , new {internalMessage = "خطا : " + e.Message});
         }
     }
+
     public ActionResult AddComment(int jobId)
     {
-        var model = new CommentDto()
+        var model = new CommentDto
         {
             JobId = jobId
         };
@@ -266,7 +271,7 @@ public class JobController : Controller
             try
             {
                 var user = await _userManager.FindByNameAsync(User?.Identity?.Name!);
-                int userId = user.Id;
+                var userId = user.Id;
                 model.CostumerId = userId;
                 model.UserType = UserTypeEnum.Customer;
                 await _commentAppService.AddAsync(model);

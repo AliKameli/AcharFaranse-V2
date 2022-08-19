@@ -1,5 +1,5 @@
 ﻿using App.Domain.Contracts.AppService;
-using App.Domain.Contracts.Service;
+using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using App.Domain.Enums;
 using Microsoft.AspNetCore.Hosting;
@@ -8,16 +8,16 @@ namespace App.AppServices;
 
 public class JobPictureAppService : IJobPictureAppService
 {
-    private readonly ICostumerService _costumerService;
-    private readonly IJobPictureService _jobPictureService;
-    private readonly IJobService _jobService;
+    private readonly ICostumerRepo _costumerService;
+    private readonly IJobPictureRepo _jobPictureService;
+    private readonly IJobRepo _jobService;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IWorkerService _workerService;
+    private readonly IWorkerRepo _workerService;
 
-    public JobPictureAppService(IJobPictureService jobPictureService,
-        IJobService jobService,
-        IWorkerService workerService,
-        ICostumerService costumerService,
+    public JobPictureAppService(IJobPictureRepo jobPictureService,
+        IJobRepo jobService,
+        IWorkerRepo workerService,
+        ICostumerRepo costumerService,
         IWebHostEnvironment webHostEnvironment)
     {
         _jobPictureService = jobPictureService;
@@ -31,8 +31,8 @@ public class JobPictureAppService : IJobPictureAppService
     public async Task<int> AddAsync(JobPictureDto jobPictureDto)
     {
         await (jobPictureDto.UserType == UserTypeEnum.Customer
-            ? _costumerService.EnsureExistsByIdAsync((int)jobPictureDto.CostumerId!)
-            : _workerService.EnsureExistsByIdAsync((int)jobPictureDto.WorkerId!));
+            ? _costumerService.EnsureExistsByIdAsync((int) jobPictureDto.CostumerId!)
+            : _workerService.EnsureExistsByIdAsync((int) jobPictureDto.WorkerId!));
 
         await _jobService.EnsureExistsByIdAsync(jobPictureDto.JobId);
 
@@ -40,7 +40,7 @@ public class JobPictureAppService : IJobPictureAppService
         if (jobPictureDto.PictureFile != null)
         {
             var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
-            string uniqueFileName = Guid.NewGuid() + "_" + jobPictureDto.PictureFile.FileName;
+            var uniqueFileName = Guid.NewGuid() + "_" + jobPictureDto.PictureFile.FileName;
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
             await using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
