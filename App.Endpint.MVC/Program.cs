@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using App.Domain.Options;
 using App.Endpoint.MVC;
 using App.Infrastructures.SQLServer;
 using Microsoft.AspNetCore.Diagnostics;
@@ -8,7 +9,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDistributedMemoryCache();
-
+builder.Services.AddSingleton<FilePath>(new FilePath
+{
+    WebRootPath = builder.Environment.WebRootPath
+});
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 // Add services to the container.
@@ -18,7 +22,11 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(
-    options => { options.UseSqlServer(connectionString); });
+    options =>
+    {
+        // options.UseSqlServer(connectionString);
+        options.UseInMemoryDatabase("achar");
+    });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

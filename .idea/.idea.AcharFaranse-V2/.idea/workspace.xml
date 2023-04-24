@@ -11,9 +11,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c6ad457575d35dcbff26c9a5e3fb1d92f1d3c55f25ef6ebf475367b5d8/List.cs" root0="SKIP_HIGHLIGHTING" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -23,15 +20,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Publish to folder.Publish AcharFaranse-V2 to folder">
     <configuration name="Publish AcharFaranse-V2 to folder" type="DotNetFolderPublish" factoryName="Publish to folder">
       <riderPublish configuration="Release" platform="Any CPU" ready_to_run="true" runtime="win-x64" self_contained="true" target_folder="$USER_HOME$/Desktop/Publish" target_framework="net6.0" trim_unused_assemblies="true" uuid_high="-4948525934510780541" uuid_low="-5191224396166436598" />
@@ -88,13 +85,30 @@
       <workItem from="1658584476803" duration="1074000" />
       <workItem from="1658597386620" duration="40000" />
       <workItem from="1659862400294" duration="6396000" />
+      <workItem from="1664615398706" duration="222000" />
+      <workItem from="1664788155507" duration="2163000" />
+      <workItem from="1664865067498" duration="3980000" />
+      <workItem from="1665055789431" duration="93000" />
+      <workItem from="1665291803809" duration="610000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
@@ -104,14 +118,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/App.AppServices/CityAppService.cs</url>
           <line>38</line>
-          <properties documentPath="D:\AcharFaranse-V2\App.AppServices\CityAppService.cs" initialLine="36" containingFunctionPresentation="method 'GetAllAsync'">
-            <startOffsets>
-              <option value="996" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1054" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\AcharFaranse-V2\App.AppServices\CityAppService.cs" initialLine="36" containingFunctionPresentation="method 'GetAllAsync'" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

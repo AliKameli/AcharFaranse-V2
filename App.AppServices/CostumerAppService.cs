@@ -1,7 +1,7 @@
 ﻿using App.Domain.Contracts.AppService;
 using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
-using Microsoft.AspNetCore.Hosting;
+using App.Domain.Options;
 using Microsoft.AspNetCore.Identity;
 
 namespace App.AppServices;
@@ -11,17 +11,17 @@ public class CostumerAppService : ICostumerAppService
     private readonly ICityRepo _cityService;
     private readonly ICostumerRepo _costumerService;
     private readonly UserManager<IdentityUser<int>> _userManager;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly FilePath _hostPath;
 
     public CostumerAppService(ICostumerRepo costumerService,
         UserManager<IdentityUser<int>> userManager,
         ICityRepo cityService,
-        IWebHostEnvironment webHostEnvironment)
+        FilePath hostPath)
     {
         _costumerService = costumerService;
         _userManager = userManager;
         _cityService = cityService;
-        _webHostEnvironment = webHostEnvironment;
+        _hostPath = hostPath;
     }
 
     public async Task<int> AddAsync(CostumerDto costumerDto)
@@ -157,7 +157,11 @@ public class CostumerAppService : ICostumerAppService
 
         if (costumerDto.PictureFile != null)
         {
-            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+            var uploadsFolder = Path.Combine(_hostPath.WebRootPath, "Images");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
             var uniqueFileName = Guid.NewGuid() + "_" + costumerDto.PictureFile.FileName;
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
             await using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -167,7 +171,7 @@ public class CostumerAppService : ICostumerAppService
 
             if (record.PictureFilePath is not null)
             {
-                var oldFilePath = Path.Join(_webHostEnvironment.WebRootPath, record.PictureFilePath);
+                var oldFilePath = Path.Join(_hostPath.WebRootPath, record.PictureFilePath);
                 File.Delete(oldFilePath);
             }
 
@@ -180,7 +184,7 @@ public class CostumerAppService : ICostumerAppService
 
         if (record.PictureFilePath is not null)
         {
-            var oldFilePath = Path.Join(_webHostEnvironment.WebRootPath, record.PictureFilePath);
+            var oldFilePath = Path.Join(_hostPath.WebRootPath, record.PictureFilePath);
             File.Delete(oldFilePath);
             record.PictureFilePath = null;
 

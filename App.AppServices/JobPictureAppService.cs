@@ -2,7 +2,7 @@
 using App.Domain.Contracts.Repo;
 using App.Domain.Dtos;
 using App.Domain.Enums;
-using Microsoft.AspNetCore.Hosting;
+using App.Domain.Options;
 
 namespace App.AppServices;
 
@@ -11,20 +11,20 @@ public class JobPictureAppService : IJobPictureAppService
     private readonly ICostumerRepo _costumerService;
     private readonly IJobPictureRepo _jobPictureService;
     private readonly IJobRepo _jobService;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly FilePath _hostPath;
     private readonly IWorkerRepo _workerService;
 
     public JobPictureAppService(IJobPictureRepo jobPictureService,
         IJobRepo jobService,
         IWorkerRepo workerService,
         ICostumerRepo costumerService,
-        IWebHostEnvironment webHostEnvironment)
+        FilePath hostPath)
     {
         _jobPictureService = jobPictureService;
         _jobService = jobService;
         _workerService = workerService;
         _costumerService = costumerService;
-        _webHostEnvironment = webHostEnvironment;
+        _hostPath = hostPath;
     }
 
 
@@ -39,7 +39,11 @@ public class JobPictureAppService : IJobPictureAppService
 
         if (jobPictureDto.PictureFile != null)
         {
-            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Images");
+            var uploadsFolder = Path.Combine(_hostPath.WebRootPath, "Images");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
             var uniqueFileName = Guid.NewGuid() + "_" + jobPictureDto.PictureFile.FileName;
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
             await using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -63,7 +67,7 @@ public class JobPictureAppService : IJobPictureAppService
     public async Task DeleteAsync(int jobPictureId)
     {
         var record = await _jobPictureService.GetByIdAsync(jobPictureId);
-        var savePath = Path.Join(_webHostEnvironment.WebRootPath, record.FileSavePath);
+        var savePath = Path.Join(_hostPath.WebRootPath, record.FileSavePath);
         File.Delete(savePath);
         await _jobPictureService.DeleteAsync(jobPictureId);
     }
